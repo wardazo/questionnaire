@@ -1,42 +1,4 @@
 
-/* Import Bulma Utilities */
-@import '~bulma/sass/utilities/initial-variables';
-@import '~bulma/sass/utilities/functions';
-
-/* Variable changes go here */
-
-// Colours
-$primary: #344786;
-$secondary: #ECB819;
-$third: #20286E;
-$black:#646464;
-$grey:#919191;
-$grey-light:#E7E7E7;
-$green:#6EAA47;
-$red:#B5271B;
-$white: #fff;
-$size-1:	2.0rem;
-$size-2:	1.5rem;
-
-$size-6:	1.25rem;
-$size-7:	0.9375rem;
-$body-size: 16px;
-$section-padding: 2rem 1.5rem	;
-$input-placeholder-color: #ccc;
-
-
-
-$text: #242424;
-$family-primary: 'Open Sans',"Helvetica", "Arial", sans-serif;
-
-
-
-/* Import the rest of Bulma */
-
-@import '~bulma';
-/*@import 'spacers';
-@import 'checkbox';
-*/
 @import 'nav';
 
 @import "~animate.css";

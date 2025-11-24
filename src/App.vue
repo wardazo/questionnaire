@@ -16,11 +16,8 @@
         </transition>
       </div>
       <div class="header-right">
-        <p
-          class="has-text-main has-text-weight-light m-0"
-
-        >
-
+        <p class="has-text-main has-text-weight-light m-0">
+          Patient Outcomes PCIOLs
         </p>
         <button>
           <img @click="m1 = true" src="./assets/img/close.svg" />
