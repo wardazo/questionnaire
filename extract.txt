@@ -1,0 +1,1 @@
+vue-i18n-extract    -l './src/locales/**/*.json'   -v './src/**/*.?(vue)' -a
