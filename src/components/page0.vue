@@ -172,7 +172,6 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 15px;
-  flex: 1;
 }
 
 /* Sidebar Column */
@@ -227,8 +226,7 @@ export default {
 /* Bottom Section */
 .bottom-section {
   width: 100%;
-  padding-top: 0;
-  margin-top: auto;
+  margin-top: 0;
 }
 
 .bottom-content {
@@ -241,6 +239,7 @@ export default {
 /* Legal Footer */
 .legal-footer {
   grid-column: 1 / 4;
+  padding-right: 100px;
 
   .legal-small {
     font-family: 'Open Sans', sans-serif;
