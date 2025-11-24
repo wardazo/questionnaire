@@ -1,34 +1,21 @@
 <template>
   <div class="page0-wrapper">
-    <!-- Left Sidebar -->
-    <aside class="left-sidebar">
-      <div class="sidebar-content">
-
-        <div class="page-title">
-          <h1>Patient<br>Outcomes<br>PCIOLs</h1>
-        </div>
-
-        <div class="nav-links">
-          <a href="#" class="nav-link">#Account</a>
-          <a href="#" class="nav-link">#Contact</a>
-        </div>
-      </div>
-
-      <div class="legal-footer">
-        <p class="legal-small">
-          By accessing and using the tool, the practice acknowledges and agrees that no personal health information, including patient names, dates or other information that directly or indirectly identifies any patient, should be entered into the tool or otherwise provided or made available to Alcon. The practice is solely responsible for obtaining and maintaining any necessary patient consents or permissions to the extent required by applicable law.
-        </p>
-        <p class="legal-small">
-          Alcon document for Healthcare Professional use. No personal information will be shared with Alcon.<br>
-          *Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices. Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.<br>
-          © 2025 Alcon Inc. 10/25 IMG-CPO-2500047
-        </p>
-      </div>
-    </aside>
-
     <!-- Main Content -->
     <main class="main-area">
       <div class="products-grid">
+        <!-- Left Sidebar Column -->
+        <div class="sidebar-column">
+          <div class="sidebar-content">
+            <div class="page-title">
+              <h1>Patient<br>Outcomes<br>PCIOLs</h1>
+            </div>
+
+            <div class="nav-links">
+              <a href="#" class="nav-link">#Account</a>
+              <a href="#" class="nav-link">#Contact</a>
+            </div>
+          </div>
+        </div>
         <!-- Column 1: Vivity + PureSee -->
         <div class="product-column">
           <div class="product-card-dual">
@@ -118,9 +105,22 @@
             <span>PanOptix® and Galaxy*</span>
           </button>
         </div>
+      </div>
 
-        <!-- Send Summary Button -->
-        <div class="summary-column">
+      <!-- Bottom Section: Legal Text and Send Summary Button -->
+      <div class="bottom-section">
+        <div class="bottom-content">
+          <div class="legal-footer">
+            <p class="legal-small">
+              By accessing and using the tool, the practice acknowledges and agrees that no personal health information, including patient names, dates or other information that directly or indirectly identifies any patient, should be entered into the tool or otherwise provided or made available to Alcon. The practice is solely responsible for obtaining and maintaining any necessary patient consents or permissions to the extent required by applicable law.
+            </p>
+            <p class="legal-small">
+              Alcon document for Healthcare Professional use. No personal information will be shared with Alcon.<br>
+              *Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices. Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.<br>
+              © 2025 Alcon Inc. 10/25 IMG-CPO-2500047
+            </p>
+          </div>
+
           <button class="btn-send-summary" @click="sendSummary">
             <strong>Send Summary</strong><br>
             <span>PDF</span>
@@ -158,37 +158,32 @@ export default {
   background: white;
 }
 
-/* Left Sidebar */
-.left-sidebar {
-  width: 280px;
+/* Main Content Area */
+.main-area {
+  flex: 1;
+  padding: 20px 40px 0;
   background: white;
   display: flex;
   flex-direction: column;
-  padding: 30px 20px;
-  flex-shrink: 0;
+  gap: 30px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+  flex: 1;
+}
+
+/* Sidebar Column */
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 0;
 
   .sidebar-content {
     flex: 1;
-  }
-
-  .sidebar-top {
-    margin-bottom: 40px;
-
-    .alcon-logo {
-      margin-bottom: 20px;
-
-      img {
-        height: 32px;
-        width: auto;
-      }
-    }
-
-    .page-header {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: #003595;
-    }
   }
 
   .page-title {
@@ -221,48 +216,43 @@ export default {
       }
     }
   }
-
-  .legal-footer {
-    margin-top: auto;
-    padding-top: 20px;
-
-    .legal-small {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 9px;
-      line-height: 1.4;
-      color: #000;
-      margin-bottom: 10px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-}
-
-/* Main Content Area */
-.main-area {
-  flex: 1;
-  padding: 90px 40px 40px 40px;
-  background: white;
-}
-
-.products-grid {
-  display: flex;
-  gap: 15px;
-  height: 100%;
 }
 
 .product-column {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.summary-column {
-  width: 160px;
-  flex-shrink: 0;
+/* Bottom Section */
+.bottom-section {
+  width: 100%;
+  padding-top: 0;
+  margin-top: auto;
+}
+
+.bottom-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+/* Legal Footer */
+.legal-footer {
+  grid-column: 1 / 4;
+
+  .legal-small {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #000;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 /* Product Cards */
@@ -386,18 +376,19 @@ export default {
 }
 
 .btn-send-summary {
+  grid-column: 4 / 5;
   width: 100%;
-  height: 100%;
   background: #ffac1c;
   border: none;
   border-radius: 11px;
-  padding: 30px 20px;
+  padding: 25px 20px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   strong {
     font-family: 'Open Sans', sans-serif;
@@ -406,6 +397,7 @@ export default {
     color: white;
     display: block;
     line-height: 1.2;
+    white-space: nowrap;
   }
 
   span {
@@ -419,7 +411,7 @@ export default {
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
   }
 
   &:active {

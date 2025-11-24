@@ -15,7 +15,9 @@
   .header-right {
     display: flex;
     align-items: center;
-    padding: 15px 0;
+    padding: 7px 0;
+    flex-shrink: 0;
+    width: 310px;
 
     p {
       font-family: 'Open Sans', sans-serif;
@@ -23,6 +25,7 @@
       font-weight: 400;
       line-height: 1.2em;
       color: #003595;
+      white-space: nowrap;
 
       strong {
         color: #003594;
@@ -38,6 +41,7 @@
       background: transparent;
       border: 0 none;
       cursor: pointer;
+      flex-shrink: 0;
 
       img {
         width: 100%;
