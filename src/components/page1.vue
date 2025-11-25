@@ -1,12 +1,12 @@
 <template>
   <div class="page1-wrapper">
-    <div class="page1-container">
+    <div class="page1-container" v-if="currentConfig">
       <!-- Left Sidebar -->
       <aside class="sidebar">
         <div class="sidebar-content">
           <div class="product-info">
-            <h2 class="product-name">Vivity<sup>®</sup> and<br>PureSee<sup>*</sup></h2>
-            <p class="product-subtitle">Vivity<sup>®</sup> / Vivity<sup>®</sup> Toric</p>
+            <h2 class="product-name" v-html="productInfo.name"></h2>
+            <p class="product-subtitle" v-html="productInfo.subtitle"></p>
           </div>
 
           <div class="questionnaire-info">
@@ -25,49 +25,18 @@
 
       <!-- Main Content -->
       <main class="main-content">
-        <!-- Part 1: Spectacle Independence -->
-        <QuestionRadioTasks
-          v-if="currentPart === 0"
-          title="Spectacle independence:"
-          question-text="On a typical day, how often do you wear glasses for the following tasks?"
-          :tasks="part1Tasks"
-          v-model="answers.part1"
-        />
-
-        <!-- Part 2: Overall Vision Experience -->
-        <QuestionScale
-          v-if="currentPart === 1"
-          title="Overall Vision Experience:"
-          :questions="part2Questions"
-          :scale-min="0"
-          :scale-max="10"
-          scale-label="(0 = very dissatisfied, 10 = extremely satisfied)"
-          v-model="answers.part2"
-        />
-
-        <!-- Part 3: Additional questions (can be another QuestionScale or QuestionRadioTasks) -->
-        <QuestionScale
-          v-if="currentPart === 2"
-          title="Vision Quality:"
-          :questions="part3Questions"
-          :scale-min="0"
-          :scale-max="10"
-          scale-label="(0 = very poor, 10 = excellent)"
-          v-model="answers.part3"
-        />
-
-        <!-- Part 4: Visual Acuity Measurements -->
-        <QuestionVisualAcuity
-          v-if="currentPart === 3"
-          title="Visual Acuity Measurements"
-          :measurements="part4Measurements"
-          v-model="answers.part4"
+        <!-- Dynamically render components based on current part config -->
+        <component
+          :is="currentPartConfig.component"
+          v-bind="currentPartConfig"
+          v-model="answers[`part${currentPart + 1}`]"
+          @update:modelValue="updateAnswers"
         />
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
           <button
-            v-if="currentPart > 0"
+            v-if="!isFirstPart"
             class="btn-back"
             @click="previousPart"
           >
@@ -84,7 +53,7 @@
           </div>
 
           <button
-            v-if="currentPart < totalParts - 1"
+            v-if="!isLastPart"
             class="btn-next"
             @click="nextPart"
           >
@@ -104,14 +73,16 @@
 </template>
 
 <script>
-import QuestionRadioTasks from './Subcomp/QuestionRadioTasks.vue';
+import { useQuestionnaireStore } from '@/stores/questionnaire';
+import { computed } from 'vue';
+import QuestionRadio from './Subcomp/QuestionRadio.vue';
 import QuestionScale from './Subcomp/QuestionScale.vue';
 import QuestionVisualAcuity from './Subcomp/QuestionVisualAcuity.vue';
 
 export default {
   name: "Page1",
   components: {
-    QuestionRadioTasks,
+    QuestionRadio,
     QuestionScale,
     QuestionVisualAcuity
   },
@@ -121,91 +92,59 @@ export default {
       default: () => ({ pg: 1, tab: 0 })
     }
   },
-  data() {
+  setup() {
+    const questionnaireStore = useQuestionnaireStore();
+
+    const currentConfig = computed(() => questionnaireStore.currentConfig);
+    const productInfo = computed(() => questionnaireStore.productInfo);
+    const currentPart = computed(() => questionnaireStore.currentPart);
+    const totalParts = computed(() => questionnaireStore.totalParts);
+    const answers = computed(() => questionnaireStore.answers);
+    const isFirstPart = computed(() => questionnaireStore.isFirstPart);
+    const isLastPart = computed(() => questionnaireStore.isLastPart);
+
+    // Get the configuration for the current part
+    const currentPartConfig = computed(() => {
+      if (!currentConfig.value) return null;
+      const partKey = `part${currentPart.value + 1}`;
+      return currentConfig.value.parts[partKey] || null;
+    });
+
     return {
-      currentPart: this.page.tab || 0,
-      totalParts: 4,
-      answers: {
-        part1: {},
-        part2: {},
-        part3: {},
-        part4: {}
-      },
-      part1Tasks: [
-        {
-          key: 'farAway',
-          label: 'Far away',
-          description: '(e.g., watching TV, seeing street signs, recognizing faces).'
-        },
-        {
-          key: 'armsLength',
-          label: "Arm's length",
-          description: '(e.g., seeing the prices of goods or the dashboard of a car).'
-        },
-        {
-          key: 'upClose',
-          label: 'Up close',
-          description: '(e.g., reading a book or newspaper, or while eating).'
-        }
-      ],
-      part2Questions: [
-        {
-          key: 'satisfaction',
-          text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
-        }
-      ],
-      part3Questions: [
-        {
-          key: 'quality',
-          text: 'On a scale of 0 to 10, how would you rate the overall quality of your vision?'
-        }
-      ],
-      part4Measurements: [
-        {
-          key: 'unva',
-          label: 'UNVA (40cm)',
-          icon: require('@/assets/img/icon-phone.svg'),
-          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
-        },
-        {
-          key: 'uiva',
-          label: 'UIVA (66cm)',
-          icon: require('@/assets/img/icon-laptop.svg'),
-          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
-        },
-        {
-          key: 'udva',
-          label: 'UDVA',
-          icon: require('@/assets/img/icon-steering.svg'),
-          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
-        }
-      ]
+      questionnaireStore,
+      currentConfig,
+      productInfo,
+      currentPart,
+      totalParts,
+      answers,
+      isFirstPart,
+      isLastPart,
+      currentPartConfig
     };
   },
-  watch: {
-    'page.tab'(newTab) {
-      this.currentPart = newTab;
-    }
-  },
   methods: {
+    updateAnswers(newAnswers) {
+      const partNumber = this.currentPart + 1;
+      this.questionnaireStore.updatePartAnswers(partNumber, newAnswers);
+    },
     nextPart() {
-      if (this.currentPart < this.totalParts - 1) {
-        this.currentPart++;
-        this.$emit('page-select', { pg: 1, tab: this.currentPart });
-      }
+      this.questionnaireStore.nextPart();
     },
     previousPart() {
-      if (this.currentPart > 0) {
-        this.currentPart--;
-        this.$emit('page-select', { pg: 1, tab: this.currentPart });
+      this.questionnaireStore.previousPart();
+    },
+    async finishQuestionnaire() {
+      try {
+        await this.questionnaireStore.completeQuestionnaire();
+        console.log('Questionnaire completed and submitted');
+        // Navigate back to home
+        this.$emit('page-select', { pg: 0, tab: 0 });
+      } catch (error) {
+        console.error('Error completing questionnaire:', error);
       }
     },
-    finishQuestionnaire() {
-      console.log('Questionnaire completed:', this.answers);
-      // Navigate back to home or results page
-      this.$emit('page-select', { pg: 0, tab: 0 });
-    },
     cancelQuestionnaire() {
+      this.questionnaireStore.cancelQuestionnaire();
       // Navigate back to home
       this.$emit('page-select', { pg: 0, tab: 0 });
     }

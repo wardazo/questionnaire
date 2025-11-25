@@ -132,11 +132,20 @@
 </template>
 
 <script>
+import { useQuestionnaireStore } from '@/stores/questionnaire';
+
 export default {
   name: "Page0",
+  setup() {
+    const questionnaireStore = useQuestionnaireStore();
+    return { questionnaireStore };
+  },
   methods: {
     startQuestionnaire(type) {
       console.log('Starting questionnaire:', type);
+      // Initialize questionnaire in store
+      this.questionnaireStore.startQuestionnaire(type);
+      // Navigate to page 1
       this.$emit('page-select', { pg: 1, tab: 0 });
     },
     showResults(type) {
