@@ -1,5 +1,5 @@
 <template>
-  <div :class="['page' + page.pg]" id="appx" :style="page.pg === 1 ? 'background-color: #E5F1F3;' : ''">
+  <div :class="['page' + page.pg]" id="appx">
 
 
 
