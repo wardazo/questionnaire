@@ -16,116 +16,87 @@
 
           <div class="part-info">
             <p class="part-label">Part</p>
-            <div class="part-number">1/4</div>
+            <div class="part-number">{{ currentPart + 1 }}/{{ totalParts }}</div>
           </div>
         </div>
 
-        <button class="btn-cancel">Cancel this questionnaire</button>
+        <button class="btn-cancel" @click="cancelQuestionnaire">Cancel this questionnaire</button>
       </aside>
 
       <!-- Main Content -->
       <main class="main-content">
-        <div class="question-section">
-          <h1 class="section-title">Spectacle independence:</h1>
-          <p class="question-text">On a typical day, how often do you wear glasses for the following tasks?</p>
+        <!-- Part 1: Spectacle Independence -->
+        <QuestionRadioTasks
+          v-if="currentPart === 0"
+          title="Spectacle independence:"
+          question-text="On a typical day, how often do you wear glasses for the following tasks?"
+          :tasks="part1Tasks"
+          v-model="answers.part1"
+        />
 
-          <!-- Far away -->
-          <div class="task-group">
-            <div class="task-header">
-              <span class="bullet">•</span>
-              <div class="task-text">
-                <strong>Far away</strong>
-                <span class="task-examples">(e.g., watching TV, seeing street signs, recognizing faces).</span>
-              </div>
-            </div>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="far-away" value="never" v-model="answers.farAway">
-                <span>Never</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="far-away" value="occasionally" v-model="answers.farAway">
-                <span>Occasionally</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="far-away" value="often" v-model="answers.farAway">
-                <span>Often</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="far-away" value="always" v-model="answers.farAway">
-                <span>Always</span>
-              </label>
-            </div>
-          </div>
+        <!-- Part 2: Overall Vision Experience -->
+        <QuestionScale
+          v-if="currentPart === 1"
+          title="Overall Vision Experience:"
+          :questions="part2Questions"
+          :scale-min="0"
+          :scale-max="10"
+          scale-label="(0 = very dissatisfied, 10 = extremely satisfied)"
+          v-model="answers.part2"
+        />
 
-          <!-- Arm's length -->
-          <div class="task-group">
-            <div class="task-header">
-              <span class="bullet">•</span>
-              <div class="task-text">
-                <strong>Arm's length</strong>
-                <span class="task-examples">(e.g., seeing the prices of goods or the dashboard of a car).</span>
-              </div>
-            </div>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="arms-length" value="never" v-model="answers.armsLength">
-                <span>Never</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="arms-length" value="occasionally" v-model="answers.armsLength">
-                <span>Occasionally</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="arms-length" value="often" v-model="answers.armsLength">
-                <span>Often</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="arms-length" value="always" v-model="answers.armsLength">
-                <span>Always</span>
-              </label>
-            </div>
-          </div>
+        <!-- Part 3: Additional questions (can be another QuestionScale or QuestionRadioTasks) -->
+        <QuestionScale
+          v-if="currentPart === 2"
+          title="Vision Quality:"
+          :questions="part3Questions"
+          :scale-min="0"
+          :scale-max="10"
+          scale-label="(0 = very poor, 10 = excellent)"
+          v-model="answers.part3"
+        />
 
-          <!-- Up close -->
-          <div class="task-group">
-            <div class="task-header">
-              <span class="bullet">•</span>
-              <div class="task-text">
-                <strong>Up close</strong>
-                <span class="task-examples">(e.g., reading a book or newspaper, or while eating).</span>
-              </div>
-            </div>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" name="up-close" value="never" v-model="answers.upClose">
-                <span>Never</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="up-close" value="occasionally" v-model="answers.upClose">
-                <span>Occasionally</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="up-close" value="often" v-model="answers.upClose">
-                <span>Often</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" name="up-close" value="always" v-model="answers.upClose">
-                <span>Always</span>
-              </label>
-            </div>
-          </div>
-        </div>
+        <!-- Part 4: Visual Acuity Measurements -->
+        <QuestionVisualAcuity
+          v-if="currentPart === 3"
+          title="Visual Acuity Measurements"
+          :measurements="part4Measurements"
+          v-model="answers.part4"
+        />
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
+          <button
+            v-if="currentPart > 0"
+            class="btn-back"
+            @click="previousPart"
+          >
+            &lt;&lt; Back
+          </button>
+          <div v-else class="nav-spacer"></div>
+
           <div class="pagination-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <span
+              v-for="index in totalParts"
+              :key="index"
+              :class="['dot', { active: currentPart === index - 1 }]"
+            ></span>
           </div>
-          <button class="btn-next" @click="nextPage">Next &gt;&gt;</button>
+
+          <button
+            v-if="currentPart < totalParts - 1"
+            class="btn-next"
+            @click="nextPart"
+          >
+            Next &gt;&gt;
+          </button>
+          <button
+            v-else
+            class="btn-finish"
+            @click="finishQuestionnaire"
+          >
+            Finish
+          </button>
         </div>
       </main>
     </div>
@@ -133,22 +104,110 @@
 </template>
 
 <script>
+import QuestionRadioTasks from './Subcomp/QuestionRadioTasks.vue';
+import QuestionScale from './Subcomp/QuestionScale.vue';
+import QuestionVisualAcuity from './Subcomp/QuestionVisualAcuity.vue';
+
 export default {
   name: "Page1",
+  components: {
+    QuestionRadioTasks,
+    QuestionScale,
+    QuestionVisualAcuity
+  },
+  props: {
+    page: {
+      type: Object,
+      default: () => ({ pg: 1, tab: 0 })
+    }
+  },
   data() {
     return {
+      currentPart: this.page.tab || 0,
+      totalParts: 4,
       answers: {
-        farAway: null,
-        armsLength: null,
-        upClose: null
-      }
+        part1: {},
+        part2: {},
+        part3: {},
+        part4: {}
+      },
+      part1Tasks: [
+        {
+          key: 'farAway',
+          label: 'Far away',
+          description: '(e.g., watching TV, seeing street signs, recognizing faces).'
+        },
+        {
+          key: 'armsLength',
+          label: "Arm's length",
+          description: '(e.g., seeing the prices of goods or the dashboard of a car).'
+        },
+        {
+          key: 'upClose',
+          label: 'Up close',
+          description: '(e.g., reading a book or newspaper, or while eating).'
+        }
+      ],
+      part2Questions: [
+        {
+          key: 'satisfaction',
+          text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
+        }
+      ],
+      part3Questions: [
+        {
+          key: 'quality',
+          text: 'On a scale of 0 to 10, how would you rate the overall quality of your vision?'
+        }
+      ],
+      part4Measurements: [
+        {
+          key: 'unva',
+          label: 'UNVA (40cm)',
+          icon: require('@/assets/img/icon-phone.svg'),
+          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
+        },
+        {
+          key: 'uiva',
+          label: 'UIVA (66cm)',
+          icon: require('@/assets/img/icon-laptop.svg'),
+          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
+        },
+        {
+          key: 'udva',
+          label: 'UDVA',
+          icon: require('@/assets/img/icon-steering.svg'),
+          options: ['20/20', '20/25', '20/30', '20/40', '20/50', '20/60', '20/80', '20/100']
+        }
+      ]
     };
   },
+  watch: {
+    'page.tab'(newTab) {
+      this.currentPart = newTab;
+    }
+  },
   methods: {
-    nextPage() {
-      console.log('Answers:', this.answers);
-      // Navigate to next page/part
-      this.$emit('page-select', { pg: 1, tab: 1 });
+    nextPart() {
+      if (this.currentPart < this.totalParts - 1) {
+        this.currentPart++;
+        this.$emit('page-select', { pg: 1, tab: this.currentPart });
+      }
+    },
+    previousPart() {
+      if (this.currentPart > 0) {
+        this.currentPart--;
+        this.$emit('page-select', { pg: 1, tab: this.currentPart });
+      }
+    },
+    finishQuestionnaire() {
+      console.log('Questionnaire completed:', this.answers);
+      // Navigate back to home or results page
+      this.$emit('page-select', { pg: 0, tab: 0 });
+    },
+    cancelQuestionnaire() {
+      // Navigate back to home
+      this.$emit('page-select', { pg: 0, tab: 0 });
     }
   },
 };
@@ -267,120 +326,16 @@ export default {
   padding: 60px 80px;
 }
 
-.question-section {
-  flex: 1;
-
-  .section-title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 36px;
-    font-weight: 300;
-    color: #1a1a1a;
-    margin: 0 0 20px 0;
-  }
-
-  .question-text {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 50px 0;
-  }
-}
-
-.task-group {
-  background: #E8E8E8;
-  border-radius: 8px;
-  padding: 30px 40px;
-  margin-bottom: 30px;
-
-  .task-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-
-    .bullet {
-      font-size: 24px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.2;
-    }
-
-    .task-text {
-      flex: 1;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-      color: #1a1a1a;
-      line-height: 1.4;
-
-      strong {
-        font-weight: 700;
-        display: block;
-        margin-bottom: 5px;
-      }
-
-      .task-examples {
-        font-weight: 400;
-        display: block;
-      }
-    }
-  }
-
-  .radio-group {
-    display: flex;
-    gap: 20px;
-    justify-content: flex-start;
-    padding-left: 39px;
-
-    .radio-option {
-      background: white;
-      border: 2px solid #D0D0D0;
-      border-radius: 50px;
-      padding: 12px 30px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: #1a1a1a;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      position: relative;
-
-      input[type="radio"] {
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      span {
-        user-select: none;
-      }
-
-      &:hover {
-        border-color: #003595;
-      }
-
-      input[type="radio"]:checked + span {
-        font-weight: 700;
-      }
-
-      &:has(input[type="radio"]:checked) {
-        background: #003595;
-        border-color: #003595;
-        color: white;
-      }
-    }
-  }
-}
-
 /* Bottom Navigation */
 .bottom-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 40px;
+
+  .nav-spacer {
+    width: 150px;
+  }
 
   .pagination-dots {
     display: flex;
@@ -400,7 +355,9 @@ export default {
     }
   }
 
-  .btn-next {
+  .btn-back,
+  .btn-next,
+  .btn-finish {
     background: #003595;
     border: none;
     border-radius: 8px;
