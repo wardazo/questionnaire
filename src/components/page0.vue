@@ -21,7 +21,7 @@
           <div class="product-card-dual">
             <div class="product-section">
               <h2 class="product-title">Vivity®<br>Vivity® Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.vivity) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('vivity')">
                 <strong>Start new</strong><br>
@@ -31,7 +31,7 @@
 
             <div class="product-section">
               <h2 class="product-title">PureSee*<br>PureSee* Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.puresee) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('puresee')">
                 <strong>Start new</strong><br>
@@ -51,7 +51,7 @@
           <div class="product-card-dual">
             <div class="product-section">
               <h2 class="product-title">PanOptix®<br>PanOptix® Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.panoptix1) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('panoptix1')">
                 <strong>Start new</strong><br>
@@ -61,7 +61,7 @@
 
             <div class="product-section">
               <h2 class="product-title">Odyssey*<br>Odyssey* Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.odyssey) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('odyssey')">
                 <strong>Start new</strong><br>
@@ -81,7 +81,7 @@
           <div class="product-card-dual">
             <div class="product-section">
               <h2 class="product-title">PanOptix®<br>PanOptix® Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.panoptix2) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('panoptix2')">
                 <strong>Start new</strong><br>
@@ -91,7 +91,7 @@
 
             <div class="product-section">
               <h2 class="product-title">Galaxy*<br>Galaxy* Toric</h2>
-              <div class="product-count">00</div>
+              <div class="product-count">{{ formatCount(counts.galaxy) }}</div>
               <p class="product-subtitle">questionnaires<br>completed</p>
               <button class="btn-start" @click="startQuestionnaire('galaxy')">
                 <strong>Start new</strong><br>
@@ -133,14 +133,44 @@
 
 <script>
 import { useQuestionnaireStore } from '@/stores/questionnaire';
+import { getQuestionnaireCounts } from '@/services/api';
 
 export default {
   name: "Page0",
+  data() {
+    return {
+      counts: {
+        vivity: 0,
+        puresee: 0,
+        panoptix1: 0,
+        odyssey: 0,
+        panoptix2: 0,
+        galaxy: 0
+      }
+    };
+  },
   setup() {
     const questionnaireStore = useQuestionnaireStore();
     return { questionnaireStore };
   },
+  async mounted() {
+    // Fetch counts when component is mounted
+    await this.fetchCounts();
+  },
   methods: {
+    async fetchCounts() {
+      try {
+        this.counts = await getQuestionnaireCounts();
+      } catch (error) {
+        console.error('Failed to fetch questionnaire counts:', error);
+      }
+    },
+    formatCount(count) {
+      // Format count to always show 2 digits (00, 01, 02, ..., 99, 100+)
+      if (count === 0) return '00';
+      if (count < 10) return '0' + count;
+      return String(count);
+    },
     startQuestionnaire(type) {
       console.log('Starting questionnaire:', type);
       // Initialize questionnaire in store

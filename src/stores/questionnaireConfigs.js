@@ -40,16 +40,19 @@ const VISUAL_ACUITY_OPTIONS = [
 const SET1_PART1_TASKS = [
   {
     key: 'far',
+    questionId: 'SET1_SPECTACLE_FAR',
     label: 'Far away',
     description: '(e.g., watching TV, seeing street signs, recognizing faces).'
   },
   {
     key: 'armsLength',
+    questionId: 'SET1_SPECTACLE_ARMS',
     label: "Arm's length",
     description: '(e.g., seeing the prices of goods on the dashboard of a car).'
   },
   {
     key: 'upClose',
+    questionId: 'SET1_SPECTACLE_NEAR',
     label: 'Up close',
     description: '(e.g., reading a book or newspaper, or while knitting).'
   }
@@ -58,21 +61,25 @@ const SET1_PART1_TASKS = [
 const SET1_PART2_QUESTIONS = [
   {
     key: 'halos',
+    questionId: 'SET1_HALOS_FREQ',
     text: 'Do you experience halos in dim light?',
     options: RADIO_OPTIONS
   },
   {
     key: 'halosBothersome',
+    questionId: 'SET1_HALOS_BOTHER',
     text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'glare',
+    questionId: 'SET1_GLARE_FREQ',
     text: 'Do you experience glare?',
     options: RADIO_OPTIONS
   },
   {
     key: 'glareBothersome',
+    questionId: 'SET1_GLARE_BOTHER',
     text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
     options: BOTHERSOME_OPTIONS
   }
@@ -81,6 +88,7 @@ const SET1_PART2_QUESTIONS = [
 const SET1_PART3_QUESTIONS = [
   {
     key: 'satisfaction',
+    questionId: 'SET1_SATISFACTION',
     text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
   }
 ];
@@ -88,18 +96,21 @@ const SET1_PART3_QUESTIONS = [
 const SET1_PART4_MEASUREMENTS = [
   {
     key: 'unva40',
+    questionId: 'SET1_ACUITY_UNVA40',
     label: 'UNVA (40cm)',
     icon: require('@/assets/img/icon-phone.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'uiva66',
+    questionId: 'SET1_ACUITY_UIVA66',
     label: 'UIVA (66cm)',
     icon: require('@/assets/img/icon-laptop.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udva',
+    questionId: 'SET1_ACUITY_UDVA',
     label: 'UDVA',
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
@@ -113,21 +124,25 @@ const SET1_PART4_MEASUREMENTS = [
 const SET2_PART1_TASKS = [
   {
     key: 'far',
+    questionId: 'SET2_SPECTACLE_FAR',
     label: 'Far',
     description: '(Driving, watching TV).'
   },
   {
     key: 'intermediate',
+    questionId: 'SET2_SPECTACLE_INTERMEDIATE',
     label: 'Intermediate',
     description: '(Computer, car dashboard).'
   },
   {
     key: 'near',
+    questionId: 'SET2_SPECTACLE_NEAR',
     label: 'Near',
     description: '(Reading, Texting, Phone).'
   },
   {
     key: 'veryNear',
+    questionId: 'SET2_SPECTACLE_VERYNEAR',
     label: 'Very Near',
     description: '(Ingredient list, drug indications).'
   }
@@ -136,11 +151,13 @@ const SET2_PART1_TASKS = [
 const SET2_PART2_TASKS = [
   {
     key: 'brightLight',
+    questionId: 'SET2_CLARITY_BRIGHT',
     label: 'Bright light',
     description: ''
   },
   {
     key: 'dimLight',
+    questionId: 'SET2_CLARITY_DIM',
     label: 'Dim light',
     description: ''
   }
@@ -149,21 +166,25 @@ const SET2_PART2_TASKS = [
 const SET2_PART3_QUESTIONS = [
   {
     key: 'halos',
+    questionId: 'SET2_HALOS_FREQ',
     text: 'Do you experience halos in dim light?',
     options: RADIO_OPTIONS
   },
   {
     key: 'halosBothersome',
+    questionId: 'SET2_HALOS_BOTHER',
     text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'glare',
+    questionId: 'SET2_GLARE_FREQ',
     text: 'Do you experience glare?',
     options: RADIO_OPTIONS
   },
   {
     key: 'glareBothersome',
+    questionId: 'SET2_GLARE_BOTHER',
     text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
     options: BOTHERSOME_OPTIONS
   }
@@ -172,6 +193,7 @@ const SET2_PART3_QUESTIONS = [
 const SET2_PART4_QUESTIONS = [
   {
     key: 'satisfaction',
+    questionId: 'SET2_SATISFACTION',
     text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
   }
 ];
@@ -179,24 +201,28 @@ const SET2_PART4_QUESTIONS = [
 const SET2_PART5_MEASUREMENTS = [
   {
     key: 'unva33',
+    questionId: 'SET2_ACUITY_UNVA33',
     label: 'UNVA (33cm)',
     icon: require('@/assets/img/icon-phone.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'uiva66',
+    questionId: 'SET2_ACUITY_UIVA66',
     label: 'UIVA (66cm)',
     icon: require('@/assets/img/icon-laptop.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udvaNear',
+    questionId: 'SET2_ACUITY_UDVA_NEAR',
     label: 'UDVA (Near)',
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udva',
+    questionId: 'SET2_ACUITY_UDVA',
     label: 'UDVA',
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
@@ -210,16 +236,19 @@ const SET2_PART5_MEASUREMENTS = [
 const SET3_PART2_TASKS = [
   {
     key: 'brightLight',
+    questionId: 'SET3_CLARITY_BRIGHT',
     label: 'Bright light',
     description: ''
   },
   {
     key: 'dimLight',
+    questionId: 'SET3_CLARITY_DIM',
     label: 'Dim light',
     description: ''
   },
   {
     key: 'lowContrast',
+    questionId: 'SET3_CLARITY_LOWCONTRAST',
     label: 'Low contrast',
     description: '(e.g. fog, dusk).'
   }
@@ -228,21 +257,25 @@ const SET3_PART2_TASKS = [
 const SET3_PART3_QUESTIONS = [
   {
     key: 'shadowGhost',
+    questionId: 'SET3_SHADOW_GHOST',
     text: "Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?",
     options: RADIO_OPTIONS
   },
   {
     key: 'halosBothersome',
+    questionId: 'SET3_HALOS_BOTHER',
     text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'glare',
+    questionId: 'SET3_GLARE_WHEN',
     text: 'If yes, when do you notice it the most?',
     options: RADIO_OPTIONS
   },
   {
     key: 'nightOnly',
+    questionId: 'SET3_NIGHT_WHEN',
     text: 'If yes, when do you notice it the most? (great to good lighting)',
     options: [
       { label: 'Evening', value: 'evening' },

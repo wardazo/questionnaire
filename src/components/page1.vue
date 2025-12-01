@@ -33,6 +33,25 @@
           @update:modelValue="updateAnswers"
         />
 
+        <!-- Error Message -->
+        <div v-if="submissionError" class="error-banner">
+          <div class="error-content">
+            <span class="error-icon">⚠️</span>
+            <div class="error-text">
+              <p class="error-title">Submission Failed</p>
+              <p class="error-message">{{ submissionError }}</p>
+            </div>
+            <div class="error-actions">
+              <button class="btn-retry" @click="retrySubmission" :disabled="isSubmitting">
+                {{ isSubmitting ? 'Submitting...' : 'Retry' }}
+              </button>
+              <button class="btn-cancel-error" @click="cancelQuestionnaire">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
           <button
@@ -63,8 +82,9 @@
             v-else
             class="btn-finish"
             @click="finishQuestionnaire"
+            :disabled="isSubmitting"
           >
-            Finish
+            {{ isSubmitting ? 'Submitting...' : 'Finish' }}
           </button>
         </div>
       </main>
@@ -91,6 +111,12 @@ export default {
       type: Object,
       default: () => ({ pg: 1, tab: 0 })
     }
+  },
+  data() {
+    return {
+      isSubmitting: false,
+      submissionError: null
+    };
   },
   setup() {
     const questionnaireStore = useQuestionnaireStore();
@@ -134,14 +160,51 @@ export default {
       this.questionnaireStore.previousPart();
     },
     async finishQuestionnaire() {
+      // Prevent double submission
+      if (this.isSubmitting) return;
+
+      this.isSubmitting = true;
+      this.submissionError = null;
+
       try {
-        await this.questionnaireStore.completeQuestionnaire();
-        console.log('Questionnaire completed and submitted');
-        // Navigate back to home
-        this.$emit('page-select', { pg: 0, tab: 0 });
+        const result = await this.questionnaireStore.completeQuestionnaire();
+
+        if (result.success) {
+          console.log('Questionnaire completed successfully:', result.data);
+          // Navigate back to home
+          this.$emit('page-select', { pg: 0, tab: 0 });
+        } else {
+          // Handle error
+          this.submissionError = this.getErrorMessage(result.error);
+        }
       } catch (error) {
-        console.error('Error completing questionnaire:', error);
+        // Unexpected error
+        this.submissionError = 'An unexpected error occurred. Please try again.';
+        console.error('Unexpected error:', error);
+      } finally {
+        this.isSubmitting = false;
       }
+    },
+    getErrorMessage(error) {
+      if (!error) return 'An error occurred. Please try again.';
+
+      switch (error.type) {
+        case 'network_error':
+          return 'Network error. Please check your connection and try again.';
+        case 'api_error':
+          if (error.status === 400) {
+            return `Validation error: ${error.message}`;
+          } else if (error.status >= 500) {
+            return 'Server error. Please try again later.';
+          }
+          return error.message || 'Server error. Please try again.';
+        default:
+          return error.message || 'An error occurred. Please try again.';
+      }
+    },
+    retrySubmission() {
+      this.submissionError = null;
+      this.finishQuestionnaire();
     },
     cancelQuestionnaire() {
       this.questionnaireStore.cancelQuestionnaire();
@@ -316,6 +379,91 @@ export default {
     &:active {
       transform: translateY(0);
     }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+}
+
+/* Error Banner */
+.error-banner {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.error-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.error-text {
+  flex: 1;
+
+  .error-title {
+    font-weight: 600;
+    color: #856404;
+    margin: 0 0 4px 0;
+    font-size: 14px;
+  }
+
+  .error-message {
+    color: #856404;
+    margin: 0;
+    font-size: 13px;
+  }
+}
+
+.error-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-retry,
+.btn-cancel-error {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-retry {
+  background: #003595;
+  color: white;
+
+  &:not(:disabled):hover {
+    background: #002b75;
+    transform: translateY(-1px);
+  }
+}
+
+.btn-cancel-error {
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+
+  &:hover {
+    background: #e9ecef;
   }
 }
 </style>

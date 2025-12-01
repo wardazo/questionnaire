@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { QUESTIONNAIRE_CONFIGS } from './questionnaireConfigs';
+import { submitQuestionnaire } from '@/services/api';
 
 export const useQuestionnaireStore = defineStore('questionnaire', {
   state: () => ({
@@ -159,23 +160,97 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       this.isActive = false;
     },
 
-    // Complete questionnaire (prepare for API submission)
+    // Complete questionnaire (submit to API)
     async completeQuestionnaire() {
-      const payload = this.apiPayload;
+      // Generate 6-digit random number
+      const randomNumber = Math.floor(Math.random() * 900000) + 100000;
 
-      // TODO: API integration point
-      // try {
-      //   await api.submitQuestionnaire(payload);
-      // } catch (error) {
-      //   throw error;
-      // }
+      // Get config for current questionnaire type
+      const config = QUESTIONNAIRE_CONFIGS[this.currentType];
 
-      console.log('Questionnaire completed:', payload);
+      // Transform answers from part-based to flat array with question IDs
+      const answersArray = [];
 
-      // Reset after successful submission
-      this.cancelQuestionnaire();
+      Object.keys(this.answers).forEach(partKey => {
+        const partNumber = parseInt(partKey.replace('part', ''));
+        const partConfig = config.parts[`part${partNumber}`];
+        const partAnswers = this.answers[partKey];
 
-      return payload;
+        // Extract question IDs based on component type
+        if (partConfig.component === 'QuestionRadio' && partConfig.tasks) {
+          // Handle tasks-based radio questions (Part 1)
+          partConfig.tasks.forEach(task => {
+            if (partAnswers[task.key] !== undefined) {
+              answersArray.push({
+                questionId: task.questionId,
+                value: String(partAnswers[task.key])
+              });
+            }
+          });
+        } else if (partConfig.component === 'QuestionRadio' && partConfig.questions) {
+          // Handle standard radio questions (Part 2, Part 3 in SET3)
+          partConfig.questions.forEach(question => {
+            if (partAnswers[question.key] !== undefined) {
+              answersArray.push({
+                questionId: question.questionId,
+                value: String(partAnswers[question.key])
+              });
+            }
+          });
+        } else if (partConfig.component === 'QuestionScale' && partConfig.questions) {
+          // Handle scale questions (Part 3 in SET1/SET2, Part 4 in SET2/SET3)
+          partConfig.questions.forEach(question => {
+            if (partAnswers[question.key] !== undefined) {
+              answersArray.push({
+                questionId: question.questionId,
+                value: String(partAnswers[question.key])
+              });
+            }
+          });
+        } else if (partConfig.component === 'QuestionVisualAcuity' && partConfig.measurements) {
+          // Handle visual acuity measurements (Part 4 in SET1, Part 5 in SET2/SET3)
+          partConfig.measurements.forEach(measurement => {
+            if (partAnswers[measurement.key] !== undefined) {
+              answersArray.push({
+                questionId: measurement.questionId,
+                value: String(partAnswers[measurement.key])
+              });
+            }
+          });
+        }
+      });
+
+      // Prepare payload
+      const payload = {
+        questionnaireType: this.currentType,
+        startedAt: this.startedAt,
+        completedAt: new Date().toISOString(),
+        randomNumber: randomNumber,
+        answers: answersArray
+      };
+
+      try {
+        // Submit to API
+        const response = await submitQuestionnaire(payload);
+
+        console.log('Questionnaire submitted successfully:', response);
+
+        // Reset store after successful submission
+        this.cancelQuestionnaire();
+
+        return {
+          success: true,
+          data: response
+        };
+      } catch (error) {
+        console.error('Failed to submit questionnaire:', error);
+
+        // Don't reset store on error - keep data for retry
+        return {
+          success: false,
+          error: error
+        };
+      }
     }
   }
 });
