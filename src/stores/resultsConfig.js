@@ -38,10 +38,10 @@ export const RESULTS_TAB_SECTIONS = {
       label: 'Visual acuity & patient satisfaction',
       title: 'Visual Acuity & Patient Satisfaction',
       subtitle: '',
-      chartType: 'bar',
-      questionIds: ['SET1_ACUITY_UNVA40', 'SET1_ACUITY_UIVA66', 'SET1_ACUITY_UDVA', 'SET1_SATISFACTION'],
-      taskLabels: ['UNVA (40cm)', 'UIVA (66cm)', 'UDVA', 'Satisfaction'],
-      optionType: 'MIXED'
+      chartType: 'combined',
+      acuityQuestionIds: ['SET1_ACUITY_UNVA40', 'SET1_ACUITY_UIVA66', 'SET1_ACUITY_UDVA'],
+      acuityMeasurementLabels: ['UNVA (40cm)', 'UIVA (66cm)', 'UDVA'],
+      satisfactionQuestionId: 'SET1_SATISFACTION'
     }
   ],
 
@@ -68,36 +68,46 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 2,
-      label: 'Visual disturbances',
-      title: 'Visual disturbances:',
+      label: 'Visual disturbances - Halos',
+      title: 'Visual disturbances - Halos',
       subtitle: '',
       chartType: 'pie',
       questions: [
         { questionId: 'SET2_HALOS_FREQ', title: 'Do you experience halos in dim light?' },
-        { questionId: 'SET2_HALOS_BOTHER', title: 'How bothersome are these with activities like night driving?' },
+        { questionId: 'SET2_HALOS_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+      ]
+    },
+    {
+      id: 3,
+      label: 'Visual disturbances - Glare',
+      title: 'Visual disturbances - Glare',
+      subtitle: '',
+      chartType: 'pie',
+      questions: [
         { questionId: 'SET2_GLARE_FREQ', title: 'Do you experience glare?' },
         { questionId: 'SET2_GLARE_BOTHER', title: 'How bothersome are these with activities like night driving?' }
       ]
     },
     {
-      id: 3,
-      label: 'Overall satisfaction',
-      title: 'Overall Vision Experience:',
-      subtitle: 'Satisfaction with vision after surgery',
-      chartType: 'bar',
-      questionIds: ['SET2_SATISFACTION'],
-      taskLabels: ['Satisfaction (0-10)'],
-      optionType: 'SCALE'
+      id: 4,
+      label: 'Visual disturbances - Starburst',
+      title: 'Visual disturbances - Starburst',
+      subtitle: '',
+      chartType: 'pie',
+      questions: [
+        { questionId: 'SET2_HALOS_FREQ', title: 'Do you experience halos in dim light?' },
+        { questionId: 'SET2_GLARE_FREQ', title: 'Do you experience glare?' }
+      ]
     },
     {
-      id: 4,
-      label: 'Visual acuity measurements',
-      title: 'Visual Acuity Measurements',
-      subtitle: 'UNVA, UIVA, UDVA measurements',
-      chartType: 'bar',
-      questionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
-      taskLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
-      optionType: 'VISUAL_ACUITY'
+      id: 5,
+      label: 'Visual acuity & patient satisfaction',
+      title: 'Visual Acuity & Patient Satisfaction',
+      subtitle: '',
+      chartType: 'combined',
+      acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
+      acuityMeasurementLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
+      satisfactionQuestionId: 'SET2_SATISFACTION'
     }
   ],
 
@@ -124,8 +134,8 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 2,
-      label: 'Visual disturbances',
-      title: 'Visual disturbances:',
+      label: 'Visual disturbances - Ghosting',
+      title: 'Visual disturbances - Ghosting',
       subtitle: '',
       chartType: 'pie',
       questions: [
@@ -135,23 +145,13 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 3,
-      label: 'Overall satisfaction',
-      title: 'Overall Vision Experience:',
-      subtitle: 'Satisfaction with vision after surgery',
-      chartType: 'bar',
-      questionIds: ['SET2_SATISFACTION'],
-      taskLabels: ['Satisfaction (0-10)'],
-      optionType: 'SCALE'
-    },
-    {
-      id: 4,
-      label: 'Visual acuity measurements',
-      title: 'Visual Acuity Measurements',
-      subtitle: 'UNVA, UIVA, UDVA measurements',
-      chartType: 'bar',
-      questionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
-      taskLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
-      optionType: 'VISUAL_ACUITY'
+      label: 'Visual acuity & patient satisfaction',
+      title: 'Visual Acuity & Patient Satisfaction',
+      subtitle: '',
+      chartType: 'combined',
+      acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
+      acuityMeasurementLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
+      satisfactionQuestionId: 'SET2_SATISFACTION'
     }
   ]
 };

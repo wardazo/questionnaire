@@ -83,6 +83,33 @@
           :product2-data="product2"
           :question-configs="currentSection.questions"
         />
+
+        <!-- Combined Table + Meter -->
+        <ResultsVisualAcuitySatisfaction
+          v-else-if="currentSection.chartType === 'combined'"
+          :product1-data="product1"
+          :product2-data="product2"
+          :acuity-question-ids="currentSection.acuityQuestionIds"
+          :acuity-measurement-labels="currentSection.acuityMeasurementLabels"
+          :satisfaction-question-id="currentSection.satisfactionQuestionId"
+        />
+
+        <!-- Visual Acuity Table Only -->
+        <ResultsTable
+          v-else-if="currentSection.chartType === 'table'"
+          :product1-data="product1"
+          :product2-data="product2"
+          :question-ids="currentSection.acuityQuestionIds"
+          :measurement-labels="currentSection.acuityMeasurementLabels"
+        />
+
+        <!-- Satisfaction Meter Only -->
+        <ResultsSatisfactionMeter
+          v-else-if="currentSection.chartType === 'satisfaction'"
+          :product1-data="product1"
+          :product2-data="product2"
+          :question-id="currentSection.satisfactionQuestionId"
+        />
       </div>
 
       <!-- Tab Navigation -->
@@ -105,12 +132,21 @@ import { usePageStore } from '@/stores/page';
 import { useResultsStore } from '@/stores/results';
 import ResultsChart from './Subcomp/ResultsChart.vue';
 import ResultsPieChart from './Subcomp/ResultsPieChart.vue';
+import ResultsTable from './Subcomp/ResultsTable.vue';
+import ResultsSatisfactionMeter from './Subcomp/ResultsSatisfactionMeter.vue';
+import ResultsVisualAcuitySatisfaction from './Subcomp/ResultsVisualAcuitySatisfaction.vue';
 import { RESULTS_TAB_SECTIONS } from '@/stores/resultsConfig';
 import { QUESTIONNAIRE_CONFIGS } from '@/stores/questionnaireConfigs';
 
 export default {
   name: 'Page2',
-  components: { ResultsChart, ResultsPieChart },
+  components: {
+    ResultsChart,
+    ResultsPieChart,
+    ResultsTable,
+    ResultsSatisfactionMeter,
+    ResultsVisualAcuitySatisfaction
+  },
   setup() {
     const pageStore = usePageStore();
     const resultsStore = useResultsStore();
