@@ -1,0 +1,207 @@
+<template>
+  <div class="results-chart-section">
+    <div v-if="subtitle" class="section-header">
+      <p class="section-subtitle">{{ subtitle }}</p>
+    </div>
+
+    <div class="charts-container">
+      <!-- Product 1 Chart -->
+      <div class="chart-wrapper">
+        <div class="chart-header">
+          <p class="patient-count">
+            <span class="count-number">{{ formatCount(product1Data.count) }}</span>
+            <strong v-html="product1Data.displayName"></strong> patients
+          </p>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <Bar :data="product1ChartData" :options="chartOptions" />
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="chart-divider"></div>
+
+      <!-- Product 2 Chart -->
+      <div class="chart-wrapper">
+        <div class="chart-header">
+          <p class="patient-count">
+            <span class="count-number">{{ formatCount(product2Data.count) }}</span>
+            <strong v-html="product2Data.displayName"></strong> patients
+          </p>
+        </div>
+        <div class="chart-canvas-wrapper">
+          <Bar :data="product2ChartData" :options="chartOptions" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Bar } from 'vue-chartjs';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+import { CHART_COLORS } from '@/stores/resultsConfig';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+export default {
+  name: 'ResultsChart',
+  components: { Bar },
+  props: {
+    title: { type: String, required: true },
+    subtitle: { type: String, required: true },
+    product1Data: { type: Object, required: true },
+    product2Data: { type: Object, required: true },
+    questionIds: { type: Array, required: true },
+    taskLabels: { type: Array, required: true }
+  },
+  computed: {
+    product1ChartData() {
+      return this.transformToChartData(this.product1Data);
+    },
+    product2ChartData() {
+      return this.transformToChartData(this.product2Data);
+    },
+    chartOptions() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              padding: 20,
+              font: { size: 12, family: 'Open Sans' }
+            }
+          }
+        }
+      };
+    }
+  },
+  methods: {
+    transformToChartData(productData) {
+      const aggregated = productData.aggregatedData || {};
+      const labels = this.taskLabels;
+
+      // Collect all unique answer values across questions
+      const answerValues = new Set();
+      this.questionIds.forEach(qid => {
+        if (aggregated[qid]) {
+          Object.keys(aggregated[qid]).forEach(val => answerValues.add(val));
+        }
+      });
+
+      // Create datasets (one per answer value)
+      const datasets = Array.from(answerValues).map(answerValue => {
+        const data = this.questionIds.map(qid => {
+          return aggregated[qid]?.[answerValue] || 0;
+        });
+
+        return {
+          label: this.formatLabel(answerValue),
+          data: data,
+          backgroundColor: CHART_COLORS[answerValue] || '#ccc',
+          borderRadius: 4
+        };
+      });
+
+      return { labels, datasets };
+    },
+
+    formatLabel(value) {
+      // 'never' → 'Never', 'not_at_all' → 'Not at all'
+      return value.split('_').map(w =>
+        w.charAt(0).toUpperCase() + w.slice(1)
+      ).join(' ');
+    },
+
+    formatCount(count) {
+      if (count === 0) return '00';
+      if (count < 10) return '0' + count;
+      return String(count);
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.results-chart-section {
+  padding: 40px 0;
+}
+
+.section-header {
+  margin-bottom: 30px;
+
+  .section-subtitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 40px;
+  background: #E8E8E8;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.chart-wrapper {
+  .chart-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .patient-count {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      color: #1a1a1a;
+      margin: 0;
+
+      .count-number {
+        font-size: 18px;
+        font-weight: 700;
+        margin-right: 5px;
+      }
+
+      strong {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .chart-canvas-wrapper {
+    height: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+  }
+}
+
+.chart-divider {
+  width: 1px;
+  background: #D0D0D0;
+}
+</style>

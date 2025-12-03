@@ -90,4 +90,37 @@ export async function submitQuestionnaire(payload) {
   }
 }
 
+/**
+ * Get aggregated results for a comparison set
+ * @param {string} comparisonSet - 'vivity-puresee' | 'panoptix-odyssey' | 'panoptix-galaxy'
+ * @returns {Promise<Object>} Aggregated results data
+ */
+export async function getResultsData(comparisonSet) {
+  try {
+    const response = await apiClient.get(`/api/questionnaires/results/${comparisonSet}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw {
+        type: 'api_error',
+        status: error.response.status,
+        message: error.response.data?.detail || 'Failed to fetch results',
+        originalError: error
+      };
+    } else if (error.request) {
+      throw {
+        type: 'network_error',
+        message: 'Network error. Please check your connection.',
+        originalError: error
+      };
+    } else {
+      throw {
+        type: 'unknown_error',
+        message: error.message || 'Unexpected error occurred',
+        originalError: error
+      };
+    }
+  }
+}
+
 export default apiClient;

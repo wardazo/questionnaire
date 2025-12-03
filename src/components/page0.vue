@@ -133,6 +133,7 @@
 
 <script>
 import { useQuestionnaireStore } from '@/stores/questionnaire';
+import { usePageStore } from '@/stores/page';
 import { getQuestionnaireCounts } from '@/services/api';
 
 export default {
@@ -151,7 +152,8 @@ export default {
   },
   setup() {
     const questionnaireStore = useQuestionnaireStore();
-    return { questionnaireStore };
+    const pageStore = usePageStore();
+    return { questionnaireStore, pageStore };
   },
   async mounted() {
     // Fetch counts when component is mounted
@@ -178,8 +180,11 @@ export default {
       // Navigate to page 1
       this.$emit('page-select', { pg: 1, tab: 0 });
     },
-    showResults(type) {
-      console.log('Showing results for:', type);
+    showResults(comparisonSet) {
+      console.log('Showing results for:', comparisonSet);
+      // Store comparison set for Page2
+      this.pageStore.setComparisonSet(comparisonSet);
+      // Navigate to page 2
       this.$emit('page-select', { pg: 2, tab: 0 });
     },
     sendSummary() {

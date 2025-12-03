@@ -66,13 +66,15 @@ The application uses a centralized page navigation system managed by Pinia:
 
 ### Key Directories
 - `src/components/`: Page components (`page0.vue`, `page1.vue`, `page2.vue`)
-- `src/components/Subcomp/`: Reusable question components for questionnaires
-- `src/stores/`: Pinia stores (currently just `page.js` for navigation state)
+- `src/components/Subcomp/`: Reusable question and chart components
+- `src/stores/`: Pinia stores (`page.js`, `questionnaire.js`, `results.js`, `questionnaireConfigs.js`, `resultsConfig.js`)
+- `src/services/`: API integration layer (`api.js` for backend communication)
 - `src/modules/`: Utility modules for PDF generation and number formatting
 - `src/locales/`: i18n JSON files (currently `en.json`)
 - `src/scss/`: SCSS files including `nav.scss` for header/footer and `main.scss` as entry point
 - `src/assets/img/`: Images and icons (including product icons for visual acuity measurements)
 - `planning_materials/design/`: Design reference files (Figma exports)
+- `backend/`: FastAPI backend with PostgreSQL database
 
 ### Important Patterns
 
@@ -115,6 +117,22 @@ All question components follow the same pattern:
 - Columns 2-4 contain product cards with dual sections
 - Bottom section spans full width with legal text (cols 1-3) and PDF button (col 4)
 - Consistent 15px gap throughout grid
+- Orange "Results" buttons navigate to Page2 with comparison set parameter
+
+#### Page2 Results Pattern
+`page2.vue` implements data visualization for questionnaire results:
+- **Layout**: Sidebar (230px, blue `#003595`) + main content area (flex: 1)
+- **Sidebar Contents**: Product info, counts, action buttons
+- **Chart Display**: Uses Chart.js via `vue-chartjs` for grouped bar charts
+- **Tab Navigation**: Config-driven tabs from `resultsConfig.js`
+- **Data Flow**:
+  1. Page0 sets `comparisonSet` in page store (e.g., 'vivity-puresee')
+  2. Page2 fetches aggregated data via `resultsStore.fetchResults()`
+  3. Backend returns grouped answer counts per question
+  4. `ResultsChart.vue` transforms data into Chart.js format
+  5. Charts render with color-coded answer options
+- **Chart Colors**: Configured in `resultsConfig.js` - Never=blue, Occasionally=tan, Often=orange, Always=green
+- **Reusability**: `ResultsChart.vue` component handles any question set with dynamic labels and colors
 
 **PDF Generation**: The `src/modules/pdf.js` exports an HTML template string for PDF rendering. The template includes inline styles optimized for A4 portrait printing and uses a `C_O_N_T_E_N_T` placeholder for dynamic content injection.
 
@@ -159,18 +177,39 @@ All question components follow the same pattern:
 - Bottom navigation with Back/Next/Finish and pagination dots
 - "Cancel this questionnaire" button returns to home
 
-**Page 2 - Results** (`page2.vue`)
-- To be implemented
-- Will display questionnaire results and analytics
+**Page 2 - Results/Analytics** (`page2.vue`)
+- Side-by-side comparison of two products from the same questionnaire set
+- Three comparison sets navigated via Results buttons on Page0:
+  - SET1: Vivity® vs PureSee* (4 tabs)
+  - SET2: PanOptix® vs Odyssey* (5 tabs)
+  - SET3: PanOptix® vs Galaxy* (5 tabs)
+- Left sidebar displays:
+  - "Results" title
+  - Both product names with subtitles
+  - Questionnaire completion counts for each product
+  - "Send this PDF report" button (future implementation)
+  - "Exit this summary" button (returns to Page0)
+- Main content area with tab-based navigation:
+  - Tab 0: Spectacle independence (bar charts)
+  - Tab 1: Visual disturbances - halos
+  - Tab 2: Visual disturbances - glare
+  - Tab 3: Visual acuity & patient satisfaction (or overall satisfaction for SET2/SET3)
+  - Tab 4: Visual acuity measurements (SET2/SET3 only)
+- Uses `ResultsChart.vue` component for rendering side-by-side bar charts
+- State management via `results.js` store (fetches aggregated data from backend)
+- Configuration driven by `resultsConfig.js` (tab sections, chart colors, question mappings)
+- Displays loading, error, and empty states gracefully
 
 ### Color Palette
-- **Primary Blue**: `#003595` (buttons, headers, selected states, sidebar)
-- **Orange/Yellow**: `#ffac1c` (Results and PDF buttons)
-- **Light Gray**: `#E8E8E8` (question backgrounds)
-- **Border Gray**: `#D0D0D0` (input borders)
+- **Primary Blue**: `#003595` (buttons, headers, selected states, sidebar, "Never" in charts)
+- **Orange/Yellow**: `#ffac1c` (Results and PDF buttons, "Often" in charts)
+- **Tan/Beige**: `#D2B48C` ("Occasionally" in charts)
+- **Green**: `#4CAF50` ("Always" in charts)
+- **Light Gray**: `#E8E8E8` (question backgrounds, chart container backgrounds)
+- **Border Gray**: `#D0D0D0` (input borders, dividers)
 - **Text Dark**: `#1a1a1a` (primary text)
 - **Header Gray**: `#f2f2f2` (header background)
-- **White**: `#ffffff` (main background, cards)
+- **White**: `#ffffff` (main background, cards, chart canvas backgrounds)
 
 ### Design System
 - **Typography**: Open Sans font family throughout
@@ -179,8 +218,139 @@ All question components follow the same pattern:
 - **Transitions**: 0.2s for all hover/active states
 - **Button Hover**: translateY(-2px) with box-shadow
 
+## Backend API
+
+The FastAPI backend (`backend/`) provides REST endpoints for questionnaire data management.
+
+### Starting the Backend
+```bash
+cd backend
+uvicorn main:app --reload
+```
+Backend runs at http://localhost:8000 by default.
+
+### API Endpoints
+
+**1. GET `/api/questionnaires/counts`**
+- Returns completion counts for all 6 questionnaire types
+- Response: `{ vivity: 5, puresee: 3, panoptix1: 0, odyssey: 0, panoptix2: 2, galaxy: 1 }`
+- Used by Page0 to display counts on product cards
+
+**2. POST `/api/questionnaires/submit`**
+- Submits a completed questionnaire with answers
+- Request body:
+  ```json
+  {
+    "questionnaireType": "vivity",
+    "startedAt": "2025-12-02T10:00:00Z",
+    "completedAt": "2025-12-02T10:15:00Z",
+    "randomNumber": 123456,
+    "answers": [
+      { "questionId": "SET1_SPECTACLE_FAR", "value": "never" },
+      { "questionId": "SET1_SPECTACLE_ARMS", "value": "occasionally" }
+    ]
+  }
+  ```
+- Response: Submission record with ID and answer count
+- Status: 201 on success, 400 on validation error, 500 on DB error
+
+**3. GET `/api/questionnaires/results/{comparison_set}`**
+- Returns aggregated results for a comparison set
+- Path parameter: `comparison_set` - One of 'vivity-puresee', 'panoptix-odyssey', 'panoptix-galaxy'
+- Response:
+  ```json
+  {
+    "comparisonSet": "vivity-puresee",
+    "products": {
+      "product1": {
+        "type": "vivity",
+        "displayName": "Vivity®",
+        "count": 5,
+        "aggregatedData": {
+          "SET1_SPECTACLE_FAR": {
+            "never": 8,
+            "occasionally": 5,
+            "often": 2,
+            "always": 1
+          }
+        }
+      },
+      "product2": { /* same structure */ }
+    }
+  }
+  ```
+- Backend performs SQL aggregation: `GROUP BY (question_id, answer_value) COUNT(*)`
+- Used by Page2 to render comparison charts
+
+### Database Schema
+
+**QuestionnaireSubmission Table**
+- `id`: int (PK)
+- `questionnaire_type`: str (indexed) - One of 6 valid types
+- `started_at`: datetime (indexed)
+- `completed_at`: datetime (indexed)
+- `random_number`: int - 6-digit identifier
+- `created_at`: datetime
+
+**QuestionnaireAnswer Table**
+- `id`: int (PK)
+- `submission_id`: int (FK to QuestionnaireSubmission, indexed)
+- `question_id`: str (indexed) - e.g., "SET1_SPECTACLE_FAR"
+- `answer_value`: str - Raw answer value
+- `created_at`: datetime
+
+### Question ID Format
+Question IDs follow the pattern: `SET{1-3}_{CATEGORY}_{SPECIFIC}`
+- **SET1** (Vivity/PureSee): SET1_SPECTACLE_FAR, SET1_HALOS_FREQ, SET1_SATISFACTION, etc.
+- **SET2** (PanOptix/Odyssey): SET2_SPECTACLE_FAR, SET2_CLARITY_BRIGHT, SET2_SATISFACTION, etc.
+- **SET3** (PanOptix/Galaxy): SET3_CLARITY_BRIGHT, SET3_SHADOW_GHOST, SET2_SATISFACTION, etc.
+
+All question IDs are defined in `src/stores/questionnaireConfigs.js`.
+
+## Extending Page2
+
+### Adding New Chart Sections
+Page2 is designed to be easily extensible. Currently, only Tab 0 (Spectacle independence) is fully implemented. To add new tabs:
+
+1. **Update Tab Configuration** in `src/stores/resultsConfig.js`:
+   ```javascript
+   {
+     id: 1,
+     label: 'Visual disturbances halos',
+     title: 'Visual disturbances:',
+     subtitle: 'Halos in dim light',
+     questionIds: ['SET1_HALOS_FREQ', 'SET1_HALOS_BOTHER'],
+     taskLabels: ['Frequency', 'Bothersome level'],
+     optionType: 'MIXED'
+   }
+   ```
+
+2. **Chart Component Automatically Handles**:
+   - Data transformation from backend aggregation
+   - Color mapping based on answer values
+   - Legend generation
+   - Responsive sizing
+
+3. **No Code Changes Needed** - the tab navigation and chart rendering are fully config-driven.
+
+### Custom Chart Types
+For chart types beyond grouped bar charts:
+1. Create new component in `src/components/Subcomp/` (e.g., `ResultsPieChart.vue`)
+2. Import Chart.js chart type (Pie, Line, etc.)
+3. Update Page2 to conditionally render based on `optionType` in config
+
+### Color Scheme Consistency
+All chart colors are defined in `CHART_COLORS` in `resultsConfig.js`:
+- Radio options: blue, tan, orange, green
+- Bothersome options: green to red gradient
+- Clarity options: green (clear) to red (blurry)
+- Scale options (0-10): red to green gradient
+- Visual acuity: green (20/20) to red (20/100)
+
 ## Notes
 
 - The app integrates with Titanium (`Ti.App.fireEvent` in `App.vue`) suggesting it may be embedded in a native mobile wrapper
 - Design files are available in `planning_materials/design/` for reference
 - Icons required for visual acuity measurements: icon-phone.svg, icon-laptop.svg, icon-steering.svg
+- Chart.js v4.4.6 and vue-chartjs v5.3.2 are used for data visualization
+- Backend aggregation is preferred over frontend processing for better performance

@@ -9,6 +9,22 @@ from pydantic import BaseModel, Field, validator
 
 app = FastAPI(title="Questionnaire Backend API")
 
+# Comparison set mapping for results endpoint
+COMPARISON_SETS = {
+    "vivity-puresee": {
+        "product1": {"type": "vivity", "displayName": "Vivity®"},
+        "product2": {"type": "puresee", "displayName": "PureSee*"}
+    },
+    "panoptix-odyssey": {
+        "product1": {"type": "panoptix1", "displayName": "PanOptix®"},
+        "product2": {"type": "odyssey", "displayName": "Odyssey*"}
+    },
+    "panoptix-galaxy": {
+        "product1": {"type": "panoptix2", "displayName": "PanOptix®"},
+        "product2": {"type": "galaxy", "displayName": "Galaxy*"}
+    }
+}
+
 # CORS middleware for local development
 app.add_middleware(
     CORSMiddleware,
@@ -180,4 +196,69 @@ def submit_questionnaire(
         raise HTTPException(status_code=400, detail=f"Validation error: {str(e)}")
     except Exception as e:
         session.rollback()
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+
+@app.get(
+    "/api/questionnaires/results/{comparison_set}",
+    tags=["questionnaires"]
+)
+def get_results(comparison_set: str, session: Session = Depends(get_session)):
+    """
+    Get aggregated results for a comparison set.
+    Returns count frequencies for all questions grouped by answer value.
+    """
+    # Validate comparison set
+    if comparison_set not in COMPARISON_SETS:
+        raise HTTPException(status_code=400, detail=f"Invalid comparison set: {comparison_set}")
+
+    config = COMPARISON_SETS[comparison_set]
+
+    def aggregate_for_type(questionnaire_type, product_key):
+        # Count submissions
+        count_stmt = select(func.count(QuestionnaireSubmission.id)).where(
+            QuestionnaireSubmission.questionnaire_type == questionnaire_type
+        )
+        count = session.exec(count_stmt).one()
+
+        # Aggregate answers: GROUP BY (question_id, answer_value) and COUNT
+        agg_stmt = (
+            select(
+                QuestionnaireAnswer.question_id,
+                QuestionnaireAnswer.answer_value,
+                func.count(QuestionnaireAnswer.id).label('count')
+            )
+            .join(QuestionnaireSubmission)
+            .where(QuestionnaireSubmission.questionnaire_type == questionnaire_type)
+            .group_by(
+                QuestionnaireAnswer.question_id,
+                QuestionnaireAnswer.answer_value
+            )
+        )
+
+        results = session.exec(agg_stmt).all()
+
+        # Transform to nested dict
+        aggregated = {}
+        for question_id, answer_value, ans_count in results:
+            if question_id not in aggregated:
+                aggregated[question_id] = {}
+            aggregated[question_id][answer_value] = ans_count
+
+        return {
+            "type": questionnaire_type,
+            "displayName": config[product_key]["displayName"],
+            "count": count,
+            "aggregatedData": aggregated
+        }
+
+    try:
+        return {
+            "comparisonSet": comparison_set,
+            "products": {
+                "product1": aggregate_for_type(config["product1"]["type"], "product1"),
+                "product2": aggregate_for_type(config["product2"]["type"], "product2")
+            }
+        }
+    except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
