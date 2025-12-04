@@ -1,10 +1,14 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.VUE_APP_API_URL || 'http://localhost:8000';
+const API_KEY = process.env.VUE_APP_API_KEY || '';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': API_KEY
+  },
   timeout: 10000
 });
 

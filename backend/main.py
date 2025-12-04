@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select, func
 from database import create_db_and_tables, get_session
@@ -6,8 +7,26 @@ from models import QuestionnaireSubmission, QuestionnaireAnswer
 from datetime import datetime
 from typing import List, Dict
 from pydantic import BaseModel, Field, validator
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(title="Questionnaire Backend API")
+
+# API Key configuration
+API_KEY = os.getenv("API_KEY", "your-secret-api-key-change-this")
+API_KEY_NAME = "X-API-Key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
+
+def verify_api_key(api_key: str = Security(api_key_header)):
+    """Verify the API key from the request header"""
+    if api_key != API_KEY:
+        raise HTTPException(
+            status_code=403,
+            detail="Invalid API key"
+        )
+    return api_key
 
 # Comparison set mapping for results endpoint
 COMPARISON_SETS = {
@@ -108,7 +127,10 @@ def health_check():
     response_model=Dict[str, int],
     tags=["questionnaires"]
 )
-def get_questionnaire_counts(session: Session = Depends(get_session)):
+def get_questionnaire_counts(
+    session: Session = Depends(get_session),
+    api_key: str = Depends(verify_api_key)
+):
     """
     Get counts of completed questionnaires grouped by type.
     Returns a dictionary with questionnaire types as keys and counts as values.
@@ -147,7 +169,8 @@ def get_questionnaire_counts(session: Session = Depends(get_session)):
 )
 def submit_questionnaire(
     request: QuestionnaireSubmissionRequest,
-    session: Session = Depends(get_session)
+    session: Session = Depends(get_session),
+    api_key: str = Depends(verify_api_key)
 ):
     """
     Submit a completed questionnaire.
@@ -203,7 +226,11 @@ def submit_questionnaire(
     "/api/questionnaires/results/{comparison_set}",
     tags=["questionnaires"]
 )
-def get_results(comparison_set: str, session: Session = Depends(get_session)):
+def get_results(
+    comparison_set: str,
+    session: Session = Depends(get_session),
+    api_key: str = Depends(verify_api_key)
+):
     """
     Get aggregated results for a comparison set.
     Returns count frequencies for all questions grouped by answer value.
