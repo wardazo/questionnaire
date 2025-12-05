@@ -9,8 +9,20 @@ from typing import List, Dict
 from pydantic import BaseModel, Field, validator
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('api_debug.log')
+    ]
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Questionnaire Backend API")
 
@@ -21,11 +33,17 @@ api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
 
 def verify_api_key(api_key: str = Security(api_key_header)):
     """Verify the API key from the request header"""
+    logger.debug(f"API key verification initiated")
+    logger.debug(f"Received API key length: {len(api_key) if api_key else 0}")
+
     if api_key != API_KEY:
+        logger.warning(f"API key verification failed - Invalid key provided")
         raise HTTPException(
             status_code=403,
             detail="Invalid API key"
         )
+
+    logger.debug("API key verification successful")
     return api_key
 
 # Comparison set mapping for results endpoint
@@ -135,7 +153,10 @@ def get_questionnaire_counts(
     Get counts of completed questionnaires grouped by type.
     Returns a dictionary with questionnaire types as keys and counts as values.
     """
+    logger.info("GET /api/questionnaires/counts - Request received")
+
     try:
+        logger.debug("Building SQL query to count submissions by type")
         # Query to count submissions grouped by questionnaire_type
         statement = (
             select(
@@ -145,10 +166,13 @@ def get_questionnaire_counts(
             .group_by(QuestionnaireSubmission.questionnaire_type)
         )
 
+        logger.debug("Executing database query")
         results = session.exec(statement).all()
+        logger.debug(f"Database query returned {len(results)} result rows")
 
         # Convert to dictionary
         counts = {row[0]: row[1] for row in results}
+        logger.debug(f"Raw counts from database: {counts}")
 
         # Ensure all questionnaire types are present (even if count is 0)
         all_types = ['vivity', 'puresee', 'panoptix1', 'odyssey', 'panoptix2', 'galaxy']
@@ -156,8 +180,10 @@ def get_questionnaire_counts(
             if qtype not in counts:
                 counts[qtype] = 0
 
+        logger.info(f"GET /api/questionnaires/counts - Success - Returning counts: {counts}")
         return counts
     except Exception as e:
+        logger.error(f"GET /api/questionnaires/counts - Database error: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
 
@@ -176,11 +202,20 @@ def submit_questionnaire(
     Submit a completed questionnaire.
     Creates one submission record + multiple answer records in a transaction.
     """
+    logger.info(f"POST /api/questionnaires/submit - Request received")
+    logger.debug(f"Questionnaire type: {request.questionnaireType}")
+    logger.debug(f"Random number: {request.randomNumber}")
+    logger.debug(f"Number of answers: {len(request.answers)}")
+    logger.debug(f"Start time: {request.startedAt}, Completed time: {request.completedAt}")
+
     try:
+        logger.debug("Parsing timestamps")
         # Parse timestamps
         started_at = datetime.fromisoformat(request.startedAt.replace('Z', '+00:00'))
         completed_at = datetime.fromisoformat(request.completedAt.replace('Z', '+00:00'))
+        logger.debug(f"Timestamps parsed - Started: {started_at}, Completed: {completed_at}")
 
+        logger.debug("Creating submission record")
         # Create submission record
         submission = QuestionnaireSubmission(
             questionnaire_type=request.questionnaireType,
@@ -189,11 +224,15 @@ def submit_questionnaire(
             random_number=request.randomNumber
         )
 
+        logger.debug("Adding submission to session and flushing")
         session.add(submission)
         session.flush()  # Get submission.id before creating answers
+        logger.debug(f"Submission created with ID: {submission.id}")
 
         # Create answer records
-        for answer_item in request.answers:
+        logger.debug(f"Creating {len(request.answers)} answer records")
+        for idx, answer_item in enumerate(request.answers):
+            logger.debug(f"Answer {idx+1}: questionId={answer_item.questionId}, value={answer_item.value}")
             answer = QuestionnaireAnswer(
                 submission_id=submission.id,
                 question_id=answer_item.questionId,
@@ -202,10 +241,12 @@ def submit_questionnaire(
             session.add(answer)
 
         # Commit transaction
+        logger.debug("Committing transaction")
         session.commit()
         session.refresh(submission)
+        logger.info(f"POST /api/questionnaires/submit - Success - Submission ID: {submission.id}")
 
-        return QuestionnaireSubmissionResponse(
+        response = QuestionnaireSubmissionResponse(
             id=submission.id,
             message="Questionnaire submitted successfully",
             questionnaire_type=submission.questionnaire_type,
@@ -213,11 +254,15 @@ def submit_questionnaire(
             random_number=submission.random_number,
             answers_count=len(request.answers)
         )
+        logger.debug(f"Response prepared: {response.dict()}")
+        return response
 
     except ValueError as e:
+        logger.error(f"POST /api/questionnaires/submit - Validation error: {str(e)}", exc_info=True)
         session.rollback()
         raise HTTPException(status_code=400, detail=f"Validation error: {str(e)}")
     except Exception as e:
+        logger.error(f"POST /api/questionnaires/submit - Database error: {str(e)}", exc_info=True)
         session.rollback()
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
 
@@ -235,20 +280,29 @@ def get_results(
     Get aggregated results for a comparison set.
     Returns count frequencies for all questions grouped by answer value.
     """
+    logger.info(f"GET /api/questionnaires/results/{comparison_set} - Request received")
+
     # Validate comparison set
     if comparison_set not in COMPARISON_SETS:
+        logger.warning(f"Invalid comparison set requested: {comparison_set}")
         raise HTTPException(status_code=400, detail=f"Invalid comparison set: {comparison_set}")
 
     config = COMPARISON_SETS[comparison_set]
+    logger.debug(f"Using comparison set config: {config}")
 
     def aggregate_for_type(questionnaire_type, product_key):
+        logger.debug(f"Aggregating data for {product_key}: type={questionnaire_type}")
+
         # Count submissions
+        logger.debug(f"Counting submissions for {questionnaire_type}")
         count_stmt = select(func.count(QuestionnaireSubmission.id)).where(
             QuestionnaireSubmission.questionnaire_type == questionnaire_type
         )
         count = session.exec(count_stmt).one()
+        logger.debug(f"Found {count} submissions for {questionnaire_type}")
 
         # Aggregate answers: GROUP BY (question_id, answer_value) and COUNT
+        logger.debug(f"Aggregating answers for {questionnaire_type}")
         agg_stmt = (
             select(
                 QuestionnaireAnswer.question_id,
@@ -264,6 +318,7 @@ def get_results(
         )
 
         results = session.exec(agg_stmt).all()
+        logger.debug(f"Answer aggregation returned {len(results)} rows for {questionnaire_type}")
 
         # Transform to nested dict
         aggregated = {}
@@ -272,20 +327,31 @@ def get_results(
                 aggregated[question_id] = {}
             aggregated[question_id][answer_value] = ans_count
 
-        return {
+        logger.debug(f"Aggregated data for {questionnaire_type}: {len(aggregated)} questions")
+
+        result = {
             "type": questionnaire_type,
             "displayName": config[product_key]["displayName"],
             "count": count,
             "aggregatedData": aggregated
         }
+        return result
 
     try:
-        return {
+        logger.debug("Aggregating data for both products in comparison set")
+        product1_data = aggregate_for_type(config["product1"]["type"], "product1")
+        product2_data = aggregate_for_type(config["product2"]["type"], "product2")
+
+        response = {
             "comparisonSet": comparison_set,
             "products": {
-                "product1": aggregate_for_type(config["product1"]["type"], "product1"),
-                "product2": aggregate_for_type(config["product2"]["type"], "product2")
+                "product1": product1_data,
+                "product2": product2_data
             }
         }
+
+        logger.info(f"GET /api/questionnaires/results/{comparison_set} - Success - Product1 count: {product1_data['count']}, Product2 count: {product2_data['count']}")
+        return response
     except Exception as e:
+        logger.error(f"GET /api/questionnaires/results/{comparison_set} - Database error: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
