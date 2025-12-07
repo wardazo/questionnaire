@@ -145,18 +145,24 @@ export default {
 
 <style lang="scss" scoped>
 .results-chart-section {
-  padding: 40px 0;
+  padding: 0 0 24px;
 }
 
 .section-header {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   .section-subtitle {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #1a1a1a;
+    max-width: 640px;
+    width: 100%;
+    font-size: 20px;
+    line-height: 1.24em;
+    font-weight: 700;
+    color: #000000;
     margin: 0;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 18px;
+    }
   }
 }
 
@@ -164,25 +170,26 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 40px;
-  background: #E8E8E8;
-  padding: 30px;
-  border-radius: 8px;
+  background: #F2F2F2;
+  padding: 36px 30px;
+  border-radius: 13px;
 }
 
 .chart-wrapper {
   .chart-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 
     .patient-count {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      color: #1a1a1a;
+      font-size: 20px;
+      line-height: 1.36em;
+      color: #000;
       margin: 0;
 
       .count-number {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 20px;
+        line-height: 1.36em;
+        font-weight: 400;
         margin-right: 5px;
       }
 
@@ -194,14 +201,11 @@ export default {
 
   .chart-canvas-wrapper {
     height: 400px;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
   }
 }
 
 .chart-divider {
   width: 1px;
-  background: #D0D0D0;
+  background: #000;
 }
 </style>

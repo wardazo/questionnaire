@@ -78,9 +78,9 @@ export default {
 
   .section-title {
     font-family: 'Open Sans', sans-serif;
-    font-size: 36px;
+    font-size: 60px;
     font-weight: 300;
-    color: #003595;
+    color: red;
     margin: 0 0 20px 0;
   }
 }

@@ -135,22 +135,28 @@ export default {
 
 <style lang="scss" scoped>
 .results-table-section {
-  padding: 40px 0;
+  padding: 0 0 24px;;
 }
 
 .section-title {
-  font-family: 'Open Sans', sans-serif;
+  max-width: 640px;
+  width: 100%;
   font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 30px;
+  line-height: 1.24em;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 10px;
+
+  @media only screen and (max-width: 1180px) {
+    font-size: 18px;
+  }
 }
 
 .tables-container {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 40px;
-  background: #E8E8E8;
+  background: #F2F2F2;
   padding: 30px;
   border-radius: 8px;
 }
@@ -177,12 +183,6 @@ export default {
       }
     }
   }
-
-  .table-content {
-    background: white;
-    border-radius: 5px;
-    padding: 20px;
-  }
 }
 
 .acuity-table {
@@ -191,15 +191,14 @@ export default {
   font-family: 'Open Sans', sans-serif;
 
   thead {
-    background: #f9f9f9;
 
     th {
-      padding: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1a1a1a;
-      border: 1px solid #D0D0D0;
+      font-size: 15px;
+      line-height: 1.3em;
+      font-weight: 400;
+      color: #454545;
       text-align: center;
+      padding: 5px;
 
       &.acuity-label {
         text-align: left;
@@ -209,16 +208,13 @@ export default {
 
   tbody {
     tr {
-      &:nth-child(even) {
-        background: #fafafa;
-      }
-
       td {
-        padding: 12px;
-        font-size: 14px;
-        color: #1a1a1a;
-        border: 1px solid #D0D0D0;
+        font-size: 15px;
+        line-height: 1.3em;
+        font-weight: 700;
+        color: #454545;
         text-align: center;
+        padding: 5px;
 
         &.acuity-label {
           font-weight: 600;
@@ -231,6 +227,6 @@ export default {
 
 .table-divider {
   width: 1px;
-  background: #D0D0D0;
+  background: #000;
 }
 </style>

@@ -1,9 +1,11 @@
 <template>
   <div class="question-section">
-    <h1 class="section-title">{{ title }}</h1>
+    <div class="question-section-intro">
+      <h1 class="section-title">{{ title }}</h1>
 
-    <!-- Optional main question text (for task mode) -->
-    <p v-if="questionText" class="question-text">{{ questionText }}</p>
+      <!-- Optional main question text (for task mode) -->
+      <p v-if="questionText" class="question-text">{{ questionText }}</p>
+    </div>
 
     <!-- Render tasks (with bullets and shared options) -->
     <template v-if="tasks && tasks.length">
@@ -45,7 +47,12 @@
         :key="question.key"
         class="question-group"
       >
-      <p class="question-text-item">{{ question.text }}</p>
+      <div class="task-header">
+        <span class="bullet">•</span>
+        <div class="task-text">
+          {{ question.text }}
+        </div>
+      </div>
       <div class="radio-group">
         <label
           v-for="option in question.options"
@@ -127,110 +134,157 @@ export default {
   flex: 1;
 
   .section-title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 36px;
+    font-size: 40px;
+    line-height: 1.26em;
     font-weight: 300;
     color: #003595;
-    margin: 0 0 20px 0;
+    margin: 0 0 6px;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 32px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      font-size: 30px;
+    }
   }
 
   .question-text {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 24px;
+    max-width: 640px;
+    width: 100%;
+    font-size: 30px;
+    line-height: 1.24em;
     font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 50px 0;
+    color: #000000;
+    margin: 0 0 24px;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 24px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      font-size: 20px;
+    }
+  }
+}
+
+.task-header {
+  display: flex;
+  gap: 13px;
+  margin-bottom: 14px;
+
+  @media only screen and (max-width: 1024px) {
+    margin-bottom: 8px;
+  }
+
+  .bullet {
+    font-size: 20px;
+    line-height: 1.36em;
+    font-weight: 700;
+    color: #000;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 18px;
+    }
+  }
+
+  .task-text {
+    display: flex;
+    font-size: 20px;
+    line-height: 1.36em;
+    font-weight: 700;
+    color: #000;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 18px;
+    }
+
+    strong {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    span {
+      font-weight: 400;
+    }
   }
 }
 
 // Task mode styling (with bullets)
 .task-group {
-  background: #E8E8E8;
-  border-radius: 8px;
-  padding: 30px 40px;
-  margin-bottom: 30px;
+  background: #F2F2F2;
+  border-radius: 13px;
+  padding: 18px 24px;
+  margin-bottom: 14px;
 
-  .task-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
+  @media only screen and (max-width: 1180px) {
+    padding: 16px 24px;
+  }
 
-    .bullet {
-      font-size: 24px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.2;
-    }
-
-    .task-text {
-      flex: 1;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-      color: #1a1a1a;
-      line-height: 1.4;
-
-      strong {
-        font-weight: 700;
-        display: block;
-        margin-bottom: 5px;
-      }
-
-      .task-examples {
-        font-weight: 400;
-        display: block;
-      }
-    }
+  @media only screen and (max-width: 1024px) {
+    padding: 13px 24px;
   }
 
   .radio-group {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     justify-content: flex-start;
-    padding-left: 39px;
     flex-wrap: wrap;
+    padding-left: 21px;
+
+    @media only screen and (max-width: 1180px) {
+      gap: 20px;
+    }
   }
 }
 
 // Questions mode styling (no bullets)
 .question-group {
-  background: #E8E8E8;
-  border-radius: 8px;
-  padding: 30px 40px;
-  margin-bottom: 30px;
+  background: #F2F2F2;
+  border-radius: 13px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
 
-  .question-text-item {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0 0 25px 0;
-    line-height: 1.4;
+  @media only screen and (max-width: 1180px) {
+    padding: 16px 24px;
+    margin-bottom: 16px;
   }
 
   .radio-group {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     justify-content: flex-start;
     flex-wrap: wrap;
+    padding-left: 21px;
+
+    @media only screen and (max-width: 1180px) {
+      gap: 20px;
+    }
   }
 }
 
 // Shared radio option styling
 .radio-option {
   background: white;
-  border: 2px solid #D0D0D0;
-  border-radius: 50px;
-  padding: 12px 30px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  border: 1px solid #A8A8A8;
+  border-radius: 8px;
+  padding: 11px 42px;
+  font-size: 18px;
+  line-height: 1em;
+  letter-spacing: -0.015em;
   font-weight: 400;
-  color: #1a1a1a;
+  color: #242424;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
   gap: 0;
   position: relative;
+
+  @media only screen and (max-width: 1180px) {
+    padding: 8px 36px;
+    font-size: 16px;
+  }
 
   input[type="radio"] {
     position: absolute;

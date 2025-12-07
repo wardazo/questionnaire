@@ -8,9 +8,9 @@
         :key="index"
         class="measurement-item"
       >
-        <div class="measurement-icon" v-if="measurement.icon">
+        <!-- <div class="measurement-icon" v-if="measurement.icon">
           <img :src="measurement.icon" :alt="measurement.label" />
-        </div>
+        </div> -->
         <div class="measurement-label">{{ measurement.label }}</div>
         <div class="measurement-input">
           <select
@@ -77,29 +77,35 @@ export default {
   flex: 1;
 
   .section-title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 36px;
+    font-size: 40px;
+    line-height: 1.26em;
     font-weight: 300;
     color: #003595;
-    margin: 0 0 50px 0;
+    margin: 0 0 24px;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 32px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      font-size: 30px;
+    }
   }
 }
 
 .measurements-container {
-  background: #E8E8E8;
-  border-radius: 8px;
-  padding: 60px 80px;
+  background: #F2F2F2;
+  border-radius: 13px;
+  padding: 200px 40px 180px;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  gap: 60px;
 }
 
 .measurement-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
   flex: 1;
 
   .measurement-icon {
@@ -117,37 +123,56 @@ export default {
   }
 
   .measurement-label {
-    font-family: 'Open Sans', sans-serif;
     font-size: 20px;
+    line-height: 1.3em;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #000;
+    letter-spacing: -0.015em;
     text-align: center;
+    margin-bottom: 16px;
   }
 
   .measurement-input {
     width: 100%;
     max-width: 200px;
+
+    @media only screen and (max-width: 1180px) {
+      max-width: 180px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      max-width: 150px;
+    }
   }
 
   .measurement-select {
     width: 100%;
-    height: 50px;
+    height: 56px;
     background: white;
-    border: 2px solid #D0D0D0;
+    border: 1px solid #BCBCBC;
     border-radius: 8px;
-    padding: 10px 15px;
+    padding: 5px 15px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
+    line-height: 1em;
     font-weight: 400;
-    color: #1a1a1a;
+    color: #242424;
     cursor: pointer;
     transition: all 0.2s;
     appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.75586 -6.83503e-07L5.63477 9.38477L4.67773 9.38477L-4.54616e-07 -2.57061e-07L1.45508 -3.20664e-07L5.07812 7.63672L8.28125 -6.19045e-07L9.75586 -6.83503e-07Z' fill='%23242424'/%3E%3C/svg%3E%0A");
+    background-size: 10px 10px;
     background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 20px;
+    background-position: right 24px center;
     padding-right: 45px;
+    text-align: center;
+    text-align-last:center;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 18px;
+      background-position: right 16px center;
+      padding-right: 36px;
+    }
 
     &:hover {
       border-color: #003595;

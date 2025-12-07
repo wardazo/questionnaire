@@ -218,56 +218,63 @@ export default {
 <style lang="scss" scoped>
 .page1-wrapper {
   width: 100%;
-  min-height: calc(100vh - 90px);
-  background: white;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: calc(100svh - 161px);
+
+  @media only screen and (max-width: 1180px) {
+    height: calc(100svh - 131px);
+  }
 }
 
 .page1-container {
   display: flex;
-  width: 100%;
-  min-height: calc(100vh - 90px);
+  height: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 230px;
+  width: 211px;
   background: #003595;
+  border-radius: 13px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 40px 30px;
+  padding: 28px 24px;
   flex-shrink: 0;
 
   .sidebar-content {
     display: flex;
     flex-direction: column;
-    gap: 50px;
   }
 
   .product-info {
     .product-name {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 28px;
+      font-size: 20px;
+      line-height: 1.14em;
       font-weight: 700;
       color: white;
-      line-height: 1.2;
-      margin: 0 0 15px 0;
+      margin: 0 0 29px;
 
-      sup {
-        font-size: 16px;
+      ::v-deep sup {
+        font-size: 12px;
+        position: relative;
+        top: 2px;
       }
     }
 
     .product-subtitle {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 14px;
+      font-size: 25px;
+      line-height: 1.36em;
       font-weight: 300;
       color: white;
-      line-height: 1.3;
-      margin: 0;
+      margin: 0 0 44px;
 
-      sup {
-        font-size: 10px;
+      ::v-deep sup {
+        font-size: 14px;
+        position: relative;
+        top: 2px;
       }
     }
   }
@@ -276,36 +283,39 @@ export default {
   .part-info {
     .questionnaire-label,
     .part-label {
-      font-family: 'Open Sans', sans-serif;
       font-size: 14px;
-      font-weight: 400;
+      line-height: 1.26em;
+      font-weight: 300;
       color: white;
-      margin: 0 0 10px 0;
+      margin: 0 0 10px;
     }
 
     .questionnaire-count,
     .part-number {
-      font-family: 'Open Sans', sans-serif;
       font-size: 48px;
+      line-height: 1em;
       font-weight: 300;
       color: white;
-      line-height: 1;
-      margin: 0;
-      border-bottom: 2px solid white;
-      padding-bottom: 10px;
+      margin: 0 0 18px;
+      border-bottom: 1px solid #FFF;
+      padding-bottom: 36px;
     }
   }
 
   .btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    background: white;
-    border: none;
+    background: #FFF;
+    border: 0 none;
     border-radius: 5px;
-    padding: 12px 15px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    padding: 12px 5px;
+    font-size: 12px;
+    line-height: 1em;
+    letter-spacing: -0.015em;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #0A0A0A;
     cursor: pointer;
     transition: all 0.2s;
 
@@ -325,7 +335,11 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 60px 80px;
+  padding: 20px 0 0 24px;
+
+  @media only screen and (max-width: 1180px) {
+    padding: 10px 0 0 24px;
+  }
 }
 
 /* Bottom Navigation */
@@ -341,18 +355,20 @@ export default {
 
   .pagination-dots {
     display: flex;
-    gap: 15px;
+    gap: 40px;
     align-items: center;
 
     .dot {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
-      background: #C4C4C4;
+      background: #F2F2F2;
       transition: all 0.2s;
 
       &.active {
         background: #003595;
+        width: 19px;
+        height: 19px;
       }
     }
   }
@@ -360,12 +376,16 @@ export default {
   .btn-back,
   .btn-next,
   .btn-finish {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 196px;
     background: #003595;
-    border: none;
-    border-radius: 8px;
-    padding: 15px 50px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
+    border: 0 none;
+    border-radius: 5px;
+    padding: 13px 12px;
+    font-size: 12px;
+    line-height: 1em;
     font-weight: 700;
     color: white;
     cursor: pointer;

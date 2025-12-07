@@ -109,25 +109,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.results-satisfaction-section {
-  padding: 40px 0;
-}
-
 .section-title {
-  font-family: 'Open Sans', sans-serif;
+  max-width: 640px;
+  width: 100%;
   font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 30px;
+  line-height: 1.24em;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 10px;
+
+  @media only screen and (max-width: 1180px) {
+    font-size: 18px;
+  }
 }
 
 .meters-container {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 40px;
-  background: #E8E8E8;
+  background: #F2F2F2;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 13px;
 }
 
 .meter-wrapper {
@@ -136,7 +138,6 @@ export default {
     margin-bottom: 30px;
 
     .patient-count {
-      font-family: 'Open Sans', sans-serif;
       font-size: 16px;
       color: #1a1a1a;
       margin: 0;
@@ -154,9 +155,6 @@ export default {
   }
 
   .meter-content {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -191,22 +189,19 @@ export default {
 
 .meter-bar {
   position: relative;
-  height: 40px;
-  background: linear-gradient(to right, #FF5722 0%, #ffac1c 50%, #4CAF50 100%);
+  height: 18px;
+  background: #1CE254;
   border-radius: 20px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   .meter-indicator {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background: white;
-    border: 3px solid #003595;
+    width: 50px;
+    height: 50px;
+    background: #003595;
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 }
 

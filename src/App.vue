@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div style="padding-top: 90px">
+    <div class="top-space">
       <transition name="component-fade" mode="out-in">
         <component
           v-bind:is="currentPage"
@@ -94,6 +94,14 @@ export default {
 #appx {
   min-height: 100vh;
   background: #FFF;
+}
+
+.top-space {
+  padding-top: 121px;
+
+  @media only screen and (max-width: 1180px) {
+    padding-top: 91px;
+  }
 }
 
 .flex-is-9 {

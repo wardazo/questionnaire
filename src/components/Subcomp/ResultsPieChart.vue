@@ -216,22 +216,28 @@ export default {
 
 <style lang="scss" scoped>
 .results-pie-section {
-  padding: 40px 0;
+  padding: 0 0 24px;
 }
 
 .question-row {
-  margin-bottom: 60px;
+  margin-bottom: 24px;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   .question-title {
-    font-family: 'Open Sans', sans-serif;
+    max-width: 640px;
+    width: 100%;
     font-size: 20px;
-    font-weight: 600;
-    color: #1a1a1a;
-    margin: 0 0 30px 0;
+    line-height: 1.24em;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 10px;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 18px;
+    }
   }
 }
 
@@ -248,17 +254,18 @@ export default {
 .pie-chart-wrapper {
   .chart-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 
     .patient-count {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      color: #1a1a1a;
+      font-size: 20px;
+      line-height: 1.36em;
+      color: #000;
       margin: 0;
 
       .count-number {
-        font-size: 18px;
-        font-weight: 700;
+        font-size: 20px;
+        line-height: 1.36em;
+        font-weight: 400;
         margin-right: 5px;
       }
 
@@ -271,16 +278,13 @@ export default {
   .chart-canvas-wrapper {
     max-width: 300px;
     margin: 0 auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
   }
 }
 
 .chart-divider {
   width: 1px;
   height: 100%;
-  background: #D0D0D0;
+  background: #000;
 }
 
 .chart-legend {
@@ -295,16 +299,16 @@ export default {
     gap: 10px;
 
     .legend-color {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
+      width: 22px;
+      height: 14px;
+      border-radius: 8px;
       flex-shrink: 0;
     }
 
     .legend-text {
-      font-family: 'Open Sans', sans-serif;
       font-size: 14px;
-      color: #1a1a1a;
+      letter-spacing: -0.015em;
+      color: #000;
     }
   }
 }

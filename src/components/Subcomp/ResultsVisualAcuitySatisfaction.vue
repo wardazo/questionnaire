@@ -41,6 +41,5 @@ export default {
 .results-combined-section {
   display: flex;
   flex-direction: column;
-  gap: 60px;
 }
 </style>

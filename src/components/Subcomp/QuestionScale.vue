@@ -94,61 +94,88 @@ export default {
   flex: 1;
 
   .section-title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 36px;
+    font-size: 40px;
+    line-height: 1.26em;
     font-weight: 300;
     color: #003595;
-    margin: 0 0 50px 0;
+    margin: 0 0 6px;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 32px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      font-size: 30px;
+    }
+  }
+}
+
+.scale-question {
+  display: flex;
+  gap: 13px;
+  margin-bottom: 56px;
+
+  .bullet {
+    font-size: 20px;
+    line-height: 1.36em;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .question-text {
+    display: flex;
+    font-size: 20px;
+    line-height: 1.36em;
+    font-weight: 700;
+    color: #000;
+
+    strong {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    span {
+      font-weight: 400;
+    }
   }
 }
 
 .scale-group {
-  background: #E8E8E8;
-  border-radius: 8px;
-  padding: 40px 50px;
-  margin-bottom: 30px;
+  background: #F2F2F2;
+  border-radius: 13px;
+  padding: 100px 24px 160px;
+  margin-bottom: 24px;
 
-  .scale-question {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 35px;
-    align-items: flex-start;
-
-    .bullet {
-      font-size: 24px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.2;
-    }
-
-    .question-text {
-      flex: 1;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.4;
-    }
+  @media only screen and (max-width: 1024px) {
+    padding: 80px 24px 120px;
   }
 
   .scale-buttons {
     display: flex;
-    gap: 15px;
+    gap: 5px;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 
     .scale-button {
-      width: 60px;
-      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 61px;
+      height: 80px;
       background: white;
-      border: 2px solid #D0D0D0;
+      border: 1px solid #A8A8A8;
       border-radius: 8px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 20px;
+      font-size: 30px;
+      line-height: 1em;
       font-weight: 400;
-      color: #1a1a1a;
+      color: #242424;
       cursor: pointer;
       transition: all 0.2s;
+
+      @media only screen and (max-width: 1024px) {
+        width: 56px;
+        font-size: 26px;
+      }
 
       &:hover {
         border-color: #003595;
@@ -164,10 +191,11 @@ export default {
   }
 
   .scale-label {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1.36em;
     font-weight: 700;
-    color: #1a1a1a;
+    letter-spacing: -0.015em;
+    color: #000;
     text-align: center;
     margin: 0;
   }
