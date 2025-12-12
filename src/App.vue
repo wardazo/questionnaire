@@ -26,7 +26,10 @@
     </div>
 
     <div class="top-space">
-      <transition name="component-fade" mode="out-in">
+      <div v-if="isInitializing" class="initialization-loading">
+        <p>Loading...</p>
+      </div>
+      <transition v-else name="component-fade" mode="out-in">
         <component
           v-bind:is="currentPage"
           v-on:page-select="handlePageChange($event)"
@@ -45,12 +48,14 @@ import Page0 from "./components/page0.vue";
 import Page1 from "./components/page1.vue";
 import Page2 from "./components/page2.vue";
 import { usePageStore } from "./stores/page";
+import { useSalesforceStore } from "./stores/salesforce";
 
 export default {
   name: "app",
   setup() {
     const pageStore = usePageStore();
-    return { pageStore };
+    const salesforceStore = useSalesforceStore();
+    return { pageStore, salesforceStore };
   },
   components: {
 
@@ -70,7 +75,7 @@ export default {
   },
   data() {
     return {
-
+      isInitializing: true,
     };
   },
   methods: {
@@ -84,7 +89,12 @@ export default {
     }
   },
   activated() {},
-  mounted() {
+  async mounted() {
+    // Initialize Salesforce store before rendering pages
+    console.log('App.vue: Initializing Salesforce store...');
+    await this.salesforceStore.initializeStore();
+    console.log('App.vue: Salesforce store initialized. Contact ID:', this.salesforceStore.salesforceContactId);
+    this.isInitializing = false;
   },
 
 };
@@ -150,6 +160,14 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-
+.initialization-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 18px;
+  color: #003595;
+  font-family: 'Open Sans', sans-serif;
+}
 
 </style>

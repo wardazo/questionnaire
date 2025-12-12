@@ -11,8 +11,8 @@
             </div>
 
             <div class="nav-links">
-              <a href="#" class="nav-link">#Account</a>
-              <a href="#" class="nav-link">#Contact</a>
+              <a href="#" class="nav-link">{{ salesforceStore.salesforceAccountName }}</a>
+              <a href="#" class="nav-link">{{ salesforceStore.salesforceContactName }}</a>
             </div>
           </div>
         </div>
@@ -134,6 +134,7 @@
 <script>
 import { useQuestionnaireStore } from '@/stores/questionnaire';
 import { usePageStore } from '@/stores/page';
+import { useSalesforceStore } from '@/stores/salesforce';
 import { getQuestionnaireCounts } from '@/services/api';
 
 export default {
@@ -153,7 +154,8 @@ export default {
   setup() {
     const questionnaireStore = useQuestionnaireStore();
     const pageStore = usePageStore();
-    return { questionnaireStore, pageStore };
+    const salesforceStore = useSalesforceStore();
+    return { questionnaireStore, pageStore, salesforceStore };
   },
   async mounted() {
     // Fetch counts when component is mounted
@@ -162,7 +164,16 @@ export default {
   methods: {
     async fetchCounts() {
       try {
-        this.counts = await getQuestionnaireCounts();
+        // Get contact ID from Salesforce store
+        const contactId = this.salesforceStore.salesforceContactId;
+
+        if (!contactId) {
+          console.error('No contact ID available');
+          return;
+        }
+
+        console.log('Fetching counts for contact:', contactId);
+        this.counts = await getQuestionnaireCounts(contactId);
       } catch (error) {
         console.error('Failed to fetch questionnaire counts:', error);
       }

@@ -27,6 +27,18 @@ export const useSalesforceStore = defineStore("salesforce", {
     salesforceName: (state) =>
       state.pitcherData?.user?.Name ?? "BROWSER_TEST_USER",
 
+    salesforceAccountId: (state) =>
+        state.pitcherData?.user?.Id ?? "BROWSER_TEST_ACCOUNT_ID",
+
+    salesforceAccountName: (state) =>
+        state.pitcherData?.user?.Name ?? "BROWSER_TEST_ACCOUNT_USER",
+
+    salesforceContactId: (state) =>
+        state.pitcherData?.user?.Id ?? "BROWSER_TEST_CONTACT_ID",
+
+    salesforceContactName: (state) =>
+        state.pitcherData?.user?.Name ?? "BROWSER_TEST_CONTACT_USER",
+
     hasPitcherAccount: (state) => {
       return Boolean(state.pitcherData?.user);
     },

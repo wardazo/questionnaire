@@ -40,12 +40,21 @@ apiClient.interceptors.response.use(
 );
 
 /**
- * Get counts of completed questionnaires grouped by type
+ * Get counts of completed questionnaires grouped by type for a specific contact
+ * @param {string} contactId - Salesforce contact ID
  * @returns {Promise<Object>} - { vivity: 5, puresee: 3, ... }
  */
-export async function getQuestionnaireCounts() {
+export async function getQuestionnaireCounts(contactId) {
+  // Validate contact ID
+  if (!contactId || typeof contactId !== 'string') {
+    console.error('Invalid contact ID provided to getQuestionnaireCounts:', contactId);
+    throw new Error('Contact ID is required');
+  }
+
   try {
-    const response = await apiClient.get('/api/questionnaires/counts');
+    const response = await apiClient.get('/api/questionnaires/counts', {
+      params: { contact_id: contactId }
+    });
     return response.data;
   } catch (error) {
     console.error('Failed to fetch questionnaire counts:', error);
@@ -63,10 +72,19 @@ export async function getQuestionnaireCounts() {
 
 /**
  * Submit a completed questionnaire
- * @param {Object} payload - { questionnaireType, startedAt, completedAt, randomNumber, answers: [{questionId, value}] }
+ * @param {Object} payload - { questionnaireType, salesforceContactId, startedAt, completedAt, randomNumber, answers: [{questionId, value}] }
  * @returns {Promise<Object>}
  */
 export async function submitQuestionnaire(payload) {
+  // Validate payload has contact ID
+  if (!payload.salesforceContactId) {
+    console.error('Payload missing salesforceContactId:', payload);
+    throw {
+      type: 'validation_error',
+      message: 'Salesforce contact ID is required for submission'
+    };
+  }
+
   try {
     const response = await apiClient.post('/api/questionnaires/submit', payload);
     return response.data;
@@ -95,13 +113,25 @@ export async function submitQuestionnaire(payload) {
 }
 
 /**
- * Get aggregated results for a comparison set
+ * Get aggregated results for a comparison set, filtered by contact ID
  * @param {string} comparisonSet - 'vivity-puresee' | 'panoptix-odyssey' | 'panoptix-galaxy'
+ * @param {string} contactId - Salesforce contact ID
  * @returns {Promise<Object>} Aggregated results data
  */
-export async function getResultsData(comparisonSet) {
+export async function getResultsData(comparisonSet, contactId) {
+  // Validate contact ID
+  if (!contactId || typeof contactId !== 'string') {
+    console.error('Invalid contact ID provided to getResultsData:', contactId);
+    throw {
+      type: 'validation_error',
+      message: 'Contact ID is required'
+    };
+  }
+
   try {
-    const response = await apiClient.get(`/api/questionnaires/results/${comparisonSet}`);
+    const response = await apiClient.get(`/api/questionnaires/results/${comparisonSet}`, {
+      params: { contact_id: contactId }
+    });
     return response.data;
   } catch (error) {
     if (error.response) {

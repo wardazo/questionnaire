@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { getResultsData } from '@/services/api';
 import { CHART_COLORS } from './resultsConfig';
+import { useSalesforceStore } from './salesforce';
 
 export const useResultsStore = defineStore('results', {
   state: () => ({
@@ -59,8 +60,21 @@ export const useResultsStore = defineStore('results', {
       this.error = null;
       this.currentComparisonSet = comparisonSet;
 
+      // Get contact ID from Salesforce store
+      const salesforceStore = useSalesforceStore();
+      const contactId = salesforceStore.salesforceContactId;
+
+      if (!contactId) {
+        this.error = {
+          type: 'validation_error',
+          message: 'Salesforce contact ID not available'
+        };
+        this.isLoading = false;
+        return;
+      }
+
       try {
-        const data = await getResultsData(comparisonSet);
+        const data = await getResultsData(comparisonSet, contactId);
         this.resultsData = data;
       } catch (error) {
         this.error = error;

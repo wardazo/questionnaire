@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { QUESTIONNAIRE_CONFIGS } from './questionnaireConfigs';
 import { submitQuestionnaire } from '@/services/api';
+import { useSalesforceStore } from './salesforce';
 
 export const useQuestionnaireStore = defineStore('questionnaire', {
   state: () => ({
@@ -220,9 +221,25 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
         }
       });
 
+      // Get Salesforce contact ID
+      const salesforceStore = useSalesforceStore();
+      const contactId = salesforceStore.salesforceContactId;
+
+      if (!contactId) {
+        console.error('Cannot submit questionnaire: No Salesforce contact ID available');
+        return {
+          success: false,
+          error: {
+            type: 'validation_error',
+            message: 'Salesforce contact ID is required'
+          }
+        };
+      }
+
       // Prepare payload
       const payload = {
         questionnaireType: this.currentType,
+        salesforceContactId: contactId,
         startedAt: this.startedAt,
         completedAt: new Date().toISOString(),
         randomNumber: randomNumber,
