@@ -107,7 +107,7 @@ export default {
 }
 
 .top-space {
-  padding-top: 121px;
+  padding-top: 100px;
 
   @media only screen and (max-width: 1180px) {
     padding-top: 91px;
