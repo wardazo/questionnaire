@@ -83,6 +83,13 @@ export default {
             ticks: { stepSize: 1 }
           }
         },
+        datasets: {
+          bar: {
+            barPercentage: 0.9,
+            categoryPercentage: 0.8,
+            maxBarThickness: 60
+          }
+        },
         plugins: {
           legend: {
             position: 'bottom',
@@ -92,6 +99,9 @@ export default {
               padding: 20,
               font: { size: 12, family: 'Open Sans' }
             }
+          },
+          datalabels: {
+            display: false
           }
         }
       };
@@ -102,16 +112,39 @@ export default {
       const aggregated = productData.aggregatedData || {};
       const labels = this.taskLabels;
 
-      // Collect all unique answer values across questions
-      const answerValues = new Set();
+      // Define all possible answer values for each option type
+      const allPossibleAnswers = {
+        'RADIO_OPTIONS': ['never', 'occasionally', 'often', 'always'],
+        'BOTHERSOME_OPTIONS': ['not_at_all', 'a_little', 'moderately', 'significantly'],
+        'CLARITY_OPTIONS': ['very_clear', 'somewhat_clear', 'slightly_blurry', 'very_blurry']
+      };
+
+      // Collect answer values that exist in the data
+      const existingAnswerValues = new Set();
       this.questionIds.forEach(qid => {
         if (aggregated[qid]) {
-          Object.keys(aggregated[qid]).forEach(val => answerValues.add(val));
+          Object.keys(aggregated[qid]).forEach(val => existingAnswerValues.add(val));
         }
       });
 
-      // Create datasets (one per answer value)
-      const datasets = Array.from(answerValues).map(answerValue => {
+      // Determine which option type we're using based on existing values
+      let answerValuesToUse = [];
+      if (existingAnswerValues.has('never') || existingAnswerValues.has('occasionally') ||
+          existingAnswerValues.has('often') || existingAnswerValues.has('always')) {
+        answerValuesToUse = allPossibleAnswers['RADIO_OPTIONS'];
+      } else if (existingAnswerValues.has('not_at_all') || existingAnswerValues.has('a_little') ||
+                 existingAnswerValues.has('moderately') || existingAnswerValues.has('significantly')) {
+        answerValuesToUse = allPossibleAnswers['BOTHERSOME_OPTIONS'];
+      } else if (existingAnswerValues.has('very_clear') || existingAnswerValues.has('somewhat_clear') ||
+                 existingAnswerValues.has('slightly_blurry') || existingAnswerValues.has('very_blurry')) {
+        answerValuesToUse = allPossibleAnswers['CLARITY_OPTIONS'];
+      } else {
+        // Fallback to existing values if we can't determine the type
+        answerValuesToUse = Array.from(existingAnswerValues);
+      }
+
+      // Create datasets (one per answer value) - always include all options
+      const datasets = answerValuesToUse.map(answerValue => {
         const data = this.questionIds.map(qid => {
           return aggregated[qid]?.[answerValue] || 0;
         });
@@ -119,8 +152,7 @@ export default {
         return {
           label: this.formatLabel(answerValue),
           data: data,
-          backgroundColor: CHART_COLORS[answerValue] || '#ccc',
-          borderRadius: 4
+          backgroundColor: CHART_COLORS[answerValue] || '#ccc'
         };
       });
 

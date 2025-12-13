@@ -3,11 +3,11 @@ export const RESULTS_TAB_SECTIONS = {
   'vivity-puresee': [
     {
       id: 0,
-      label: 'Spectacle independence and clarity',
+      label: 'Spectacle independence',
       title: 'Spectacle independence:',
       subtitle: 'On a typical day, how often do you wear glasses for the following tasks?',
       questionIds: ['SET1_SPECTACLE_FAR', 'SET1_SPECTACLE_ARMS', 'SET1_SPECTACLE_NEAR'],
-      taskLabels: ['Far', 'Intermediate', 'Near'],
+      taskLabels: ['Far away', "Arm's length", 'Up close'],
       chartType: 'bar',
       optionType: 'RADIO_OPTIONS'
     },
@@ -159,22 +159,22 @@ export const RESULTS_TAB_SECTIONS = {
 // Chart color mapping for different answer types
 export const CHART_COLORS = {
   // RADIO_OPTIONS (Never/Occasionally/Often/Always)
-  never: '#003595',          // Blue
-  occasionally: '#D2B48C',   // Tan/Beige
-  often: '#ffac1c',          // Orange
-  always: '#4CAF50',         // Green
+  never: '#03AEEE',          // Blue
+  occasionally: '#DEC9A5',   // Beige
+  often: '#F36E20',          // Orange
+  always: '#02AF4B',         // Green
 
   // BOTHERSOME_OPTIONS
-  not_at_all: '#4CAF50',
-  a_little: '#D2B48C',
-  moderately: '#ffac1c',
-  significantly: '#FF5722',
+  not_at_all: '#02AF4B',     // Green (best)
+  a_little: '#DEC9A5',       // Beige
+  moderately: '#F36E20',     // Orange
+  significantly: '#03AEEE',  // Blue (worst)
 
   // CLARITY_OPTIONS
-  very_clear: '#4CAF50',
-  somewhat_clear: '#D2B48C',
-  slightly_blurry: '#ffac1c',
-  very_blurry: '#FF5722',
+  very_clear: '#02AF4B',     // Green (best)
+  somewhat_clear: '#DEC9A5', // Beige
+  slightly_blurry: '#F36E20',// Orange
+  very_blurry: '#03AEEE',    // Blue (worst)
 
   // SCALE options (0-10)
   '0': '#FF5722', '1': '#FF7043', '2': '#FF8A65',
