@@ -276,7 +276,7 @@ export default {
   }
 
   .chart-canvas-wrapper {
-    max-width: 300px;
+    max-width: 150px;
     margin: 0 auto;
   }
 }
