@@ -15,17 +15,32 @@
           <table class="acuity-table">
             <thead>
               <tr>
-                <th class="acuity-label">Visual Acuity</th>
+                <th class="acuity-label"></th>
                 <th v-for="(label, index) in measurementLabels" :key="index">
-                  {{ label }}
+                  <div class="measurement-header">
+                    <div class="measurement-name">{{ label.name }}</div>
+                    <div class="measurement-distance">{{ label.distance }}</div>
+                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="acuityValue in sortedAcuityValues" :key="acuityValue">
-                <td class="acuity-label">{{ acuityValue }}</td>
+              <tr>
+                <td class="acuity-label">Highest</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
-                  {{ getCount(product1Data, questionId, acuityValue) }}
+                  {{ getStatValue(product1Data, questionId, 'highest') }}
+                </td>
+              </tr>
+              <tr>
+                <td class="acuity-label">Lowest</td>
+                <td v-for="(questionId, index) in questionIds" :key="index">
+                  {{ getStatValue(product1Data, questionId, 'lowest') }}
+                </td>
+              </tr>
+              <tr>
+                <td class="acuity-label">Median</td>
+                <td v-for="(questionId, index) in questionIds" :key="index">
+                  {{ getStatValue(product1Data, questionId, 'median') }}
                 </td>
               </tr>
             </tbody>
@@ -48,17 +63,32 @@
           <table class="acuity-table">
             <thead>
               <tr>
-                <th class="acuity-label">Visual Acuity</th>
+                <th class="acuity-label"></th>
                 <th v-for="(label, index) in measurementLabels" :key="index">
-                  {{ label }}
+                  <div class="measurement-header">
+                    <div class="measurement-name">{{ label.name }}</div>
+                    <div class="measurement-distance">{{ label.distance }}</div>
+                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="acuityValue in sortedAcuityValues" :key="acuityValue">
-                <td class="acuity-label">{{ acuityValue }}</td>
+              <tr>
+                <td class="acuity-label">Highest</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
-                  {{ getCount(product2Data, questionId, acuityValue) }}
+                  {{ getStatValue(product2Data, questionId, 'highest') }}
+                </td>
+              </tr>
+              <tr>
+                <td class="acuity-label">Lowest</td>
+                <td v-for="(questionId, index) in questionIds" :key="index">
+                  {{ getStatValue(product2Data, questionId, 'lowest') }}
+                </td>
+              </tr>
+              <tr>
+                <td class="acuity-label">Median</td>
+                <td v-for="(questionId, index) in questionIds" :key="index">
+                  {{ getStatValue(product2Data, questionId, 'median') }}
                 </td>
               </tr>
             </tbody>
@@ -78,50 +108,80 @@ export default {
     questionIds: { type: Array, required: true },
     measurementLabels: { type: Array, required: true }
   },
-  computed: {
-    sortedAcuityValues() {
-      // Collect all unique acuity values from both products
-      const acuityValues = new Set();
+  computed: {},
+  methods: {
+    parseAcuity(val) {
+      const match = val.match(/^(\d+)\/(\d+)$/);
+      if (match) {
+        return { numerator: parseInt(match[1]), denominator: parseInt(match[2]) };
+      }
+      return null;
+    },
 
-      [this.product1Data, this.product2Data].forEach(productData => {
-        const aggregated = productData.aggregatedData || {};
-        this.questionIds.forEach(qid => {
-          if (aggregated[qid]) {
-            Object.keys(aggregated[qid]).forEach(val => acuityValues.add(val));
-          }
-        });
-      });
+    getSortedAcuityValues(productData, questionId) {
+      const aggregated = productData.aggregatedData || {};
+      const questionData = aggregated[questionId] || {};
+      const acuityValues = Object.keys(questionData);
 
-      // Convert to array and sort logically (20/20, 20/25, 20/30, etc.)
-      const values = Array.from(acuityValues);
-      return values.sort((a, b) => {
-        // Extract numerators and denominators
-        const parseAcuity = (val) => {
-          const match = val.match(/^(\d+)\/(\d+)$/);
-          if (match) {
-            return { numerator: parseInt(match[1]), denominator: parseInt(match[2]) };
-          }
-          return null;
-        };
-
-        const aVal = parseAcuity(a);
-        const bVal = parseAcuity(b);
+      return acuityValues.sort((a, b) => {
+        const aVal = this.parseAcuity(a);
+        const bVal = this.parseAcuity(b);
 
         if (aVal && bVal) {
           // Compare by denominator first (20/20 before 20/25)
           return aVal.denominator - bVal.denominator;
         }
 
-        // Fallback to string comparison
         return a.localeCompare(b);
       });
-    }
-  },
-  methods: {
-    getCount(productData, questionId, acuityValue) {
+    },
+
+    getStatValue(productData, questionId, stat) {
       const aggregated = productData.aggregatedData || {};
       const questionData = aggregated[questionId] || {};
-      return questionData[acuityValue] || 0;
+
+      // Create an array of all individual responses by repeating acuity values by their counts
+      const allResponses = [];
+      Object.keys(questionData).forEach(acuityValue => {
+        const count = questionData[acuityValue];
+        for (let i = 0; i < count; i++) {
+          allResponses.push(acuityValue);
+        }
+      });
+
+      if (allResponses.length === 0) return '-';
+
+      // Sort responses (best to worst: 20/20, 20/25, 20/30, etc.)
+      allResponses.sort((a, b) => {
+        const aVal = this.parseAcuity(a);
+        const bVal = this.parseAcuity(b);
+
+        if (aVal && bVal) {
+          return aVal.denominator - bVal.denominator;
+        }
+
+        return a.localeCompare(b);
+      });
+
+      if (stat === 'highest') {
+        // Best vision is first in sorted array
+        return allResponses[0];
+      } else if (stat === 'lowest') {
+        // Worst vision is last in sorted array
+        return allResponses[allResponses.length - 1];
+      } else if (stat === 'median') {
+        // Median is middle value (or average of two middle values for even count)
+        const middleIndex = Math.floor(allResponses.length / 2);
+        if (allResponses.length % 2 === 0) {
+          // Even number: return the lower middle value for simplicity
+          return allResponses[middleIndex - 1];
+        } else {
+          // Odd number: return exact middle
+          return allResponses[middleIndex];
+        }
+      }
+
+      return '-';
     },
 
     formatCount(count) {
@@ -191,17 +251,35 @@ export default {
   font-family: 'Open Sans', sans-serif;
 
   thead {
-
     th {
       font-size: 15px;
       line-height: 1.3em;
       font-weight: 400;
       color: #454545;
       text-align: center;
-      padding: 5px;
+      padding: 5px 5px 12px;
 
       &.acuity-label {
         text-align: left;
+      }
+
+      .measurement-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+
+        .measurement-name {
+          font-size: 16px;
+          font-weight: 700;
+          color: #000000;
+        }
+
+        .measurement-distance {
+          font-size: 14px;
+          font-weight: 400;
+          color: #454545;
+        }
       }
     }
   }

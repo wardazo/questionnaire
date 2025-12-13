@@ -40,7 +40,11 @@ export const RESULTS_TAB_SECTIONS = {
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET1_ACUITY_UNVA40', 'SET1_ACUITY_UIVA66', 'SET1_ACUITY_UDVA'],
-      acuityMeasurementLabels: ['UNVA (40cm)', 'UIVA (66cm)', 'UDVA'],
+      acuityMeasurementLabels: [
+        { name: 'UNVA', distance: '40 cm' },
+        { name: 'UIVA', distance: '66 cm' },
+        { name: 'UDVA', distance: '' }
+      ],
       satisfactionQuestionId: 'SET1_SATISFACTION'
     }
   ],
@@ -106,7 +110,12 @@ export const RESULTS_TAB_SECTIONS = {
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
-      acuityMeasurementLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
+      acuityMeasurementLabels: [
+        { name: 'UNVA', distance: '33 cm' },
+        { name: 'UIVA', distance: '66 cm' },
+        { name: 'UNIA', distance: '66 cm' },
+        { name: 'UDVA', distance: '' }
+      ],
       satisfactionQuestionId: 'SET2_SATISFACTION'
     }
   ],
@@ -150,7 +159,12 @@ export const RESULTS_TAB_SECTIONS = {
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
-      acuityMeasurementLabels: ['UNVA (33cm)', 'UIVA (66cm)', 'UDVA (Near)', 'UDVA'],
+      acuityMeasurementLabels: [
+        { name: 'UNVA', distance: '33 cm' },
+        { name: 'UIVA', distance: '66 cm' },
+        { name: 'UNIA', distance: '66 cm' },
+        { name: 'UDVA', distance: '' }
+      ],
       satisfactionQuestionId: 'SET2_SATISFACTION'
     }
   ]
