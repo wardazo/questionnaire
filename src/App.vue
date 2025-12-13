@@ -19,8 +19,8 @@
         <p class="has-text-main has-text-weight-light m-0">
           Patient Outcomes PCIOLs
         </p>
-        <button>
-          <img @click="m1 = true" src="./assets/img/close.svg" />
+        <button v-if="isTitaniumApp">
+          <img @click="showCloseModal = true" src="./assets/img/close.svg" />
         </button>
       </div>
     </div>
@@ -39,6 +39,19 @@
       </transition>
     </div>
 
+    <!-- Close Confirmation Modal -->
+    <Modal v-if="showCloseModal">
+      <template v-slot:body>
+        <div class="close-modal-content">
+          <h2 class="close-modal-title">Close Application</h2>
+          <p class="close-modal-message">Do you want to close this application?</p>
+          <div class="close-modal-buttons">
+            <button class="btn-cancel" @click="showCloseModal = false">Cancel</button>
+            <button class="btn-close" @click="closeApplication">Close</button>
+          </div>
+        </div>
+      </template>
+    </Modal>
 
   </div>
 </template>
@@ -47,6 +60,7 @@
 import Page0 from "./components/page0.vue";
 import Page1 from "./components/page1.vue";
 import Page2 from "./components/page2.vue";
+import Modal from "./components/Subcomp/Modal.vue";
 import { usePageStore } from "./stores/page";
 import { useSalesforceStore } from "./stores/salesforce";
 
@@ -58,11 +72,10 @@ export default {
     return { pageStore, salesforceStore };
   },
   components: {
-
     Page0,
     Page1,
     Page2,
-
+    Modal,
   },
   computed: {
     page() {
@@ -71,17 +84,21 @@ export default {
     currentPage() {
       return "Page" + this.pageStore.pg;
     },
-
+    isTitaniumApp() {
+      // eslint-disable-next-line
+      return typeof Ti !== 'undefined';
+    },
   },
   data() {
     return {
       isInitializing: true,
+      showCloseModal: false,
     };
   },
   methods: {
-    close() {
+    closeApplication() {
       // eslint-disable-next-line
-      Ti.App.fireEvent('closeOpenModal', {});
+      Ti.App.exit();
     },
     handlePageChange(pageData) {
       this.pageStore.setPage(pageData.pg);
@@ -168,6 +185,67 @@ input[type="number"] {
   font-size: 18px;
   color: #003595;
   font-family: 'Open Sans', sans-serif;
+}
+
+.close-modal-content {
+  background: white;
+  border-radius: 13px;
+  padding: 40px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.close-modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.close-modal-message {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin: 0 0 30px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.close-modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.close-modal-buttons button {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.btn-cancel {
+  background: #E8E8E8;
+  color: #1a1a1a;
+}
+
+.btn-cancel:hover {
+  background: #D0D0D0;
+  transform: translateY(-2px);
+}
+
+.btn-close {
+  background: #003595;
+  color: white;
+}
+
+.btn-close:hover {
+  background: #002570;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 53, 149, 0.3);
 }
 
 </style>
