@@ -230,7 +230,6 @@ export default {
 
 .page1-container {
   display: flex;
-  height: 100%;
 }
 
 /* Sidebar */
