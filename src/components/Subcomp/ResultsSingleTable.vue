@@ -177,6 +177,7 @@ export default {
       color: #454545;
       text-align: center;
       padding: 5px 5px 12px;
+      vertical-align: top;
 
       &.acuity-label {
         text-align: left;
@@ -186,18 +187,20 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2px;
+        gap: 3px;
 
         .measurement-name {
-          font-size: 16px;
+          font-size: 20px;
           font-weight: 700;
           color: #000000;
+          line-height: 1.2;
         }
 
         .measurement-distance {
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 400;
           color: #454545;
+          line-height: 1.2;
         }
       }
     }
@@ -206,16 +209,18 @@ export default {
   tbody {
     tr {
       td {
-        font-size: 15px;
-        line-height: 1.3em;
+        font-size: 20px;
+        line-height: 1.3;
         font-weight: 700;
-        color: #454545;
+        color: #000000;
         text-align: center;
-        padding: 5px;
+        padding: 8px 5px;
 
         &.acuity-label {
-          font-weight: 600;
+          font-size: 16px;
+          font-weight: 400;
           text-align: left;
+          color: #454545;
         }
       }
     }
