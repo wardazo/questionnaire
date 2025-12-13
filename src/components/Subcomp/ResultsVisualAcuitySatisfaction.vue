@@ -1,6 +1,8 @@
 <template>
   <div class="results-combined-section">
-    <div class="section-title">Visual acuity measurements</div>
+    <div class="section-title">&nbsp;
+<!--      Visual acuity measurements -->
+    </div>
 
     <div class="combined-container">
       <!-- Product 1 Table (Column 1, Row 1) -->
