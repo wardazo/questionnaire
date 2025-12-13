@@ -2,7 +2,10 @@
   <div class="question-section">
     <h1 class="section-title">{{ title }}</h1>
 
-    <div class="measurements-container">
+    <div
+      class="measurements-container"
+      :class="{ 'four-items': measurements.length === 4 }"
+    >
       <div
         v-for="(measurement, index) in measurements"
         :key="index"
@@ -53,7 +56,7 @@ export default {
   },
   data() {
     return {
-      answers: { ...this.modelValue }
+      answers: this.initializeAnswers()
     };
   },
   watch: {
@@ -64,7 +67,24 @@ export default {
       deep: true
     }
   },
+  mounted() {
+    // Emit initial default values on mount
+    this.emitChange();
+  },
   methods: {
+    initializeAnswers() {
+      // Start with existing modelValue
+      const initialAnswers = { ...this.modelValue };
+
+      // Set default value of "20/20" for any measurement that doesn't have a value
+      this.measurements.forEach(measurement => {
+        if (!initialAnswers[measurement.key]) {
+          initialAnswers[measurement.key] = '20/20';
+        }
+      });
+
+      return initialAnswers;
+    },
     emitChange() {
       this.$emit('update:modelValue', this.answers);
     }
@@ -100,6 +120,25 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
+
+  // 2 rows of 2 when there are 4 measurements
+  &.four-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 80px 40px;
+    justify-items: center;
+    padding: 100px 100px 100px;
+
+    @media only screen and (max-width: 1180px) {
+      gap: 60px 30px;
+      padding: 80px 80px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      gap: 40px 20px;
+      padding: 60px 60px;
+    }
+  }
 }
 
 .measurement-item {

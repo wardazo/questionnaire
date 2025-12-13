@@ -526,6 +526,7 @@ export default {
       color: white;
       line-height: 1.3;
       margin: 0 0 20px 0;
+      min-height: 100px;
     }
 
     .count-subtitle-wrapper {

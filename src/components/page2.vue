@@ -414,13 +414,15 @@ export default {
 
 /* Tab Navigation */
 .tab-navigation {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 16px;
   padding: 20px 0 0;
 }
 
 .tab-button {
+  flex: 1;
+  min-width: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;

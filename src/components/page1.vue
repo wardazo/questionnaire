@@ -75,6 +75,7 @@
             v-if="!isLastPart"
             class="btn-next"
             @click="nextPart"
+            :disabled="!isCurrentPartComplete"
           >
             Next &gt;&gt;
           </button>
@@ -82,7 +83,7 @@
             v-else
             class="btn-finish"
             @click="finishQuestionnaire"
-            :disabled="isSubmitting"
+            :disabled="isSubmitting || !isCurrentPartComplete"
           >
             {{ isSubmitting ? 'Submitting...' : 'Finish' }}
           </button>
@@ -147,6 +148,49 @@ export default {
       isLastPart,
       currentPartConfig
     };
+  },
+  computed: {
+    // Check if all questions in the current part are answered
+    isCurrentPartComplete() {
+      if (!this.currentPartConfig) return false;
+
+      const currentAnswers = this.answers[`part${this.currentPart + 1}`] || {};
+
+      // Check based on component type
+      if (this.currentPartConfig.component === 'QuestionRadio') {
+        if (this.currentPartConfig.tasks) {
+          // Tasks-based radio questions (e.g., Part 1)
+          return this.currentPartConfig.tasks.every(task =>
+            currentAnswers[task.key] !== undefined &&
+            currentAnswers[task.key] !== null &&
+            currentAnswers[task.key] !== ''
+          );
+        } else if (this.currentPartConfig.questions) {
+          // Standard radio questions (e.g., Part 2)
+          return this.currentPartConfig.questions.every(question =>
+            currentAnswers[question.key] !== undefined &&
+            currentAnswers[question.key] !== null &&
+            currentAnswers[question.key] !== ''
+          );
+        }
+      } else if (this.currentPartConfig.component === 'QuestionScale') {
+        // Scale questions (e.g., Part 3) - note: 0 is a valid answer
+        return this.currentPartConfig.questions.every(question =>
+          currentAnswers[question.key] !== undefined &&
+          currentAnswers[question.key] !== null &&
+          currentAnswers[question.key] !== ''
+        );
+      } else if (this.currentPartConfig.component === 'QuestionVisualAcuity') {
+        // Visual acuity measurements (e.g., Part 4)
+        return this.currentPartConfig.measurements.every(measurement =>
+          currentAnswers[measurement.key] !== undefined &&
+          currentAnswers[measurement.key] !== null &&
+          currentAnswers[measurement.key] !== ''
+        );
+      }
+
+      return false;
+    }
   },
   methods: {
     updateAnswers(newAnswers) {
