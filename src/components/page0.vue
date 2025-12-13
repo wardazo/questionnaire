@@ -57,17 +57,17 @@
       <!-- ============================================ -->
       <div v-else-if="currentView === 'product' && currentPairConfig" class="product-view">
         <!-- Header with Selected Pair Name -->
-        <h1 class="product-view-title">{{ currentPairConfig.displayName }}</h1>
+        <h1 class="product-view-title" v-html="currentPairConfig.displayName"></h1>
 
         <!-- Blue Card with Two Products -->
         <div class="product-card-container">
           <div class="product-card-large">
             <!-- Product 1 Section -->
             <div class="product-section-large">
-              <h2 class="product-title-large">
-                {{ currentPairConfig.product1.name }}<br>
-                {{ currentPairConfig.product1.toricName }}
-              </h2>
+              <h2
+                class="product-title-large"
+                v-html="currentPairConfig.product1.name + '<br>' + currentPairConfig.product1.toricName"
+              ></h2>
               <div class="count-subtitle-wrapper">
                 <div class="product-count-large">
                   {{ formatCount(counts[currentPairConfig.product1.countKey]) }}
@@ -87,10 +87,10 @@
 
             <!-- Product 2 Section -->
             <div class="product-section-large">
-              <h2 class="product-title-large">
-                {{ currentPairConfig.product2.name }}<br>
-                {{ currentPairConfig.product2.toricName }}
-              </h2>
+              <h2
+                class="product-title-large"
+                v-html="currentPairConfig.product2.name + '<br>' + currentPairConfig.product2.toricName"
+              ></h2>
               <div class="count-subtitle-wrapper">
                 <div class="product-count-large">
                   {{ formatCount(counts[currentPairConfig.product2.countKey]) }}
@@ -142,12 +142,12 @@ import { getQuestionnaireCounts } from '@/services/api';
 // Product Pair Configuration
 const PRODUCT_PAIRS = {
   'vivity-puresee': {
-    displayName: 'Vivity® and PureSee*',
+    displayName: 'Vivity<sup>®</sup> and PureSee*',
     comparisonSet: 'vivity-puresee',
     product1: {
       type: 'vivity',
-      name: 'Vivity®',
-      toricName: 'Vivity® Toric',
+      name: 'Vivity<sup>®</sup>',
+      toricName: 'Vivity<sup>®</sup> Toric',
       countKey: 'vivity',
       questionnaireLabel: 'Vivity questionnaire'
     },
@@ -160,12 +160,12 @@ const PRODUCT_PAIRS = {
     }
   },
   'panoptix-odyssey': {
-    displayName: 'PanOptix® and Odyssey*',
+    displayName: 'PanOptix<sup>®</sup> and Odyssey*',
     comparisonSet: 'panoptix-odyssey',
     product1: {
       type: 'panoptix1',
-      name: 'PanOptix®',
-      toricName: 'PanOptix® Toric',
+      name: 'PanOptix<sup>®</sup>',
+      toricName: 'PanOptix<sup>®</sup> Toric',
       countKey: 'panoptix1',
       questionnaireLabel: 'PanOptix questionnaire'
     },
@@ -178,12 +178,12 @@ const PRODUCT_PAIRS = {
     }
   },
   'panoptix-galaxy': {
-    displayName: 'PanOptix® and Galaxy*',
+    displayName: 'PanOptix<sup>®</sup> and Galaxy*',
     comparisonSet: 'panoptix-galaxy',
     product1: {
       type: 'panoptix2',
-      name: 'PanOptix®',
-      toricName: 'PanOptix® Toric',
+      name: 'PanOptix<sup>®</sup>',
+      toricName: 'PanOptix<sup>®</sup> Toric',
       countKey: 'panoptix2',
       questionnaireLabel: 'PanOptix questionnaire'
     },

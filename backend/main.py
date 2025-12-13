@@ -52,15 +52,15 @@ def verify_api_key(api_key: str = Security(api_key_header)):
 # Comparison set mapping for results endpoint
 COMPARISON_SETS = {
     "vivity-puresee": {
-        "product1": {"type": "vivity", "displayName": "Vivity®"},
+        "product1": {"type": "vivity", "displayName": "Vivity<sup>®</sup>"},
         "product2": {"type": "puresee", "displayName": "PureSee*"}
     },
     "panoptix-odyssey": {
-        "product1": {"type": "panoptix1", "displayName": "PanOptix®"},
+        "product1": {"type": "panoptix1", "displayName": "PanOptix<sup>®</sup>"},
         "product2": {"type": "odyssey", "displayName": "Odyssey*"}
     },
     "panoptix-galaxy": {
-        "product1": {"type": "panoptix2", "displayName": "PanOptix®"},
+        "product1": {"type": "panoptix2", "displayName": "PanOptix<sup>®</sup>"},
         "product2": {"type": "galaxy", "displayName": "Galaxy*"}
     }
 }

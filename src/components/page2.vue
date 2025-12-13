@@ -10,7 +10,7 @@
 
           <div v-if="product1" class="product-info">
             <h3 class="product-name" v-html="product1.displayName"></h3>
-            <p class="product-subtitle">{{ getProductSubtitle(product1.type) }}</p>
+            <p class="product-subtitle" v-html="getProductSubtitle(product1.type)"></p>
             <div class="questionnaire-count">
               <span class="count-label">Questionnaires</span>
               <div class="count-number">{{ formatCount(product1.count) }}</div>
@@ -21,7 +21,7 @@
 
           <div v-if="product2" class="product-info">
             <h3 class="product-name" v-html="product2.displayName"></h3>
-            <p class="product-subtitle">{{ getProductSubtitle(product2.type) }}</p>
+            <p class="product-subtitle" v-html="getProductSubtitle(product2.type)"></p>
             <div class="questionnaire-count">
               <span class="count-label">Questionnaires</span>
               <div class="count-number">{{ formatCount(product2.count) }}</div>
