@@ -148,12 +148,12 @@ export default {
 
   .patient-count {
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
+    font-size: 24px;
     color: #1a1a1a;
     margin: 0;
 
     .count-number {
-      font-size: 18px;
+      font-size: 27px;
       font-weight: 700;
       margin-right: 5px;
     }
