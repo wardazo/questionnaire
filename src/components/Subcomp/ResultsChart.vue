@@ -33,6 +33,18 @@
           <Bar :data="product2ChartData" :options="chartOptions" />
         </div>
       </div>
+
+      <!-- Centered Legend (spans all 3 grid columns) -->
+      <div class="chart-legend">
+        <div
+          v-for="item in legendItems"
+          :key="item.label"
+          class="legend-item"
+        >
+          <span class="legend-color" :style="{ backgroundColor: item.color }"></span>
+          <span class="legend-label">{{ item.label }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,6 +82,16 @@ export default {
     product2ChartData() {
       return this.transformToChartData(this.product2Data);
     },
+    legendItems() {
+      // Extract legend items from the chart datasets (both charts have the same legend)
+      if (this.product1ChartData && this.product1ChartData.datasets) {
+        return this.product1ChartData.datasets.map(dataset => ({
+          label: dataset.label,
+          color: dataset.backgroundColor
+        }));
+      }
+      return [];
+    },
     chartOptions() {
       return {
         responsive: true,
@@ -92,13 +114,7 @@ export default {
         },
         plugins: {
           legend: {
-            position: 'bottom',
-            labels: {
-              usePointStyle: true,
-              pointStyle: 'circle',
-              padding: 20,
-              font: { size: 12, family: 'Open Sans' }
-            }
+            display: false  // Hide individual chart legends
           },
           datalabels: {
             display: false
@@ -239,5 +255,47 @@ export default {
 .chart-divider {
   width: 1px;
   background: #000;
+}
+
+.chart-legend {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 0;
+  padding-top: 0;
+  flex-wrap: wrap;
+
+  @media only screen and (max-width: 1180px) {
+    gap: 20px;
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1em;
+    font-weight: 400;
+    color: #1a1a1a;
+
+    @media only screen and (max-width: 1180px) {
+      font-size: 12px;
+    }
+  }
 }
 </style>
