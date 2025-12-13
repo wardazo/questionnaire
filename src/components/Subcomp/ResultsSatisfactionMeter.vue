@@ -1,31 +1,30 @@
 <template>
   <div class="results-satisfaction-section">
-    <div class="section-title">Patient satisfaction</div>
 
     <div class="meters-container">
       <!-- Product 1 Meter -->
       <div class="meter-wrapper">
         <div class="meter-header">
           <p class="patient-count">
-            <span class="count-number">{{ formatCount(product1Data.count) }}</span>
-            <strong v-html="product1Data.displayName"></strong> patients
+            Patient satisfaction
           </p>
         </div>
         <div class="meter-content">
-          <div class="average-display">
-            <span class="average-number">{{ calculateAverage(product1Data) }}</span>
-            <span class="average-scale">/10</span>
-          </div>
           <div class="meter-bar-container">
             <div class="meter-bar">
               <div
+                class="meter-fill"
+                :style="{ width: `${calculateAverage(product1Data) * 10}%` }"
+              ></div>
+              <div
                 class="meter-indicator"
                 :style="{ left: `${calculateAverage(product1Data) * 10}%` }"
-              ></div>
+              >
+                <span class="indicator-number">{{ Math.round(calculateAverage(product1Data)) }}</span>
+              </div>
             </div>
             <div class="meter-labels">
               <span>0</span>
-              <span>5</span>
               <span>10</span>
             </div>
           </div>
@@ -39,25 +38,25 @@
       <div class="meter-wrapper">
         <div class="meter-header">
           <p class="patient-count">
-            <span class="count-number">{{ formatCount(product2Data.count) }}</span>
-            <strong v-html="product2Data.displayName"></strong> patients
+            Patient satisfaction
           </p>
         </div>
         <div class="meter-content">
-          <div class="average-display">
-            <span class="average-number">{{ calculateAverage(product2Data) }}</span>
-            <span class="average-scale">/10</span>
-          </div>
           <div class="meter-bar-container">
             <div class="meter-bar">
               <div
+                class="meter-fill"
+                :style="{ width: `${calculateAverage(product2Data) * 10}%` }"
+              ></div>
+              <div
                 class="meter-indicator"
                 :style="{ left: `${calculateAverage(product2Data) * 10}%` }"
-              ></div>
+              >
+                <span class="indicator-number">{{ Math.round(calculateAverage(product2Data)) }}</span>
+              </div>
             </div>
             <div class="meter-labels">
               <span>0</span>
-              <span>5</span>
               <span>10</span>
             </div>
           </div>
@@ -138,9 +137,10 @@ export default {
     margin-bottom: 30px;
 
     .patient-count {
-      font-size: 16px;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 50px;
       color: #1a1a1a;
-      margin: 0;
 
       .count-number {
         font-size: 18px;
@@ -161,60 +161,74 @@ export default {
   }
 }
 
-.average-display {
-  margin-bottom: 30px;
-  text-align: center;
-
-  .average-number {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 72px;
-    font-weight: 300;
-    color: #4CAF50;
-    line-height: 1;
-  }
-
-  .average-scale {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 300;
-    color: #1a1a1a;
-    margin-left: 5px;
-  }
-}
-
 .meter-bar-container {
-  width: 100%;
-  max-width: 400px;
+  width: 90%;
 }
 
 .meter-bar {
   position: relative;
-  height: 18px;
-  background: #1CE254;
-  border-radius: 20px;
+  height: 20px;
+  background: #D0D0D0;
+  border-radius: 12px;
   margin-bottom: 10px;
+  overflow: visible;
+
+  .meter-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #1CE254;
+    border-radius: 12px;
+    transition: width 0.3s ease;
+  }
 
   .meter-indicator {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     background: #003595;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    .indicator-number {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+    }
   }
 }
 
 .meter-labels {
   display: flex;
   justify-content: space-between;
-  padding: 0 5px;
+  padding: 0;
+  position: relative;
 
   span {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     color: #1a1a1a;
+
+    &:first-child {
+      position: absolute;
+      left: -10px;
+      top: -29px;
+    }
+
+    &:last-child {
+      position: absolute;
+      right: -20px;
+      top: -29px;
+    }
   }
 }
 
