@@ -57,7 +57,7 @@
       <!-- ============================================ -->
       <div v-else-if="currentView === 'product' && currentPairConfig" class="product-view">
         <!-- Header with Selected Pair Name -->
-        <h1 class="product-view-title" v-html="currentPairConfig.displayName"></h1>
+        <h1 style="margin-top: -25px" class="product-view-title" v-html="currentPairConfig.displayName"></h1>
 
         <!-- Blue Card with Two Products -->
         <div class="product-card-container">
@@ -493,7 +493,7 @@ export default {
 
 .product-view-title {
   font-family: 'Open Sans', sans-serif;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 600;
   color: #003595;
   margin: 0 0 20px 0;
@@ -525,7 +525,7 @@ export default {
       font-weight: 300;
       color: white;
       line-height: 1.3;
-      margin: 0 0 20px 0;
+      margin: 0 0 0 0;
       min-height: 100px;
     }
 
@@ -533,7 +533,7 @@ export default {
       display: flex;
       align-items: center;
       gap: 15px;
-      margin: 10px 0 30px 0;
+      margin: 10px 0 10px 0;
     }
 
     .product-count-large {
