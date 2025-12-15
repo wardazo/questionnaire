@@ -16,7 +16,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(`API Request: ${config.method.toUpperCase()} ${config.url}`);
+      //console.log(`API Request: ${config.method.toUpperCase()} ${config.url}`);
     }
     return config;
   },
@@ -27,13 +27,13 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(`API Response: ${response.status}`);
+      //console.log(`API Response: ${response.status}`);
     }
     return response;
   },
   (error) => {
     if (process.env.NODE_ENV === 'development') {
-      console.error('API Error:', error.response?.data || error.message);
+      //console.error('API Error:', error.response?.data || error.message);
     }
     return Promise.reject(error);
   }
@@ -47,7 +47,7 @@ apiClient.interceptors.response.use(
 export async function getQuestionnaireCounts(contactId) {
   // Validate contact ID
   if (!contactId || typeof contactId !== 'string') {
-    console.error('Invalid contact ID provided to getQuestionnaireCounts:', contactId);
+    //console.error('Invalid contact ID provided to getQuestionnaireCounts:', contactId);
     throw new Error('Contact ID is required');
   }
 
@@ -57,7 +57,7 @@ export async function getQuestionnaireCounts(contactId) {
     });
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch questionnaire counts:', error);
+    //console.error('Failed to fetch questionnaire counts:', error);
     // Return empty counts on error
     return {
       vivity: 0,
@@ -78,7 +78,7 @@ export async function getQuestionnaireCounts(contactId) {
 export async function submitQuestionnaire(payload) {
   // Validate payload has contact ID
   if (!payload.salesforceContactId) {
-    console.error('Payload missing salesforceContactId:', payload);
+    //console.error('Payload missing salesforceContactId:', payload);
     throw {
       type: 'validation_error',
       message: 'Salesforce contact ID is required for submission'
@@ -121,7 +121,7 @@ export async function submitQuestionnaire(payload) {
 export async function getResultsData(comparisonSet, contactId) {
   // Validate contact ID
   if (!contactId || typeof contactId !== 'string') {
-    console.error('Invalid contact ID provided to getResultsData:', contactId);
+    //console.error('Invalid contact ID provided to getResultsData:', contactId);
     throw {
       type: 'validation_error',
       message: 'Contact ID is required'

@@ -78,7 +78,7 @@ export const useResultsStore = defineStore('results', {
         this.resultsData = data;
       } catch (error) {
         this.error = error;
-        console.error('Failed to fetch results:', error);
+        //console.error('Failed to fetch results:', error);
       } finally {
         this.isLoading = false;
       }

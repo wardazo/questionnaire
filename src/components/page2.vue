@@ -181,7 +181,7 @@ export default {
     if (this.comparisonSet) {
       await this.resultsStore.fetchResults(this.comparisonSet);
     } else {
-      console.error('No comparison set provided');
+      //console.error('No comparison set provided');
     }
   },
   methods: {
@@ -193,7 +193,7 @@ export default {
       this.$emit('page-select', { pg: 0, tab: 0 });
     },
     sendPDF() {
-      console.log('Sending PDF report');
+      //console.log('Sending PDF report');
       // Future implementation
     },
     async retryFetch() {

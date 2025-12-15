@@ -108,9 +108,9 @@ export default {
   activated() {},
   async mounted() {
     // Initialize Salesforce store before rendering pages
-    console.log('App.vue: Initializing Salesforce store...');
+    //console.log('App.vue: Initializing Salesforce store...');
     await this.salesforceStore.initializeStore();
-    console.log('App.vue: Salesforce store initialized. Contact ID:', this.salesforceStore.salesforceContactId);
+    //console.log('App.vue: Salesforce store initialized. Contact ID:', this.salesforceStore.salesforceContactId);
     this.isInitializing = false;
   },
 

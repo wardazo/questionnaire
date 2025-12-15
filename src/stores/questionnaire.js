@@ -93,7 +93,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
     // Start a new questionnaire
     startQuestionnaire(type) {
       if (!QUESTIONNAIRE_CONFIGS[type]) {
-        console.error(`Invalid questionnaire type: ${type}`);
+        //console.error(`Invalid questionnaire type: ${type}`);
         return false;
       }
 
@@ -226,7 +226,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       const contactId = salesforceStore.salesforceContactId;
 
       if (!contactId) {
-        console.error('Cannot submit questionnaire: No Salesforce contact ID available');
+        //console.error('Cannot submit questionnaire: No Salesforce contact ID available');
         return {
           success: false,
           error: {
@@ -250,7 +250,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
         // Submit to API
         const response = await submitQuestionnaire(payload);
 
-        console.log('Questionnaire submitted successfully:', response);
+        //console.log('Questionnaire submitted successfully:', response);
 
         // Reset store after successful submission
         this.cancelQuestionnaire();
@@ -260,7 +260,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
           data: response
         };
       } catch (error) {
-        console.error('Failed to submit questionnaire:', error);
+        //console.error('Failed to submit questionnaire:', error);
 
         // Don't reset store on error - keep data for retry
         return {

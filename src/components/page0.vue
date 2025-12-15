@@ -258,7 +258,7 @@ export default {
      */
     handleDropdownChange(event) {
       this.selectedPair = event.target.value || null;
-      console.log('Selected pair:', this.selectedPair);
+      //console.log('Selected pair:', this.selectedPair);
     },
 
     /**
@@ -266,11 +266,11 @@ export default {
      */
     goToProductView() {
       if (!this.selectedPair) {
-        console.warn('Cannot proceed without selection');
+        //console.warn('Cannot proceed without selection');
         return;
       }
       this.currentView = 'product';
-      console.log('Navigated to product view:', this.selectedPair);
+      //console.log('Navigated to product view:', this.selectedPair);
     },
 
     /**
@@ -279,7 +279,7 @@ export default {
     goToSelectionView() {
       // Keep selection when returning to selection view
       this.currentView = 'selection';
-      console.log('Navigated back to selection view');
+      //console.log('Navigated back to selection view');
     },
 
     /**
@@ -310,14 +310,14 @@ export default {
         const contactId = this.salesforceStore.salesforceContactId;
 
         if (!contactId) {
-          console.error('No contact ID available');
+          //console.error('No contact ID available');
           return;
         }
 
-        console.log('Fetching counts for contact:', contactId);
+        //console.log('Fetching counts for contact:', contactId);
         this.counts = await getQuestionnaireCounts(contactId);
       } catch (error) {
-        console.error('Failed to fetch questionnaire counts:', error);
+        //console.error('Failed to fetch questionnaire counts:', error);
       }
     },
 
@@ -329,7 +329,7 @@ export default {
     },
 
     startQuestionnaire(type) {
-      console.log('Starting questionnaire:', type);
+      //console.log('Starting questionnaire:', type);
       // Initialize questionnaire in store
       this.questionnaireStore.startQuestionnaire(type);
       // Navigate to page 1
@@ -337,7 +337,7 @@ export default {
     },
 
     showResults(comparisonSet) {
-      console.log('Showing results for:', comparisonSet);
+      //console.log('Showing results for:', comparisonSet);
       // Store comparison set for Page2
       this.pageStore.setComparisonSet(comparisonSet);
       // Navigate to page 2

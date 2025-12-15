@@ -214,7 +214,7 @@ export default {
         const result = await this.questionnaireStore.completeQuestionnaire();
 
         if (result.success) {
-          console.log('Questionnaire completed successfully:', result.data);
+          //console.log('Questionnaire completed successfully:', result.data);
           // Navigate back to home
           this.$emit('page-select', { pg: 0, tab: 0 });
         } else {
@@ -224,7 +224,7 @@ export default {
       } catch (error) {
         // Unexpected error
         this.submissionError = 'An unexpected error occurred. Please try again.';
-        console.error('Unexpected error:', error);
+        //console.error('Unexpected error:', error);
       } finally {
         this.isSubmitting = false;
       }
