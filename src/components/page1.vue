@@ -14,10 +14,10 @@
             <div class="questionnaire-count">05</div>
           </div>
 
-          <div class="part-info">
-            <p class="part-label">Part</p>
-            <div class="part-number">{{ currentPart + 1 }}/{{ totalParts }}</div>
-          </div>
+<!--          <div class="part-info">-->
+<!--            <p class="part-label">Part</p>-->
+<!--            <div class="part-number">{{ currentPart + 1 }}/{{ totalParts }}</div>-->
+<!--          </div>-->
         </div>
 
         <button class="btn-cancel" @click="cancelQuestionnaire">Cancel this questionnaire</button>

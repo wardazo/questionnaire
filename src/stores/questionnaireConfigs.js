@@ -299,7 +299,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'vivity',
     productInfo: {
       name: 'Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>',
-      subtitle: 'Vivity<sup>®</sup> / Vivity<sup>®</sup> Toric'
+      subtitle: 'Vivity<sup>®</sup><br>Vivity<sup>®</sup> Toric'
     },
     totalParts: 4,
     parts: {
@@ -335,7 +335,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'puresee',
     productInfo: {
       name: 'Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>',
-      subtitle: 'PureSee<sup>*</sup> / PureSee<sup>*</sup> Toric'
+      subtitle: 'PureSee<sup>*</sup><br>PureSee<sup>*</sup> Toric'
     },
     totalParts: 4,
     parts: {
@@ -372,7 +372,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'panoptix1',
     productInfo: {
       name: 'PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>',
-      subtitle: 'PanOptix<sup>®</sup> / PanOptix<sup>®</sup> Toric'
+      subtitle: 'PanOptix<sup>®</sup><br>PanOptix<sup>®</sup> Toric'
     },
     totalParts: 5,
     parts: {
