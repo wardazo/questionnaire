@@ -123,7 +123,7 @@
 
           <div class="disclaimer-product">
             <p class="disclaimer-text-small">
-              *Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices. Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.
+              *Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices.<br> Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.
             </p>
           </div>
         </div>
@@ -142,7 +142,7 @@ import { getQuestionnaireCounts } from '@/services/api';
 // Product Pair Configuration
 const PRODUCT_PAIRS = {
   'vivity-puresee': {
-    displayName: 'Vivity<sup>®</sup> and PureSee*',
+    displayName: 'Vivity<sup>®</sup> and PureSee<sup>*</sup>',
     comparisonSet: 'vivity-puresee',
     product1: {
       type: 'vivity',
@@ -371,7 +371,7 @@ export default {
 // ===========================
 .selection-view {
   position: relative;
-  padding-bottom: 150px; // Space for disclaimer
+  min-height: calc(100vh - 120px);
 }
 
 .selection-content {
