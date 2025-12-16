@@ -11,7 +11,7 @@
 
           <div class="questionnaire-info">
             <p class="questionnaire-label">Questionnaires</p>
-            <div class="questionnaire-count">05</div>
+            <div class="questionnaire-count">{{ formattedCount }}</div>
           </div>
 
 <!--          <div class="part-info">-->
@@ -95,7 +95,9 @@
 
 <script>
 import { useQuestionnaireStore } from '@/stores/questionnaire';
+import { useSalesforceStore } from '@/stores/salesforce';
 import { computed } from 'vue';
+import { getQuestionnaireCounts } from '@/services/api';
 import QuestionRadio from './Subcomp/QuestionRadio.vue';
 import QuestionScale from './Subcomp/QuestionScale.vue';
 import QuestionVisualAcuity from './Subcomp/QuestionVisualAcuity.vue';
@@ -116,11 +118,20 @@ export default {
   data() {
     return {
       isSubmitting: false,
-      submissionError: null
+      submissionError: null,
+      counts: {
+        vivity: 0,
+        puresee: 0,
+        panoptix1: 0,
+        odyssey: 0,
+        panoptix2: 0,
+        galaxy: 0
+      }
     };
   },
   setup() {
     const questionnaireStore = useQuestionnaireStore();
+    const salesforceStore = useSalesforceStore();
 
     const currentConfig = computed(() => questionnaireStore.currentConfig);
     const productInfo = computed(() => questionnaireStore.productInfo);
@@ -139,6 +150,7 @@ export default {
 
     return {
       questionnaireStore,
+      salesforceStore,
       currentConfig,
       productInfo,
       currentPart,
@@ -150,6 +162,15 @@ export default {
     };
   },
   computed: {
+    // Format count for display
+    formattedCount() {
+      const currentType = this.questionnaireStore.currentType;
+      if (!currentType) return '00';
+
+      const count = this.counts[currentType] || 0;
+      return this.formatCount(count);
+    },
+
     // Check if all questions in the current part are answered
     isCurrentPartComplete() {
       if (!this.currentPartConfig) return false;
@@ -192,7 +213,33 @@ export default {
       return false;
     }
   },
+  async mounted() {
+    // Fetch counts when component is mounted
+    await this.fetchCounts();
+  },
   methods: {
+    async fetchCounts() {
+      try {
+        // Get contact ID from Salesforce store
+        const contactId = this.salesforceStore.salesforceContactId;
+
+        if (!contactId) {
+          return;
+        }
+
+        this.counts = await getQuestionnaireCounts(contactId);
+      } catch (error) {
+        //console.error('Failed to fetch questionnaire counts:', error);
+      }
+    },
+
+    formatCount(count) {
+      // Format count to always show 2 digits (00, 01, 02, ..., 99, 100+)
+      if (count === 0) return '00';
+      if (count < 10) return '0' + count;
+      return String(count);
+    },
+
     updateAnswers(newAnswers) {
       const partNumber = this.currentPart + 1;
       this.questionnaireStore.updatePartAnswers(partNumber, newAnswers);
