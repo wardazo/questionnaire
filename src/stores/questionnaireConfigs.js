@@ -68,7 +68,7 @@ const SET1_PART2_QUESTIONS = [
   {
     key: 'halosBothersome',
     questionId: 'SET1_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
   },
   {
@@ -80,7 +80,7 @@ const SET1_PART2_QUESTIONS = [
   {
     key: 'glareBothersome',
     questionId: 'SET1_GLARE_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
   }
 ];
@@ -173,7 +173,7 @@ const SET2_PART3_QUESTIONS = [
   {
     key: 'halosBothersome',
     questionId: 'SET2_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
   },
   {
@@ -185,7 +185,7 @@ const SET2_PART3_QUESTIONS = [
   {
     key: 'glareBothersome',
     questionId: 'SET2_GLARE_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
   }
 ];
@@ -264,7 +264,7 @@ const SET3_PART3_QUESTIONS = [
   {
     key: 'halosBothersome',
     questionId: 'SET3_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities i.e. night driving?',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
   },
   {
