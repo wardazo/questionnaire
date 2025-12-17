@@ -90,6 +90,17 @@
         </div>
       </main>
     </div>
+
+    <!-- Cancel Confirmation Modal -->
+    <ConfirmModal
+      :show="showCancelModal"
+      title="Cancel Questionnaire"
+      message="Do you want to delete the current questionnaire?"
+      confirmText="Delete"
+      cancelText="Cancel"
+      @confirm="confirmCancel"
+      @cancel="closeModal"
+    />
   </div>
 </template>
 
@@ -101,13 +112,15 @@ import { getQuestionnaireCounts } from '@/services/api';
 import QuestionRadio from './Subcomp/QuestionRadio.vue';
 import QuestionScale from './Subcomp/QuestionScale.vue';
 import QuestionVisualAcuity from './Subcomp/QuestionVisualAcuity.vue';
+import ConfirmModal from './Subcomp/ConfirmModal.vue';
 
 export default {
   name: "Page1",
   components: {
     QuestionRadio,
     QuestionScale,
-    QuestionVisualAcuity
+    QuestionVisualAcuity,
+    ConfirmModal
   },
   props: {
     page: {
@@ -119,6 +132,7 @@ export default {
     return {
       isSubmitting: false,
       submissionError: null,
+      showCancelModal: false,
       counts: {
         vivity: 0,
         puresee: 0,
@@ -298,9 +312,19 @@ export default {
       this.finishQuestionnaire();
     },
     cancelQuestionnaire() {
+      // Show confirmation modal
+      this.showCancelModal = true;
+    },
+    confirmCancel() {
+      // User confirmed cancellation
+      this.showCancelModal = false;
       this.questionnaireStore.cancelQuestionnaire();
-      // Navigate back to home
+      // Navigate back to home (product view)
       this.$emit('page-select', { pg: 0, tab: 0 });
+    },
+    closeModal() {
+      // User cancelled the cancellation
+      this.showCancelModal = false;
     }
   },
 };

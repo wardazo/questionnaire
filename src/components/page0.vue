@@ -196,10 +196,6 @@ export default {
   },
   data() {
     return {
-      // View state management
-      currentView: 'selection', // 'selection' | 'product'
-      selectedPair: null, // null | 'vivity-puresee' | 'panoptix-odyssey' | 'panoptix-galaxy'
-
       // Existing counts structure
       counts: {
         vivity: 0,
@@ -218,6 +214,26 @@ export default {
     return { questionnaireStore, pageStore, salesforceStore };
   },
   computed: {
+    // Use page store for view state
+    currentView: {
+      get() {
+        return this.pageStore.page0View;
+      },
+      set(value) {
+        this.pageStore.setPage0View(value);
+      }
+    },
+
+    // Use page store for selected pair
+    selectedPair: {
+      get() {
+        return this.pageStore.page0SelectedPair;
+      },
+      set(value) {
+        this.pageStore.setPage0SelectedPair(value);
+      }
+    },
+
     // Check if Start button should be enabled (selection view)
     isStartEnabled() {
       return this.selectedPair !== null;
