@@ -53,15 +53,15 @@ def verify_api_key(api_key: str = Security(api_key_header)):
 COMPARISON_SETS = {
     "vivity-puresee": {
         "product1": {"type": "vivity", "displayName": "Vivity<sup>®</sup>"},
-        "product2": {"type": "puresee", "displayName": "PureSee*"}
+        "product2": {"type": "puresee", "displayName": "PureSee<sup>*</sup>"}
     },
     "panoptix-odyssey": {
         "product1": {"type": "panoptix1", "displayName": "PanOptix<sup>®</sup>"},
-        "product2": {"type": "odyssey", "displayName": "Odyssey*"}
+        "product2": {"type": "odyssey", "displayName": "Odyssey<sup>*</sup>"}
     },
     "panoptix-galaxy": {
         "product1": {"type": "panoptix2", "displayName": "PanOptix<sup>®</sup>"},
-        "product2": {"type": "galaxy", "displayName": "Galaxy*"}
+        "product2": {"type": "galaxy", "displayName": "Galaxy<sup>*</sup>"}
     }
 }
 
