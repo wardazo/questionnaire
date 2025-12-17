@@ -237,7 +237,7 @@ export default {
     // Get dropdown options as array
     dropdownOptions() {
       return [
-        { value: 'vivity-puresee', label: 'Vivityb® and PureSee*' },
+        { value: 'vivity-puresee', label: 'Vivity® and PureSee*' },
         { value: 'panoptix-odyssey', label: 'PanOptix® and Odyssey*' },
         { value: 'panoptix-galaxy', label: 'PanOptix® and Galaxy*' }
       ];
