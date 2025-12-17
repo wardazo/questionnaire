@@ -13,7 +13,7 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 1,
-      label: 'Visual disturbances halos',
+      label: 'Visual disturbances - Halos',
       title: 'Visual disturbances - Halos',
       subtitle: '',
       chartType: 'pie',
@@ -24,7 +24,7 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 2,
-      label: 'Visual disturbances Glare',
+      label: 'Visual disturbances - Glare',
       title: 'Visual disturbances - Glare',
       subtitle: '',
       chartType: 'pie',

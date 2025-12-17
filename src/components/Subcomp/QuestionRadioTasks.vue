@@ -111,7 +111,7 @@ export default {
 .task-group {
   background: #E8E8E8;
   border-radius: 8px;
-  padding: 30px 40px;
+  padding: 30px 40px 30px 5px;
   margin-bottom: 30px;
 
   .task-header {

@@ -101,11 +101,11 @@ export default {
 
 .btn-cancel {
   background: white;
-  color: #1a1a1a;
-  border: 2px solid #E8E8E8;
+  color: #003595;
+  border: 2px solid #003595;
 
   &:hover {
-    background: #f8f9fa;
+    background: #f0f5ff;
     transform: translateY(-2px);
   }
 }

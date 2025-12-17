@@ -214,16 +214,12 @@ export default {
 .task-group {
   background: #F2F2F2;
   border-radius: 13px;
-  padding: 18px 24px;
+  padding: 18px 5px 18px 15px;
   margin-bottom: 14px;
 
-  @media only screen and (max-width: 1180px) {
-    padding: 16px 24px;
-  }
 
-  @media only screen and (max-width: 1024px) {
-    padding: 13px 24px;
-  }
+
+
 
   .radio-group {
     display: flex;

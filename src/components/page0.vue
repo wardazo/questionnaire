@@ -145,8 +145,8 @@ const PRODUCT_PAIRS = {
     },
     product2: {
       type: 'puresee',
-      name: 'PureSee*',
-      toricName: 'PureSee* Toric',
+      name: 'PureSee<sup>*</sup>',
+      toricName: 'PureSee<sup>*</sup> Toric',
       countKey: 'puresee',
       questionnaireLabel: 'PureSee questionnaire'
     }
@@ -163,7 +163,7 @@ const PRODUCT_PAIRS = {
     },
     product2: {
       type: 'odyssey',
-      name: 'Odyssey*',
+      name: 'Odyssey<sup>*</sup>',
       toricName: 'Odyssey* Toric',
       countKey: 'odyssey',
       questionnaireLabel: 'Odyssey questionnaire'
@@ -182,7 +182,7 @@ const PRODUCT_PAIRS = {
     product2: {
       type: 'galaxy',
       name: 'Galaxy*',
-      toricName: 'Galaxy* Toric',
+      toricName: 'Galaxy<sup>*</sup> Toric',
       countKey: 'galaxy',
       questionnaireLabel: 'Galaxy questionnaire'
     }
