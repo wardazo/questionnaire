@@ -187,6 +187,18 @@ const SET2_PART3_QUESTIONS = [
     questionId: 'SET2_GLARE_BOTHER',
     text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
     options: BOTHERSOME_OPTIONS
+  },
+  {
+    key: 'starbursts',
+    questionId: 'SET2_STARBURSTS_FREQ',
+    text: 'Do you experience starbursts?',
+    options: RADIO_OPTIONS
+  },
+  {
+    key: 'starburstsBothersome',
+    questionId: 'SET2_STARBURSTS_BOTHER',
+    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    options: BOTHERSOME_OPTIONS
   }
 ];
 

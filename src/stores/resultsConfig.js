@@ -99,8 +99,8 @@ export const RESULTS_TAB_SECTIONS = {
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET2_HALOS_FREQ', title: 'Do you experience halos in dim light?' },
-        { questionId: 'SET2_GLARE_FREQ', title: 'Do you experience glare?' }
+        { questionId: 'SET2_STARBURSTS_FREQ', title: 'Do you experience halos in dim light?' },
+        { questionId: 'SET2_STARBURSTS_BOTHER', title: 'Do you experience glare?' }
       ]
     },
     {
