@@ -14,20 +14,11 @@
             <p class="contact-name">#{{ salesforceStore.salesforceContactName }}</p>
           </div>
 
-          <select
+          <CustomDropdown
             v-model="selectedPair"
-            class="product-dropdown"
-            @change="handleDropdownChange"
-          >
-            <option :value="null" disabled selected>Please select one</option>
-            <option
-              v-for="option in dropdownOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
+            :options="dropdownOptions"
+            placeholder="Please select one"
+          />
         </div>
 
         <!-- Start Button (Absolutely Positioned) -->
@@ -138,6 +129,7 @@ import { useQuestionnaireStore } from '@/stores/questionnaire';
 import { usePageStore } from '@/stores/page';
 import { useSalesforceStore } from '@/stores/salesforce';
 import { getQuestionnaireCounts } from '@/services/api';
+import CustomDropdown from '@/components/Subcomp/CustomDropdown.vue';
 
 // Product Pair Configuration
 const PRODUCT_PAIRS = {
@@ -199,6 +191,9 @@ const PRODUCT_PAIRS = {
 
 export default {
   name: "Page0",
+  components: {
+    CustomDropdown
+  },
   data() {
     return {
       // View state management
@@ -237,9 +232,9 @@ export default {
     // Get dropdown options as array
     dropdownOptions() {
       return [
-        { value: 'vivity-puresee', label: 'Vivity® and PureSee*' },
-        { value: 'panoptix-odyssey', label: 'PanOptix® and Odyssey*' },
-        { value: 'panoptix-galaxy', label: 'PanOptix® and Galaxy*' }
+        { value: 'vivity-puresee', label: 'Vivity<sup>®</sup> and PureSee<sup>*</sup>' },
+        { value: 'panoptix-odyssey', label: 'PanOptix<sup>®</sup> and Odyssey<sup>*</sup>' },
+        { value: 'panoptix-galaxy', label: 'PanOptix<sup>®</sup> and Galaxy<sup>*</sup>' }
       ];
     }
   },
@@ -251,15 +246,6 @@ export default {
     // ============================================
     // NEW METHODS
     // ============================================
-
-    /**
-     * Handles dropdown selection change event
-     * @param {Event} event - Change event from select element
-     */
-    handleDropdownChange(event) {
-      this.selectedPair = event.target.value || null;
-      //console.log('Selected pair:', this.selectedPair);
-    },
 
     /**
      * Navigate from selection view to product view
