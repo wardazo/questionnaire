@@ -3,7 +3,7 @@ export const RESULTS_TAB_SECTIONS = {
   'vivity-puresee': [
     {
       id: 0,
-      label: 'Spectacle independence',
+      label: 'Spectacle independence & clarity',
       title: 'Spectacle independence:',
       subtitle: 'On a typical day, how often do you wear glasses for the following tasks?',
       questionIds: ['SET1_SPECTACLE_FAR', 'SET1_SPECTACLE_ARMS', 'SET1_SPECTACLE_NEAR'],
@@ -62,8 +62,8 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 1,
-      label: 'Visual quality - clarity',
-      title: 'Visual Quality – Clarity of Vision',
+      label: 'Clarity of Vision',
+      title: 'Clarity of Vision',
       subtitle: 'Please rate the sharpness or clarity of your vision',
       chartType: 'bar',
       questionIds: ['SET2_CLARITY_BRIGHT', 'SET2_CLARITY_DIM'],
@@ -133,8 +133,8 @@ export const RESULTS_TAB_SECTIONS = {
     },
     {
       id: 1,
-      label: 'Visual quality - clarity',
-      title: 'Visual Quality – Clarity of Vision',
+      label: 'Clarity of Vision',
+      title: 'Clarity of Vision',
       subtitle: 'Please rate the sharpness or clarity of your vision',
       chartType: 'bar',
       questionIds: ['SET3_CLARITY_BRIGHT', 'SET3_CLARITY_DIM', 'SET3_CLARITY_LOWCONTRAST'],
@@ -173,16 +173,16 @@ export const RESULTS_TAB_SECTIONS = {
 // Chart color mapping for different answer types
 export const CHART_COLORS = {
   // RADIO_OPTIONS (Never/Occasionally/Often/Always)
-  never: '#03AEEE',          // Blue
+  never: '#02AF4B',          // Green
   occasionally: '#DEC9A5',   // Beige
   often: '#F36E20',          // Orange
-  always: '#02AF4B',         // Green
+  always: '#FF5722',         // Red
 
   // BOTHERSOME_OPTIONS
   not_at_all: '#02AF4B',     // Green (best)
   a_little: '#DEC9A5',       // Beige
   moderately: '#F36E20',     // Orange
-  significantly: '#03AEEE',  // Blue (worst)
+  significantly: '#FF5722',  // Red (worst)
 
   // CLARITY_OPTIONS
   very_clear: '#02AF4B',     // Green (best)

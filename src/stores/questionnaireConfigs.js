@@ -54,7 +54,7 @@ const SET1_PART1_TASKS = [
     key: 'upClose',
     questionId: 'SET1_SPECTACLE_NEAR',
     label: 'Up close',
-    description: '(e.g., reading a book or newspaper, or while knitting).'
+    description: '(e.g., reading a book or newspaper, or while eating).'
   }
 ];
 
