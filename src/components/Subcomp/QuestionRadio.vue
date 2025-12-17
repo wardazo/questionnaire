@@ -278,7 +278,7 @@ export default {
   position: relative;
 
   @media only screen and (max-width: 1180px) {
-    padding: 8px 36px;
+    padding: 8px 30px;
     font-size: 16px;
   }
 

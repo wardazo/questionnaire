@@ -274,23 +274,11 @@ const SET3_PART3_QUESTIONS = [
     options: RADIO_OPTIONS
   },
   {
-    key: 'halosBothersome',
-    questionId: 'SET3_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
-    options: BOTHERSOME_OPTIONS
-  },
-  {
     key: 'glare',
-    questionId: 'SET3_GLARE_WHEN',
+    questionId: 'SET3_HALOS_BOTHER',
     text: 'If yes, when do you notice it the most?',
-    options: RADIO_OPTIONS
-  },
-  {
-    key: 'nightOnly',
-    questionId: 'SET3_NIGHT_WHEN',
-    text: 'If yes, when do you notice it the most? (great to good lighting)',
     options: [
-      { label: 'Evening', value: 'evening' },
+      { label: 'Reading', value: 'reading' },
       { label: 'Watching TV', value: 'watching_tv' },
       { label: 'In low light conditions', value: 'low_light' },
       { label: 'No specific time', value: 'no_specific_time' }

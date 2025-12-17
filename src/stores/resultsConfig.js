@@ -41,8 +41,8 @@ export const RESULTS_TAB_SECTIONS = {
       chartType: 'combined',
       acuityQuestionIds: ['SET1_ACUITY_UNVA40', 'SET1_ACUITY_UIVA66', 'SET1_ACUITY_UDVA'],
       acuityMeasurementLabels: [
-        { name: 'UNVA', distance: '40 cm' },
-        { name: 'UIVA', distance: '66 cm' },
+        { name: 'UNVA', distance: '' },
+        { name: 'UIVA', distance: '' },
         { name: 'UDVA', distance: '' }
       ],
       satisfactionQuestionId: 'SET1_SATISFACTION'
@@ -149,7 +149,7 @@ export const RESULTS_TAB_SECTIONS = {
       chartType: 'pie',
       questions: [
         { questionId: 'SET3_SHADOW_GHOST', title: "Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?" },
-        { questionId: 'SET3_HALOS_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+        { questionId: 'SET3_HALOS_BOTHER', title: 'When do you notice it the most?' }
       ]
     },
     {
