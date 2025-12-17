@@ -98,7 +98,7 @@ export default {
   methods: {
     closeApplication() {
       // eslint-disable-next-line
-      Ti.App.exit();
+      Ti.App.fireEvent('closeOpenModal', {});
     },
     handlePageChange(pageData) {
       this.pageStore.setPage(pageData.pg);

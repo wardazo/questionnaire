@@ -134,8 +134,8 @@ export const RESULTS_TAB_SECTIONS = {
     {
       id: 1,
       label: 'Clarity of Vision',
-      title: 'Clarity of Vision',
-      subtitle: 'Please rate the sharpness or clarity of your vision',
+      title: 'Visual Quality',
+      subtitle: 'Rate the sharpness or clarity of your vision in bright and dim light conditions',
       chartType: 'bar',
       questionIds: ['SET3_CLARITY_BRIGHT', 'SET3_CLARITY_DIM', 'SET3_CLARITY_LOWCONTRAST'],
       taskLabels: ['Bright light', 'Dim light', 'Low contrast'],
@@ -149,7 +149,7 @@ export const RESULTS_TAB_SECTIONS = {
       chartType: 'pie',
       questions: [
         { questionId: 'SET3_SHADOW_GHOST', title: "Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?" },
-        { questionId: 'SET3_HALOS_BOTHER', title: 'When do you notice it the most?' }
+        { questionId: 'SET3_GLARE_WHEN', title: 'When do you notice it the most?' }
       ]
     },
     {
@@ -175,20 +175,20 @@ export const CHART_COLORS = {
   // RADIO_OPTIONS (Never/Occasionally/Often/Always)
   never: '#02AF4B',          // Green
   occasionally: '#DEC9A5',   // Beige
-  often: '#F36E20',          // Orange
-  always: '#FF5722',         // Red
+  often: '#F0C846',          // Orange
+  always: '#D62E22',         // Red
 
   // BOTHERSOME_OPTIONS
   not_at_all: '#02AF4B',     // Green (best)
   a_little: '#DEC9A5',       // Beige
-  moderately: '#F36E20',     // Orange
-  significantly: '#FF5722',  // Red (worst)
+  moderately: '#F0C846',     // Orange
+  significantly: '#D62E22',  // Red (worst)
 
   // CLARITY_OPTIONS
   very_clear: '#02AF4B',     // Green (best)
   somewhat_clear: '#DEC9A5', // Beige
-  slightly_blurry: '#F36E20',// Orange
-  very_blurry: '#03AEEE',    // Blue (worst)
+  slightly_blurry: '#F0C846',// Orange
+  very_blurry: '#D62E22',    // Blue (worst)
 
   // SCALE options (0-10)
   '0': '#FF5722', '1': '#FF7043', '2': '#FF8A65',
@@ -207,6 +207,7 @@ export const CHART_COLORS = {
   '20/100': '#FF5722',
 
   // Additional common answer values
+  reading: '#03AEEE',          // Blue
   evening: '#ffac1c',
   watching_tv: '#D2B48C',
   low_light: '#FF8A65',

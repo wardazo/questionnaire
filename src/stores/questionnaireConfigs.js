@@ -275,7 +275,7 @@ const SET3_PART3_QUESTIONS = [
   },
   {
     key: 'glare',
-    questionId: 'SET3_HALOS_BOTHER',
+    questionId: 'SET3_GLARE_WHEN',
     text: 'If yes, when do you notice it the most?',
     options: [
       { label: 'Reading', value: 'reading' },
@@ -415,7 +415,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'odyssey',
     productInfo: {
       name: 'PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>',
-      subtitle: 'Odyssey<sup>*</sup> / Odyssey<sup>*</sup> Toric'
+      subtitle: 'Odyssey<sup>*</sup><br> Odyssey<sup>*</sup> Toric'
     },
     totalParts: 5,
     parts: {
@@ -459,7 +459,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'panoptix2',
     productInfo: {
       name: 'PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>',
-      subtitle: 'PanOptix<sup>®</sup> / PanOptix<sup>®</sup> Toric'
+      subtitle: 'PanOptix<sup>®</sup><br> PanOptix<sup>®</sup> Toric'
     },
     totalParts: 5,
     parts: {
@@ -502,7 +502,7 @@ export const QUESTIONNAIRE_CONFIGS = {
     type: 'galaxy',
     productInfo: {
       name: 'PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>',
-      subtitle: 'Galaxy<sup>*</sup> / Galaxy<sup>*</sup> Toric'
+      subtitle: 'Galaxy<sup>*</sup><br> Galaxy<sup>*</sup> Toric'
     },
     totalParts: 5,
     parts: {
