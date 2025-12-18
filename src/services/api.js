@@ -40,20 +40,20 @@ apiClient.interceptors.response.use(
 );
 
 /**
- * Get counts of completed questionnaires grouped by type for a specific contact
- * @param {string} contactId - Salesforce contact ID
+ * Get counts of completed questionnaires grouped by type for a specific account
+ * @param {string} accountId - Salesforce account ID
  * @returns {Promise<Object>} - { vivity: 5, puresee: 3, ... }
  */
-export async function getQuestionnaireCounts(contactId) {
-  // Validate contact ID
-  if (!contactId || typeof contactId !== 'string') {
-    //console.error('Invalid contact ID provided to getQuestionnaireCounts:', contactId);
-    throw new Error('Contact ID is required');
+export async function getQuestionnaireCounts(accountId) {
+  // Validate account ID
+  if (!accountId || typeof accountId !== 'string') {
+    //console.error('Invalid account ID provided to getQuestionnaireCounts:', accountId);
+    throw new Error('Account ID is required');
   }
 
   try {
     const response = await apiClient.get('/api/questionnaires/counts', {
-      params: { contact_id: contactId }
+      params: { account_id: accountId }
     });
     return response.data;
   } catch (error) {
@@ -72,16 +72,16 @@ export async function getQuestionnaireCounts(contactId) {
 
 /**
  * Submit a completed questionnaire
- * @param {Object} payload - { questionnaireType, salesforceContactId, startedAt, completedAt, randomNumber, answers: [{questionId, value}] }
+ * @param {Object} payload - { questionnaireType, salesforceAccountId, startedAt, completedAt, randomNumber, answers: [{questionId, value}] }
  * @returns {Promise<Object>}
  */
 export async function submitQuestionnaire(payload) {
-  // Validate payload has contact ID
-  if (!payload.salesforceContactId) {
-    //console.error('Payload missing salesforceContactId:', payload);
+  // Validate payload has account ID
+  if (!payload.salesforceAccountId) {
+    //console.error('Payload missing salesforceAccountId:', payload);
     throw {
       type: 'validation_error',
-      message: 'Salesforce contact ID is required for submission'
+      message: 'Salesforce account ID is required for submission'
     };
   }
 
@@ -113,24 +113,24 @@ export async function submitQuestionnaire(payload) {
 }
 
 /**
- * Get aggregated results for a comparison set, filtered by contact ID
+ * Get aggregated results for a comparison set, filtered by account ID
  * @param {string} comparisonSet - 'vivity-puresee' | 'panoptix-odyssey' | 'panoptix-galaxy'
- * @param {string} contactId - Salesforce contact ID
+ * @param {string} accountId - Salesforce account ID
  * @returns {Promise<Object>} Aggregated results data
  */
-export async function getResultsData(comparisonSet, contactId) {
-  // Validate contact ID
-  if (!contactId || typeof contactId !== 'string') {
-    //console.error('Invalid contact ID provided to getResultsData:', contactId);
+export async function getResultsData(comparisonSet, accountId) {
+  // Validate account ID
+  if (!accountId || typeof accountId !== 'string') {
+    //console.error('Invalid account ID provided to getResultsData:', accountId);
     throw {
       type: 'validation_error',
-      message: 'Contact ID is required'
+      message: 'Account ID is required'
     };
   }
 
   try {
     const response = await apiClient.get(`/api/questionnaires/results/${comparisonSet}`, {
-      params: { contact_id: contactId }
+      params: { account_id: accountId }
     });
     return response.data;
   } catch (error) {

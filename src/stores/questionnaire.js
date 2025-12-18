@@ -221,17 +221,17 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
         }
       });
 
-      // Get Salesforce contact ID
+      // Get Salesforce account ID
       const salesforceStore = useSalesforceStore();
-      const contactId = salesforceStore.salesforceContactId;
+      const accountId = salesforceStore.salesforceAccountId;
 
-      if (!contactId) {
-        //console.error('Cannot submit questionnaire: No Salesforce contact ID available');
+      if (!accountId) {
+        //console.error('Cannot submit questionnaire: No Salesforce account ID available');
         return {
           success: false,
           error: {
             type: 'validation_error',
-            message: 'Salesforce contact ID is required'
+            message: 'Salesforce account ID is required'
           }
         };
       }
@@ -239,7 +239,7 @@ export const useQuestionnaireStore = defineStore('questionnaire', {
       // Prepare payload
       const payload = {
         questionnaireType: this.currentType,
-        salesforceContactId: contactId,
+        salesforceAccountId: accountId,
         startedAt: this.startedAt,
         completedAt: new Date().toISOString(),
         randomNumber: randomNumber,

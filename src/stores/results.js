@@ -60,21 +60,21 @@ export const useResultsStore = defineStore('results', {
       this.error = null;
       this.currentComparisonSet = comparisonSet;
 
-      // Get contact ID from Salesforce store
+      // Get account ID from Salesforce store
       const salesforceStore = useSalesforceStore();
-      const contactId = salesforceStore.salesforceContactId;
+      const accountId = salesforceStore.salesforceAccountId;
 
-      if (!contactId) {
+      if (!accountId) {
         this.error = {
           type: 'validation_error',
-          message: 'Salesforce contact ID not available'
+          message: 'Salesforce account ID not available'
         };
         this.isLoading = false;
         return;
       }
 
       try {
-        const data = await getResultsData(comparisonSet, contactId);
+        const data = await getResultsData(comparisonSet, accountId);
         this.resultsData = data;
       } catch (error) {
         this.error = error;

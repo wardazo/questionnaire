@@ -10,8 +10,8 @@
         <div class="selection-content">
           <h1 class="main-title">Patient Outcomes<br>PCIOLs</h1>
           <div class="contact-info">
-            <p class="contact-name">#{{ salesforceStore.salesforceAccountName }}</p>
-            <p class="contact-name">#{{ salesforceStore.salesforceContactName }}</p>
+            <p class="contact-name">{{ salesforceStore.salesforceAccountName }}</p>
+<!--            <p class="contact-name">#{{ salesforceStore.salesforceContactName }}</p>-->
           </div>
 
           <CustomDropdown
@@ -308,16 +308,16 @@ export default {
 
     async fetchCounts() {
       try {
-        // Get contact ID from Salesforce store
-        const contactId = this.salesforceStore.salesforceContactId;
+        // Get account ID from Salesforce store
+        const accountId = this.salesforceStore.salesforceAccountId;
 
-        if (!contactId) {
-          //console.error('No contact ID available');
+        if (!accountId) {
+          //console.error('No account ID available');
           return;
         }
 
-        //console.log('Fetching counts for contact:', contactId);
-        this.counts = await getQuestionnaireCounts(contactId);
+        //console.log('Fetching counts for account:', accountId);
+        this.counts = await getQuestionnaireCounts(accountId);
       } catch (error) {
         //console.error('Failed to fetch questionnaire counts:', error);
       }

@@ -28,16 +28,16 @@ export const useSalesforceStore = defineStore("salesforce", {
       state.pitcherData?.user?.Name ?? "BROWSER_TEST_USER",
 
     salesforceAccountId: (state) =>
-        state.pitcherData?.user?.Id ?? "BROWSER_TEST_ACCOUNT_ID",
+        state.pitcherData?.account?.Id ?? "BROWSER_TEST_ACCOUNT_ID",
 
     salesforceAccountName: (state) =>
-        state.pitcherData?.user?.Name ?? "BROWSER_TEST_ACCOUNT_USER",
+        state.pitcherData?.account?.Name ?? "BROWSER_TEST_ACCOUNT_USER",
 
     salesforceContactId: (state) =>
-        state.pitcherData?.user?.Id ?? "BROWSER_TEST_CONTACT_ID",
+        state.pitcherData?.contact?.Id ?? "BROWSER_TEST_CONTACT_ID",
 
     salesforceContactName: (state) =>
-        state.pitcherData?.user?.Name ?? "BROWSER_TEST_CONTACT_USER",
+        state.pitcherData?.contact?.Name ?? "BROWSER_TEST_CONTACT_USER",
 
     hasPitcherAccount: (state) => {
       return Boolean(state.pitcherData?.user);
