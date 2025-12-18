@@ -85,7 +85,7 @@ class AnswerItem(BaseModel):
 class QuestionnaireSubmissionRequest(BaseModel):
     """Request payload for submitting a questionnaire"""
     questionnaireType: str
-    salesforceAccountId: str
+    salesforceContactId: str
     startedAt: str
     completedAt: str
     randomNumber: int
@@ -98,12 +98,12 @@ class QuestionnaireSubmissionRequest(BaseModel):
             raise ValueError(f"Invalid questionnaire type. Must be one of: {valid_types}")
         return v
 
-    @validator('salesforceAccountId')
-    def validate_account_id(cls, v):
+    @validator('salesforceContactId')
+    def validate_contact_id(cls, v):
         if not v or len(v.strip()) == 0:
-            raise ValueError("Salesforce account ID is required")
+            raise ValueError("Salesforce contact ID is required")
         if len(v) > 50:
-            raise ValueError("Account ID too long (max 50 chars)")
+            raise ValueError("Contact ID too long (max 50 chars)")
         return v.strip()
 
     @validator('startedAt', 'completedAt')
@@ -158,30 +158,30 @@ def health_check():
     tags=["questionnaires"]
 )
 def get_questionnaire_counts(
-    account_id: str,
+    contact_id: str,
     session: Session = Depends(get_session),
     api_key: str = Depends(verify_api_key)
 ):
     """
-    Get counts of completed questionnaires grouped by type for a specific account.
+    Get counts of completed questionnaires grouped by type for a specific contact.
     Returns a dictionary with questionnaire types as keys and counts as values.
     """
-    logger.info(f"GET /api/questionnaires/counts - Request received - account_id={account_id}")
+    logger.info(f"GET /api/questionnaires/counts - Request received - contact_id={contact_id}")
 
-    # Validate account_id
-    if not account_id or len(account_id.strip()) == 0:
-        logger.warning("GET /api/questionnaires/counts - Missing or empty account_id parameter")
-        raise HTTPException(status_code=400, detail="account_id query parameter is required")
+    # Validate contact_id
+    if not contact_id or len(contact_id.strip()) == 0:
+        logger.warning("GET /api/questionnaires/counts - Missing or empty contact_id parameter")
+        raise HTTPException(status_code=400, detail="contact_id query parameter is required")
 
     try:
-        logger.debug(f"Building SQL query to count submissions by type for account: {account_id}")
-        # Query to count submissions grouped by questionnaire_type, filtered by account_id
+        logger.debug(f"Building SQL query to count submissions by type for contact: {contact_id}")
+        # Query to count submissions grouped by questionnaire_type, filtered by contact_id
         statement = (
             select(
                 QuestionnaireSubmission.questionnaire_type,
                 func.count(QuestionnaireSubmission.id).label('count')
             )
-            .where(QuestionnaireSubmission.salesforce_account_id == account_id)
+            .where(QuestionnaireSubmission.salesforce_contact_id == contact_id)
             .group_by(QuestionnaireSubmission.questionnaire_type)
         )
 
@@ -223,7 +223,7 @@ def submit_questionnaire(
     """
     logger.info(f"POST /api/questionnaires/submit - Request received")
     logger.debug(f"Questionnaire type: {request.questionnaireType}")
-    logger.debug(f"Salesforce account ID: {request.salesforceAccountId}")
+    logger.debug(f"Salesforce contact ID: {request.salesforceContactId}")
     logger.debug(f"Random number: {request.randomNumber}")
     logger.debug(f"Number of answers: {len(request.answers)}")
     logger.debug(f"Start time: {request.startedAt}, Completed time: {request.completedAt}")
@@ -239,7 +239,7 @@ def submit_questionnaire(
         # Create submission record
         submission = QuestionnaireSubmission(
             questionnaire_type=request.questionnaireType,
-            salesforce_account_id=request.salesforceAccountId,
+            salesforce_contact_id=request.salesforceContactId,
             started_at=started_at,
             completed_at=completed_at,
             random_number=request.randomNumber
@@ -294,20 +294,20 @@ def submit_questionnaire(
 )
 def get_results(
     comparison_set: str,
-    account_id: str,
+    contact_id: str,
     session: Session = Depends(get_session),
     api_key: str = Depends(verify_api_key)
 ):
     """
-    Get aggregated results for a comparison set, filtered by account ID.
+    Get aggregated results for a comparison set, filtered by contact ID.
     Returns count frequencies for all questions grouped by answer value.
     """
-    logger.info(f"GET /api/questionnaires/results/{comparison_set} - Request received - account_id={account_id}")
+    logger.info(f"GET /api/questionnaires/results/{comparison_set} - Request received - contact_id={contact_id}")
 
-    # Validate account_id
-    if not account_id or len(account_id.strip()) == 0:
-        logger.warning("GET /api/questionnaires/results - Missing or empty account_id parameter")
-        raise HTTPException(status_code=400, detail="account_id query parameter is required")
+    # Validate contact_id
+    if not contact_id or len(contact_id.strip()) == 0:
+        logger.warning("GET /api/questionnaires/results - Missing or empty contact_id parameter")
+        raise HTTPException(status_code=400, detail="contact_id query parameter is required")
 
     # Validate comparison set
     if comparison_set not in COMPARISON_SETS:
@@ -318,19 +318,19 @@ def get_results(
     logger.debug(f"Using comparison set config: {config}")
 
     def aggregate_for_type(questionnaire_type, product_key):
-        logger.debug(f"Aggregating data for {product_key}: type={questionnaire_type}, account={account_id}")
+        logger.debug(f"Aggregating data for {product_key}: type={questionnaire_type}, contact={contact_id}")
 
-        # Count submissions for this account
-        logger.debug(f"Counting submissions for {questionnaire_type} and account {account_id}")
+        # Count submissions for this contact
+        logger.debug(f"Counting submissions for {questionnaire_type} and contact {contact_id}")
         count_stmt = select(func.count(QuestionnaireSubmission.id)).where(
             QuestionnaireSubmission.questionnaire_type == questionnaire_type,
-            QuestionnaireSubmission.salesforce_account_id == account_id
+            QuestionnaireSubmission.salesforce_contact_id == contact_id
         )
         count = session.exec(count_stmt).one()
-        logger.debug(f"Found {count} submissions for {questionnaire_type} and account {account_id}")
+        logger.debug(f"Found {count} submissions for {questionnaire_type} and contact {contact_id}")
 
-        # Aggregate answers: GROUP BY (question_id, answer_value) and COUNT, filtered by account
-        logger.debug(f"Aggregating answers for {questionnaire_type} and account {account_id}")
+        # Aggregate answers: GROUP BY (question_id, answer_value) and COUNT, filtered by contact
+        logger.debug(f"Aggregating answers for {questionnaire_type} and contact {contact_id}")
         agg_stmt = (
             select(
                 QuestionnaireAnswer.question_id,
@@ -340,7 +340,7 @@ def get_results(
             .join(QuestionnaireSubmission)
             .where(
                 QuestionnaireSubmission.questionnaire_type == questionnaire_type,
-                QuestionnaireSubmission.salesforce_account_id == account_id
+                QuestionnaireSubmission.salesforce_contact_id == contact_id
             )
             .group_by(
                 QuestionnaireAnswer.question_id,

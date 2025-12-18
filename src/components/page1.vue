@@ -234,14 +234,14 @@ export default {
   methods: {
     async fetchCounts() {
       try {
-        // Get account ID from Salesforce store
-        const accountId = this.salesforceStore.salesforceAccountId;
+        // Get contact ID from Salesforce store
+        const contactId = this.salesforceStore.salesforceContactId;
 
-        if (!accountId) {
+        if (!contactId) {
           return;
         }
 
-        this.counts = await getQuestionnaireCounts(accountId);
+        this.counts = await getQuestionnaireCounts(contactId);
       } catch (error) {
         //console.error('Failed to fetch questionnaire counts:', error);
       }
