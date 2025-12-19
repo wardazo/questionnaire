@@ -14,7 +14,7 @@
           <div class="chart-header">
             <p class="patient-count">
               <span class="count-number">{{ formatCount(product1Data.count) }}</span>
-              <strong v-html="product1Data.displayName"></strong> patients
+              <strong v-html="product1Data.displayName"></strong> {{ $t('patients') }}
             </p>
           </div>
           <div class="chart-canvas-wrapper">
@@ -30,7 +30,7 @@
           <div class="chart-header">
             <p class="patient-count">
               <span class="count-number">{{ formatCount(product2Data.count) }}</span>
-              <strong v-html="product2Data.displayName"></strong> patients
+              <strong v-html="product2Data.displayName"></strong> {{ $t('patients') }}
             </p>
           </div>
           <div class="chart-canvas-wrapper">
@@ -200,9 +200,12 @@ export default {
 
     formatLabel(value) {
       // 'never' → 'Never', 'not_at_all' → 'Not at all'
-      return value.split('_').map(w =>
+      const formatted = value.split('_').map(w =>
         w.charAt(0).toUpperCase() + w.slice(1)
       ).join(' ');
+
+      // Use i18n if the key exists, otherwise return formatted string
+      return this.$t(formatted);
     },
 
     formatCount(count) {

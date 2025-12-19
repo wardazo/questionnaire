@@ -66,7 +66,9 @@
   "Often": "Often",
   "Always": "Always",
   "Not at all": "Not at all",
+  "Not At All": "Not at all",
   "A little": "A little",
+  "A Little": "A little",
   "Moderately": "Moderately",
   "Significantly": "Significantly",
   "Very Clear": "Very Clear",
@@ -139,5 +141,11 @@
   "When do you notice it the most?": "When do you notice it the most?",
   "UNVA": "UNVA",
   "UIVA": "UIVA",
-  "UNIA": "UNIA"
+  "UNIA": "UNIA",
+  "patients": "patients",
+  "Highest": "Highest",
+  "Lowest": "Lowest",
+  "Median": "Median",
+  "Patient satisfaction": "Patient satisfaction",
+  "Evening": "Evening"
 }

@@ -6,7 +6,7 @@
       <div class="meter-wrapper">
         <div class="meter-header">
           <p class="patient-count">
-            Patient satisfaction
+            {{ $t('Patient satisfaction') }}
           </p>
         </div>
         <div class="meter-content">
@@ -38,7 +38,7 @@
       <div class="meter-wrapper">
         <div class="meter-header">
           <p class="patient-count">
-            Patient satisfaction
+            {{ $t('Patient satisfaction') }}
           </p>
         </div>
         <div class="meter-content">

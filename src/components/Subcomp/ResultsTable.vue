@@ -1,6 +1,6 @@
 <template>
   <div class="results-table-section">
-    <div class="section-title">Visual acuity measurements</div>
+    <div class="section-title">{{ $t('Visual Acuity Measurements') }}</div>
 
     <div class="tables-container">
       <!-- Product 1 Table -->
@@ -8,7 +8,7 @@
         <div class="table-header">
           <p class="patient-count">
             <span class="count-number">{{ formatCount(product1Data.count) }}</span>
-            <strong v-html="product1Data.displayName"></strong> patients
+            <strong v-html="product1Data.displayName"></strong> {{ $t('patients') }}
           </p>
         </div>
         <div class="table-content">
@@ -26,19 +26,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="acuity-label">Highest</td>
+                <td class="acuity-label">{{ $t('Highest') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product1Data, questionId, 'highest') }}
                 </td>
               </tr>
               <tr>
-                <td class="acuity-label">Lowest</td>
+                <td class="acuity-label">{{ $t('Lowest') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product1Data, questionId, 'lowest') }}
                 </td>
               </tr>
               <tr>
-                <td class="acuity-label">Median</td>
+                <td class="acuity-label">{{ $t('Median') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product1Data, questionId, 'median') }}
                 </td>
@@ -56,7 +56,7 @@
         <div class="table-header">
           <p class="patient-count">
             <span class="count-number">{{ formatCount(product2Data.count) }}</span>
-            <strong v-html="product2Data.displayName"></strong> patients
+            <strong v-html="product2Data.displayName"></strong> {{ $t('patients') }}
           </p>
         </div>
         <div class="table-content">
@@ -74,19 +74,19 @@
             </thead>
             <tbody>
               <tr>
-                <td class="acuity-label">Highest</td>
+                <td class="acuity-label">{{ $t('Highest') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product2Data, questionId, 'highest') }}
                 </td>
               </tr>
               <tr>
-                <td class="acuity-label">Lowest</td>
+                <td class="acuity-label">{{ $t('Lowest') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product2Data, questionId, 'lowest') }}
                 </td>
               </tr>
               <tr>
-                <td class="acuity-label">Median</td>
+                <td class="acuity-label">{{ $t('Median') }}</td>
                 <td v-for="(questionId, index) in questionIds" :key="index">
                   {{ getStatValue(product2Data, questionId, 'median') }}
                 </td>
