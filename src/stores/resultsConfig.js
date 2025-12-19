@@ -1,49 +1,51 @@
 // Tab section configurations for each comparison set
+import i18n from '@/i18n';
+
 export const RESULTS_TAB_SECTIONS = {
   'vivity-puresee': [
     {
       id: 0,
-      label: 'Spectacle independence & clarity',
-      title: 'Spectacle independence:',
-      subtitle: 'On a typical day, how often do you wear glasses for the following tasks?',
+      label: i18n.global.t('Spectacle independence & clarity'),
+      title: i18n.global.t('Spectacle independence:'),
+      subtitle: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
       questionIds: ['SET1_SPECTACLE_FAR', 'SET1_SPECTACLE_ARMS', 'SET1_SPECTACLE_NEAR'],
-      taskLabels: ['Far away', "Arm's length", 'Up close'],
+      taskLabels: [i18n.global.t('Far away'), i18n.global.t("Arm's length"), i18n.global.t('Up close')],
       chartType: 'bar',
       optionType: 'RADIO_OPTIONS'
     },
     {
       id: 1,
-      label: 'Visual disturbances - Halos',
-      title: 'Visual disturbances - Halos',
+      label: i18n.global.t('Visual disturbances - Halos'),
+      title: i18n.global.t('Visual disturbances - Halos'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET1_HALOS_FREQ', title: 'Do you experience halos in dim light?' },
-        { questionId: 'SET1_HALOS_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+        { questionId: 'SET1_HALOS_FREQ', title: i18n.global.t('Do you experience halos in dim light?') },
+        { questionId: 'SET1_HALOS_BOTHER', title: i18n.global.t('How bothersome are these with activities like night driving?') }
       ]
     },
     {
       id: 2,
-      label: 'Visual disturbances - Glare',
-      title: 'Visual disturbances - Glare',
+      label: i18n.global.t('Visual disturbances - Glare'),
+      title: i18n.global.t('Visual disturbances - Glare'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET1_GLARE_FREQ', title: 'Do you experience glare?' },
-        { questionId: 'SET1_GLARE_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+        { questionId: 'SET1_GLARE_FREQ', title: i18n.global.t('Do you experience glare?') },
+        { questionId: 'SET1_GLARE_BOTHER', title: i18n.global.t('How bothersome are these with activities like night driving?') }
       ]
     },
     {
       id: 3,
-      label: 'Visual acuity & patient satisfaction',
-      title: 'Visual Acuity & Patient Satisfaction',
+      label: i18n.global.t('Visual acuity & patient satisfaction'),
+      title: i18n.global.t('Visual Acuity & Patient Satisfaction'),
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET1_ACUITY_UNVA40', 'SET1_ACUITY_UIVA66', 'SET1_ACUITY_UDVA'],
       acuityMeasurementLabels: [
-        { name: 'UNVA', distance: '' },
-        { name: 'UIVA', distance: '' },
-        { name: 'UDVA', distance: '' }
+        { name: i18n.global.t('UNVA'), distance: '' },
+        { name: i18n.global.t('UIVA'), distance: '' },
+        { name: i18n.global.t('UDVA'), distance: '' }
       ],
       satisfactionQuestionId: 'SET1_SATISFACTION'
     }
@@ -52,69 +54,69 @@ export const RESULTS_TAB_SECTIONS = {
   'panoptix-odyssey': [
     {
       id: 0,
-      label: 'Spectacle independence',
-      title: 'Spectacle independence:',
-      subtitle: 'On a typical day, how often do you wear glasses for the following tasks?',
+      label: i18n.global.t('Spectacle independence'),
+      title: i18n.global.t('Spectacle independence:'),
+      subtitle: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
       chartType: 'bar',
       questionIds: ['SET2_SPECTACLE_FAR', 'SET2_SPECTACLE_INTERMEDIATE', 'SET2_SPECTACLE_NEAR', 'SET2_SPECTACLE_VERYNEAR'],
-      taskLabels: ['Far', 'Intermediate', 'Near', 'Very Near'],
+      taskLabels: [i18n.global.t('Far'), i18n.global.t('Intermediate'), i18n.global.t('Near'), i18n.global.t('Very Near')],
       optionType: 'RADIO_OPTIONS'
     },
     {
       id: 1,
-      label: 'Clarity of Vision',
-      title: 'Clarity of Vision',
-      subtitle: 'Please rate the sharpness or clarity of your vision',
+      label: i18n.global.t('Clarity of Vision'),
+      title: i18n.global.t('Clarity of Vision'),
+      subtitle: i18n.global.t('Please rate the sharpness or clarity of your vision'),
       chartType: 'bar',
       questionIds: ['SET2_CLARITY_BRIGHT', 'SET2_CLARITY_DIM'],
-      taskLabels: ['Bright light', 'Dim light'],
+      taskLabels: [i18n.global.t('Bright light'), i18n.global.t('Dim light')],
       optionType: 'CLARITY_OPTIONS'
     },
     {
       id: 2,
-      label: 'Visual disturbances - Halos',
-      title: 'Visual disturbances - Halos',
+      label: i18n.global.t('Visual disturbances - Halos'),
+      title: i18n.global.t('Visual disturbances - Halos'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET2_HALOS_FREQ', title: 'Do you experience halos in dim light?' },
-        { questionId: 'SET2_HALOS_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+        { questionId: 'SET2_HALOS_FREQ', title: i18n.global.t('Do you experience halos in dim light?') },
+        { questionId: 'SET2_HALOS_BOTHER', title: i18n.global.t('How bothersome are these with activities like night driving?') }
       ]
     },
     {
       id: 3,
-      label: 'Visual disturbances - Glare',
-      title: 'Visual disturbances - Glare',
+      label: i18n.global.t('Visual disturbances - Glare'),
+      title: i18n.global.t('Visual disturbances - Glare'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET2_GLARE_FREQ', title: 'Do you experience glare?' },
-        { questionId: 'SET2_GLARE_BOTHER', title: 'How bothersome are these with activities like night driving?' }
+        { questionId: 'SET2_GLARE_FREQ', title: i18n.global.t('Do you experience glare?') },
+        { questionId: 'SET2_GLARE_BOTHER', title: i18n.global.t('How bothersome are these with activities like night driving?') }
       ]
     },
     {
       id: 4,
-      label: 'Visual disturbances - Starburst',
-      title: 'Visual disturbances - Starburst',
+      label: i18n.global.t('Visual disturbances - Starburst'),
+      title: i18n.global.t('Visual disturbances - Starburst'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET2_STARBURSTS_FREQ', title: 'Do you experience halos in dim light?' },
-        { questionId: 'SET2_STARBURSTS_BOTHER', title: 'Do you experience glare?' }
+        { questionId: 'SET2_STARBURSTS_FREQ', title: i18n.global.t('Do you experience halos in dim light?') },
+        { questionId: 'SET2_STARBURSTS_BOTHER', title: i18n.global.t('Do you experience glare?') }
       ]
     },
     {
       id: 5,
-      label: 'Visual acuity & patient satisfaction',
-      title: 'Visual Acuity & Patient Satisfaction',
+      label: i18n.global.t('Visual acuity & patient satisfaction'),
+      title: i18n.global.t('Visual Acuity & Patient Satisfaction'),
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
       acuityMeasurementLabels: [
-        { name: 'UNVA', distance: '33 cm' },
-        { name: 'UIVA', distance: '66 cm' },
-        { name: 'UNIA', distance: '66 cm' },
-        { name: 'UDVA', distance: '' }
+        { name: i18n.global.t('UNVA'), distance: '33 cm' },
+        { name: i18n.global.t('UIVA'), distance: '66 cm' },
+        { name: i18n.global.t('UNIA'), distance: '66 cm' },
+        { name: i18n.global.t('UDVA'), distance: '' }
       ],
       satisfactionQuestionId: 'SET2_SATISFACTION'
     }
@@ -123,47 +125,47 @@ export const RESULTS_TAB_SECTIONS = {
   'panoptix-galaxy': [
     {
       id: 0,
-      label: 'Spectacle independence',
-      title: 'Spectacle independence:',
-      subtitle: 'On a typical day, how often do you wear glasses for the following tasks?',
+      label: i18n.global.t('Spectacle independence'),
+      title: i18n.global.t('Spectacle independence:'),
+      subtitle: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
       chartType: 'bar',
       questionIds: ['SET2_SPECTACLE_FAR', 'SET2_SPECTACLE_INTERMEDIATE', 'SET2_SPECTACLE_NEAR', 'SET2_SPECTACLE_VERYNEAR'],
-      taskLabels: ['Far', 'Intermediate', 'Near', 'Very Near'],
+      taskLabels: [i18n.global.t('Far'), i18n.global.t('Intermediate'), i18n.global.t('Near'), i18n.global.t('Very Near')],
       optionType: 'RADIO_OPTIONS'
     },
     {
       id: 1,
-      label: 'Clarity of Vision',
-      title: 'Visual Quality',
-      subtitle: 'Rate the sharpness or clarity of your vision in bright and dim light conditions',
+      label: i18n.global.t('Clarity of Vision'),
+      title: i18n.global.t('Visual Quality'),
+      subtitle: i18n.global.t('Rate the sharpness or clarity of your vision in bright and dim light conditions'),
       chartType: 'bar',
       questionIds: ['SET3_CLARITY_BRIGHT', 'SET3_CLARITY_DIM', 'SET3_CLARITY_LOWCONTRAST'],
-      taskLabels: ['Bright light', 'Dim light', 'Low contrast'],
+      taskLabels: [i18n.global.t('Bright light'), i18n.global.t('Dim light'), i18n.global.t('Low contrast')],
       optionType: 'CLARITY_OPTIONS'
     },
     {
       id: 2,
-      label: 'Visual disturbances - Ghosting',
-      title: 'Visual disturbances - Ghosting',
+      label: i18n.global.t('Visual disturbances - Ghosting'),
+      title: i18n.global.t('Visual disturbances - Ghosting'),
       subtitle: '',
       chartType: 'pie',
       questions: [
-        { questionId: 'SET3_SHADOW_GHOST', title: "Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?" },
-        { questionId: 'SET3_GLARE_WHEN', title: 'When do you notice it the most?' }
+        { questionId: 'SET3_SHADOW_GHOST', title: i18n.global.t("Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?") },
+        { questionId: 'SET3_GLARE_WHEN', title: i18n.global.t('When do you notice it the most?') }
       ]
     },
     {
       id: 3,
-      label: 'Visual acuity & patient satisfaction',
-      title: 'Visual Acuity & Patient Satisfaction',
+      label: i18n.global.t('Visual acuity & patient satisfaction'),
+      title: i18n.global.t('Visual Acuity & Patient Satisfaction'),
       subtitle: '',
       chartType: 'combined',
       acuityQuestionIds: ['SET2_ACUITY_UNVA33', 'SET2_ACUITY_UIVA66', 'SET2_ACUITY_UDVA_NEAR', 'SET2_ACUITY_UDVA'],
       acuityMeasurementLabels: [
-        { name: 'UNVA', distance: '33 cm' },
-        { name: 'UIVA', distance: '66 cm' },
-        { name: 'UNIA', distance: '66 cm' },
-        { name: 'UDVA', distance: '' }
+        { name: i18n.global.t('UNVA'), distance: '33 cm' },
+        { name: i18n.global.t('UIVA'), distance: '66 cm' },
+        { name: i18n.global.t('UNIA'), distance: '66 cm' },
+        { name: i18n.global.t('UDVA'), distance: '' }
       ],
       satisfactionQuestionId: 'SET2_SATISFACTION'
     }

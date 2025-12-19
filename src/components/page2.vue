@@ -5,14 +5,14 @@
       <aside class="sidebar">
         <div class="sidebar-content">
           <div class="sidebar-header">
-            <h2 class="sidebar-title">Results</h2>
+            <h2 class="sidebar-title">{{ $t('Results') }}</h2>
           </div>
 
           <div v-if="product1" class="product-info">
             <h3 class="product-name" v-html="product1.displayName"></h3>
             <p class="product-subtitle" v-html="getProductSubtitle(product1.type)"></p>
             <div class="questionnaire-count">
-              <span class="count-label">Questionnaires</span>
+              <span class="count-label">{{ $t('Questionnaires') }}</span>
               <div class="count-number">{{ formatCount(product1.count) }}</div>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <h3 class="product-name" v-html="product2.displayName"></h3>
             <p class="product-subtitle" v-html="getProductSubtitle(product2.type)"></p>
             <div class="questionnaire-count">
-              <span class="count-label">Questionnaires</span>
+              <span class="count-label">{{ $t('Questionnaires') }}</span>
               <div class="count-number">{{ formatCount(product2.count) }}</div>
             </div>
           </div>
@@ -32,10 +32,10 @@
 
           <div class="sidebar-actions">
             <button class="btn-sidebar btn-pdf" @click="sendPDF">
-              Send this PDF report
+              {{ $t('Send this PDF report') }}
             </button>
             <button class="btn-sidebar btn-exit" @click="exitSummary">
-              Exit this summary
+              {{ $t('Exit this summary') }}
             </button>
           </div>
         </div>
@@ -45,19 +45,19 @@
       <main class="main-content">
         <!-- Loading State -->
         <div v-if="resultsStore.isLoading" class="loading-state">
-          <p>Loading results...</p>
+          <p>{{ $t('Loading results...') }}</p>
         </div>
 
         <!-- Error State -->
         <div v-else-if="resultsStore.error" class="error-state">
-          <p>Failed to load results: {{ resultsStore.error.message }}</p>
-          <button @click="retryFetch" class="btn-retry">Retry</button>
+          <p>{{ $t('Failed to load results:') }} {{ resultsStore.error.message }}</p>
+          <button @click="retryFetch" class="btn-retry">{{ $t('Retry') }}</button>
         </div>
 
         <!-- Empty State -->
         <div v-else-if="!resultsStore.hasData" class="empty-state">
-          <p>No questionnaire data available yet.</p>
-          <p>Complete some questionnaires to see results.</p>
+          <p>{{ $t('No questionnaire data available yet.') }}</p>
+          <p>{{ $t('Complete some questionnaires to see results.') }}</p>
         </div>
 
         <!-- Chart Content -->

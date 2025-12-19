@@ -10,7 +10,7 @@
           </div>
 
           <div class="questionnaire-info">
-            <p class="questionnaire-label">Questionnaires</p>
+            <p class="questionnaire-label">{{ $t('Questionnaires') }}</p>
             <div class="questionnaire-count">{{ formattedCount }}</div>
           </div>
 
@@ -20,7 +20,7 @@
 <!--          </div>-->
         </div>
 
-        <button class="btn-cancel" @click="cancelQuestionnaire">Cancel this questionnaire</button>
+        <button class="btn-cancel" @click="cancelQuestionnaire">{{ $t('Cancel this questionnaire') }}</button>
       </aside>
 
       <!-- Main Content -->
@@ -38,15 +38,15 @@
           <div class="error-content">
             <span class="error-icon">⚠️</span>
             <div class="error-text">
-              <p class="error-title">Submission Failed</p>
+              <p class="error-title">{{ $t('Submission Failed') }}</p>
               <p class="error-message">{{ submissionError }}</p>
             </div>
             <div class="error-actions">
               <button class="btn-retry" @click="retrySubmission" :disabled="isSubmitting">
-                {{ isSubmitting ? 'Submitting...' : 'Retry' }}
+                {{ isSubmitting ? $t('Submitting...') : $t('Retry') }}
               </button>
               <button class="btn-cancel-error" @click="cancelQuestionnaire">
-                Cancel
+                {{ $t('Cancel') }}
               </button>
             </div>
           </div>
@@ -58,8 +58,8 @@
             v-if="!isFirstPart"
             class="btn-back"
             @click="previousPart"
+            v-html="$t('&lt;&lt; Back')"
           >
-            &lt;&lt; Back
           </button>
           <div v-else class="nav-spacer"></div>
 
@@ -76,8 +76,8 @@
             class="btn-next"
             @click="nextPart"
             :disabled="!isCurrentPartComplete"
+            v-html="$t('Next &gt;&gt;')"
           >
-            Next &gt;&gt;
           </button>
           <button
             v-else
@@ -85,7 +85,7 @@
             @click="finishQuestionnaire"
             :disabled="isSubmitting || !isCurrentPartComplete"
           >
-            {{ isSubmitting ? 'Submitting...' : 'Finish' }}
+            {{ isSubmitting ? $t('Submitting...') : $t('Finish') }}
           </button>
         </div>
       </main>
@@ -94,10 +94,10 @@
     <!-- Cancel Confirmation Modal -->
     <ConfirmModal
       :show="showCancelModal"
-      title="Cancel Questionnaire"
-      message="Do you want to delete the current questionnaire?"
-      confirmText="Delete"
-      cancelText="Cancel"
+      :title="$t('Cancel Questionnaire')"
+      :message="$t('Do you want to delete the current questionnaire?')"
+      :confirmText="$t('Delete')"
+      :cancelText="$t('Cancel')"
       @confirm="confirmCancel"
       @cancel="closeModal"
     />
@@ -284,27 +284,27 @@ export default {
         }
       } catch (error) {
         // Unexpected error
-        this.submissionError = 'An unexpected error occurred. Please try again.';
+        this.submissionError = this.$t('An unexpected error occurred. Please try again.');
         //console.error('Unexpected error:', error);
       } finally {
         this.isSubmitting = false;
       }
     },
     getErrorMessage(error) {
-      if (!error) return 'An error occurred. Please try again.';
+      if (!error) return this.$t('An error occurred. Please try again.');
 
       switch (error.type) {
         case 'network_error':
-          return 'Network error. Please check your connection and try again.';
+          return this.$t('Network error. Please check your connection and try again.');
         case 'api_error':
           if (error.status === 400) {
             return `Validation error: ${error.message}`;
           } else if (error.status >= 500) {
-            return 'Server error. Please try again later.';
+            return this.$t('Server error. Please try again later.');
           }
-          return error.message || 'Server error. Please try again.';
+          return error.message || this.$t('Server error. Please try again later.');
         default:
-          return error.message || 'An error occurred. Please try again.';
+          return error.message || this.$t('An error occurred. Please try again.');
       }
     },
     retrySubmission() {

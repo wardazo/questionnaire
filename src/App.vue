@@ -17,7 +17,7 @@
       </div>
       <div class="header-right">
         <p class="has-text-main has-text-weight-light m-0">
-          Patient Outcomes PCIOLs
+          {{ $t('Patient Outcomes PCIOLs') }}
         </p>
         <button v-if="isTitaniumApp">
           <img @click="showCloseModal = true" src="./assets/img/close.svg" />
@@ -27,7 +27,7 @@
 
     <div class="top-space">
       <div v-if="isInitializing" class="initialization-loading">
-        <p>Loading...</p>
+        <p>{{ $t('Loading...') }}</p>
       </div>
       <transition v-else name="component-fade" mode="out-in">
         <component
@@ -43,11 +43,11 @@
     <Modal v-if="showCloseModal">
       <template v-slot:body>
         <div class="close-modal-content">
-          <h2 class="close-modal-title">Close Application</h2>
-          <p class="close-modal-message">Do you want to close this application?</p>
+          <h2 class="close-modal-title">{{ $t('Close Application') }}</h2>
+          <p class="close-modal-message">{{ $t('Do you want to close this application?') }}</p>
           <div class="close-modal-buttons">
-            <button class="btn-cancel" @click="showCloseModal = false">Cancel</button>
-            <button class="btn-close" @click="closeApplication">Close</button>
+            <button class="btn-cancel" @click="showCloseModal = false">{{ $t('Cancel') }}</button>
+            <button class="btn-close" @click="closeApplication">{{ $t('Close') }}</button>
           </div>
         </div>
       </template>

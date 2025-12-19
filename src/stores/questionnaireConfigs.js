@@ -1,4 +1,5 @@
 // Questionnaire configurations for all 6 product types
+import i18n from '@/i18n';
 
 // ============================================================================
 // SHARED OPTIONS
@@ -6,26 +7,26 @@
 
 // Standard radio button options (Never/Occasionally/Often/Always)
 const RADIO_OPTIONS = [
-  { label: 'Never', value: 'never' },
-  { label: 'Occasionally', value: 'occasionally' },
-  { label: 'Often', value: 'often' },
-  { label: 'Always', value: 'always' }
+  { label: i18n.global.t('Never'), value: 'never' },
+  { label: i18n.global.t('Occasionally'), value: 'occasionally' },
+  { label: i18n.global.t('Often'), value: 'often' },
+  { label: i18n.global.t('Always'), value: 'always' }
 ];
 
 // Bothersome scale options
 const BOTHERSOME_OPTIONS = [
-  { label: 'Not at all', value: 'not_at_all' },
-  { label: 'A little', value: 'a_little' },
-  { label: 'Moderately', value: 'moderately' },
-  { label: 'Significantly', value: 'significantly' }
+  { label: i18n.global.t('Not at all'), value: 'not_at_all' },
+  { label: i18n.global.t('A little'), value: 'a_little' },
+  { label: i18n.global.t('Moderately'), value: 'moderately' },
+  { label: i18n.global.t('Significantly'), value: 'significantly' }
 ];
 
 // Clarity of vision options
 const CLARITY_OPTIONS = [
-  { label: 'Very Clear', value: 'very_clear' },
-  { label: 'Somewhat Clear', value: 'somewhat_clear' },
-  { label: 'Slightly Blurry', value: 'slightly_blurry' },
-  { label: 'Very Blurry', value: 'very_blurry' }
+  { label: i18n.global.t('Very Clear'), value: 'very_clear' },
+  { label: i18n.global.t('Somewhat Clear'), value: 'somewhat_clear' },
+  { label: i18n.global.t('Slightly Blurry'), value: 'slightly_blurry' },
+  { label: i18n.global.t('Very Blurry'), value: 'very_blurry' }
 ];
 
 // Visual acuity measurement options
@@ -41,20 +42,20 @@ const SET1_PART1_TASKS = [
   {
     key: 'far',
     questionId: 'SET1_SPECTACLE_FAR',
-    label: 'Far away',
-    description: '(e.g., watching TV, seeing street signs, recognizing faces).'
+    label: i18n.global.t('Far away'),
+    description: i18n.global.t('(e.g., watching TV, seeing street signs, recognizing faces).')
   },
   {
     key: 'armsLength',
     questionId: 'SET1_SPECTACLE_ARMS',
-    label: "Arm's length",
-    description: '(e.g., seeing the prices of goods on the dashboard of a car).'
+    label: i18n.global.t("Arm's length"),
+    description: i18n.global.t('(e.g., seeing the prices of goods on the dashboard of a car).')
   },
   {
     key: 'upClose',
     questionId: 'SET1_SPECTACLE_NEAR',
-    label: 'Up close',
-    description: '(e.g., reading a book or newspaper, or while eating).'
+    label: i18n.global.t('Up close'),
+    description: i18n.global.t('(e.g., reading a book or newspaper, or while eating).')
   }
 ];
 
@@ -62,25 +63,25 @@ const SET1_PART2_QUESTIONS = [
   {
     key: 'halos',
     questionId: 'SET1_HALOS_FREQ',
-    text: 'Do you experience halos in dim light?',
+    text: i18n.global.t('Do you experience halos in dim light?'),
     options: RADIO_OPTIONS
   },
   {
     key: 'halosBothersome',
     questionId: 'SET1_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    text: i18n.global.t('How bothersome are these for your day-to-day activities (i.e. night driving)?'),
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'glare',
     questionId: 'SET1_GLARE_FREQ',
-    text: 'Do you experience glare?',
+    text: i18n.global.t('Do you experience glare?'),
     options: RADIO_OPTIONS
   },
   {
     key: 'glareBothersome',
     questionId: 'SET1_GLARE_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    text: i18n.global.t('How bothersome are these for your day-to-day activities (i.e. night driving)?'),
     options: BOTHERSOME_OPTIONS
   }
 ];
@@ -89,7 +90,7 @@ const SET1_PART3_QUESTIONS = [
   {
     key: 'satisfaction',
     questionId: 'SET1_SATISFACTION',
-    text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
+    text: i18n.global.t('On a scale of 0 to 10, how satisfied are you with your vision after surgery?')
   }
 ];
 
@@ -97,21 +98,21 @@ const SET1_PART4_MEASUREMENTS = [
   {
     key: 'unva40',
     questionId: 'SET1_ACUITY_UNVA40',
-    label: 'UNVA (40cm)',
+    label: i18n.global.t('UNVA (40cm)'),
     icon: require('@/assets/img/icon-phone.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'uiva66',
     questionId: 'SET1_ACUITY_UIVA66',
-    label: 'UIVA (66cm)',
+    label: i18n.global.t('UIVA (66cm)'),
     icon: require('@/assets/img/icon-laptop.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udva',
     questionId: 'SET1_ACUITY_UDVA',
-    label: 'UDVA',
+    label: i18n.global.t('UDVA'),
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
   }
@@ -125,26 +126,26 @@ const SET2_PART1_TASKS = [
   {
     key: 'far',
     questionId: 'SET2_SPECTACLE_FAR',
-    label: 'Far',
-    description: '(Driving, watching TV).'
+    label: i18n.global.t('Far'),
+    description: i18n.global.t('(Driving, watching TV).')
   },
   {
     key: 'intermediate',
     questionId: 'SET2_SPECTACLE_INTERMEDIATE',
-    label: 'Intermediate',
-    description: '(Computer, car dashboard).'
+    label: i18n.global.t('Intermediate'),
+    description: i18n.global.t('(Computer, car dashboard).')
   },
   {
     key: 'near',
     questionId: 'SET2_SPECTACLE_NEAR',
-    label: 'Near',
-    description: '(Reading, Texting, Phone).'
+    label: i18n.global.t('Near'),
+    description: i18n.global.t('(Reading, Texting, Phone).')
   },
   {
     key: 'veryNear',
     questionId: 'SET2_SPECTACLE_VERYNEAR',
-    label: 'Very Near',
-    description: '(Ingredient list, drug indications).'
+    label: i18n.global.t('Very Near'),
+    description: i18n.global.t('(Ingredient list, drug indications).')
   }
 ];
 
@@ -152,13 +153,13 @@ const SET2_PART2_TASKS = [
   {
     key: 'brightLight',
     questionId: 'SET2_CLARITY_BRIGHT',
-    label: 'Bright light',
+    label: i18n.global.t('Bright light'),
     description: ''
   },
   {
     key: 'dimLight',
     questionId: 'SET2_CLARITY_DIM',
-    label: 'Dim light',
+    label: i18n.global.t('Dim light'),
     description: ''
   }
 ];
@@ -167,37 +168,37 @@ const SET2_PART3_QUESTIONS = [
   {
     key: 'halos',
     questionId: 'SET2_HALOS_FREQ',
-    text: 'Do you experience halos in dim light?',
+    text: i18n.global.t('Do you experience halos in dim light?'),
     options: RADIO_OPTIONS
   },
   {
     key: 'halosBothersome',
     questionId: 'SET2_HALOS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    text: i18n.global.t('How bothersome are these for your day-to-day activities (i.e. night driving)?'),
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'glare',
     questionId: 'SET2_GLARE_FREQ',
-    text: 'Do you experience glare?',
+    text: i18n.global.t('Do you experience glare?'),
     options: RADIO_OPTIONS
   },
   {
     key: 'glareBothersome',
     questionId: 'SET2_GLARE_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    text: i18n.global.t('How bothersome are these for your day-to-day activities (i.e. night driving)?'),
     options: BOTHERSOME_OPTIONS
   },
   {
     key: 'starbursts',
     questionId: 'SET2_STARBURSTS_FREQ',
-    text: 'Do you experience starbursts?',
+    text: i18n.global.t('Do you experience starbursts?'),
     options: RADIO_OPTIONS
   },
   {
     key: 'starburstsBothersome',
     questionId: 'SET2_STARBURSTS_BOTHER',
-    text: 'How bothersome are these for your day-to-day activities (i.e. night driving)?',
+    text: i18n.global.t('How bothersome are these for your day-to-day activities (i.e. night driving)?'),
     options: BOTHERSOME_OPTIONS
   }
 ];
@@ -206,7 +207,7 @@ const SET2_PART4_QUESTIONS = [
   {
     key: 'satisfaction',
     questionId: 'SET2_SATISFACTION',
-    text: 'On a scale of 0 to 10, how satisfied are you with your vision after surgery?'
+    text: i18n.global.t('On a scale of 0 to 10, how satisfied are you with your vision after surgery?')
   }
 ];
 
@@ -214,28 +215,28 @@ const SET2_PART5_MEASUREMENTS = [
   {
     key: 'unva33',
     questionId: 'SET2_ACUITY_UNVA33',
-    label: 'UNVA (33cm)',
+    label: i18n.global.t('UNVA (33cm)'),
     icon: require('@/assets/img/icon-phone.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'uiva66',
     questionId: 'SET2_ACUITY_UIVA66',
-    label: 'UIVA (66cm)',
+    label: i18n.global.t('UIVA (66cm)'),
     icon: require('@/assets/img/icon-laptop.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udvaNear',
     questionId: 'SET2_ACUITY_UDVA_NEAR',
-    label: 'UDVA (Near)',
+    label: i18n.global.t('UDVA (Near)'),
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
   },
   {
     key: 'udva',
     questionId: 'SET2_ACUITY_UDVA',
-    label: 'UDVA',
+    label: i18n.global.t('UDVA'),
     icon: require('@/assets/img/icon-steering.svg'),
     options: VISUAL_ACUITY_OPTIONS
   }
@@ -249,20 +250,20 @@ const SET3_PART2_TASKS = [
   {
     key: 'brightLight',
     questionId: 'SET3_CLARITY_BRIGHT',
-    label: 'Bright light',
+    label: i18n.global.t('Bright light'),
     description: ''
   },
   {
     key: 'dimLight',
     questionId: 'SET3_CLARITY_DIM',
-    label: 'Dim light',
+    label: i18n.global.t('Dim light'),
     description: ''
   },
   {
     key: 'lowContrast',
     questionId: 'SET3_CLARITY_LOWCONTRAST',
-    label: 'Low contrast',
-    description: '(e.g. fog, dusk).'
+    label: i18n.global.t('Low contrast'),
+    description: i18n.global.t('(e.g. fog, dusk).')
   }
 ];
 
@@ -270,18 +271,18 @@ const SET3_PART3_QUESTIONS = [
   {
     key: 'shadowGhost',
     questionId: 'SET3_SHADOW_GHOST',
-    text: "Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?",
+    text: i18n.global.t("Do you ever notice a 'shadow,' 'ghost,' or faint double image around objects even in good lighting?"),
     options: RADIO_OPTIONS
   },
   {
     key: 'glare',
     questionId: 'SET3_GLARE_WHEN',
-    text: 'If yes, when do you notice it the most?',
+    text: i18n.global.t('If yes, when do you notice it the most?'),
     options: [
-      { label: 'Reading', value: 'reading' },
-      { label: 'Watching TV', value: 'watching_tv' },
-      { label: 'In low light conditions', value: 'low_light' },
-      { label: 'No specific time', value: 'no_specific_time' }
+      { label: i18n.global.t('Reading'), value: 'reading' },
+      { label: i18n.global.t('Watching TV'), value: 'watching_tv' },
+      { label: i18n.global.t('In low light conditions'), value: 'low_light' },
+      { label: i18n.global.t('No specific time'), value: 'no_specific_time' }
     ]
   }
 ];
@@ -298,34 +299,34 @@ export const QUESTIONNAIRE_CONFIGS = {
   vivity: {
     type: 'vivity',
     productInfo: {
-      name: 'Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>',
-      subtitle: 'Vivity<sup>®</sup><br>Vivity<sup>®</sup> Toric'
+      name: i18n.global.t('Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>'),
+      subtitle: i18n.global.t('Vivity<sup>®</sup><br>Vivity<sup>®</sup> Toric')
     },
     totalParts: 4,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET1_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET1_PART2_QUESTIONS
       },
       part3: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET1_PART3_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part4: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET1_PART4_MEASUREMENTS
       }
     }
@@ -334,34 +335,34 @@ export const QUESTIONNAIRE_CONFIGS = {
   puresee: {
     type: 'puresee',
     productInfo: {
-      name: 'Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>',
-      subtitle: 'PureSee<sup>*</sup><br>PureSee<sup>*</sup> Toric'
+      name: i18n.global.t('Vivity<sup>®</sup> and<br>PureSee<sup>*</sup>'),
+      subtitle: i18n.global.t('PureSee<sup>*</sup><br>PureSee<sup>*</sup> Toric')
     },
     totalParts: 4,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET1_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET1_PART2_QUESTIONS
       },
       part3: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET1_PART3_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part4: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET1_PART4_MEASUREMENTS
       }
     }
@@ -371,41 +372,41 @@ export const QUESTIONNAIRE_CONFIGS = {
   panoptix1: {
     type: 'panoptix1',
     productInfo: {
-      name: 'PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>',
-      subtitle: 'PanOptix<sup>®</sup><br>PanOptix<sup>®</sup> Toric'
+      name: i18n.global.t('PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>'),
+      subtitle: i18n.global.t('PanOptix<sup>®</sup><br>PanOptix<sup>®</sup> Toric')
     },
     totalParts: 5,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET2_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual Quality – Clarity of Vision',
-        questionText: 'Please rate the sharpness or clarity of your vision in bright light, dim light.',
+        title: i18n.global.t('Visual Quality – Clarity of Vision'),
+        questionText: i18n.global.t('Please rate the sharpness or clarity of your vision in bright light, dim light.'),
         tasks: SET2_PART2_TASKS,
         options: CLARITY_OPTIONS
       },
       part3: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET2_PART3_QUESTIONS
       },
       part4: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET2_PART4_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part5: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET2_PART5_MEASUREMENTS
       }
     }
@@ -414,41 +415,41 @@ export const QUESTIONNAIRE_CONFIGS = {
   odyssey: {
     type: 'odyssey',
     productInfo: {
-      name: 'PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>',
-      subtitle: 'Odyssey<sup>*</sup><br> Odyssey<sup>*</sup> Toric'
+      name: i18n.global.t('PanOptix<sup>®</sup> and<br>Odyssey<sup>*</sup>'),
+      subtitle: i18n.global.t('Odyssey<sup>*</sup><br> Odyssey<sup>*</sup> Toric')
     },
     totalParts: 5,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET2_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual Quality – Clarity of Vision',
-        questionText: 'Please rate the sharpness or clarity of your vision in bright light, dim light.',
+        title: i18n.global.t('Visual Quality – Clarity of Vision'),
+        questionText: i18n.global.t('Please rate the sharpness or clarity of your vision in bright light, dim light.'),
         tasks: SET2_PART2_TASKS,
         options: CLARITY_OPTIONS
       },
       part3: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET2_PART3_QUESTIONS
       },
       part4: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET2_PART4_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part5: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET2_PART5_MEASUREMENTS
       }
     }
@@ -458,41 +459,41 @@ export const QUESTIONNAIRE_CONFIGS = {
   panoptix2: {
     type: 'panoptix2',
     productInfo: {
-      name: 'PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>',
-      subtitle: 'PanOptix<sup>®</sup><br> PanOptix<sup>®</sup> Toric'
+      name: i18n.global.t('PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>'),
+      subtitle: i18n.global.t('PanOptix<sup>®</sup><br> PanOptix<sup>®</sup> Toric')
     },
     totalParts: 5,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET2_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual Quality – Clarity of Vision',
-        questionText: 'Please rate the sharpness or clarity of your vision in bright light, dim light.',
+        title: i18n.global.t('Visual Quality – Clarity of Vision'),
+        questionText: i18n.global.t('Please rate the sharpness or clarity of your vision in bright light, dim light.'),
         tasks: SET3_PART2_TASKS,
         options: CLARITY_OPTIONS
       },
       part3: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET3_PART3_QUESTIONS
       },
       part4: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET2_PART4_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part5: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET2_PART5_MEASUREMENTS
       }
     }
@@ -501,41 +502,41 @@ export const QUESTIONNAIRE_CONFIGS = {
   galaxy: {
     type: 'galaxy',
     productInfo: {
-      name: 'PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>',
-      subtitle: 'Galaxy<sup>*</sup><br> Galaxy<sup>*</sup> Toric'
+      name: i18n.global.t('PanOptix<sup>®</sup> and<br>Galaxy<sup>*</sup>'),
+      subtitle: i18n.global.t('Galaxy<sup>*</sup><br> Galaxy<sup>*</sup> Toric')
     },
     totalParts: 5,
     parts: {
       part1: {
         component: 'QuestionRadio',
-        title: 'Spectacle independence:',
-        questionText: 'On a typical day, how often do you wear glasses for the following tasks?',
+        title: i18n.global.t('Spectacle independence:'),
+        questionText: i18n.global.t('On a typical day, how often do you wear glasses for the following tasks?'),
         tasks: SET2_PART1_TASKS,
         options: RADIO_OPTIONS
       },
       part2: {
         component: 'QuestionRadio',
-        title: 'Visual Quality – Clarity of Vision',
-        questionText: 'Please rate the sharpness or clarity of your vision in bright light, dim light.',
+        title: i18n.global.t('Visual Quality – Clarity of Vision'),
+        questionText: i18n.global.t('Please rate the sharpness or clarity of your vision in bright light, dim light.'),
         tasks: SET3_PART2_TASKS,
         options: CLARITY_OPTIONS
       },
       part3: {
         component: 'QuestionRadio',
-        title: 'Visual disturbances:',
+        title: i18n.global.t('Visual disturbances:'),
         questions: SET3_PART3_QUESTIONS
       },
       part4: {
         component: 'QuestionScale',
-        title: 'Overall Vision Experience:',
+        title: i18n.global.t('Overall Vision Experience:'),
         questions: SET2_PART4_QUESTIONS,
         scaleMin: 0,
         scaleMax: 10,
-        scaleLabel: '(0 = very dissatisfied, 10 = extremely satisfied)'
+        scaleLabel: i18n.global.t('(0 = very dissatisfied, 10 = extremely satisfied)')
       },
       part5: {
         component: 'QuestionVisualAcuity',
-        title: 'Visual Acuity Measurements',
+        title: i18n.global.t('Visual Acuity Measurements'),
         measurements: SET2_PART5_MEASUREMENTS
       }
     }

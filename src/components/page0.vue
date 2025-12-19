@@ -8,7 +8,7 @@
       <div v-if="currentView === 'selection'" class="selection-view">
         <!-- Main Content: Title, Contact Info, and Dropdown -->
         <div class="selection-content">
-          <h1 class="main-title">Patient Outcomes<br>PCIOLs</h1>
+          <h1 class="main-title" v-html="$t('Patient Outcomes PCIOLs').replace(' ', '<br>')"></h1>
           <div class="contact-info">
             <p class="contact-name">{{ salesforceStore.salesforceContactName }}</p>
 <!--            <p class="contact-name">#{{ salesforceStore.salesforceContactName }}</p>-->
@@ -17,7 +17,7 @@
           <CustomDropdown
             v-model="selectedPair"
             :options="dropdownOptions"
-            placeholder="Please select one"
+            :placeholder="$t('Please select one')"
           />
         </div>
 
@@ -27,18 +27,12 @@
           :disabled="!isStartEnabled"
           @click="goToProductView"
         >
-          Start
+          {{ $t('Start') }}
         </button>
 
         <!-- Bottom Disclaimer -->
         <div class="disclaimer-selection">
-          <p class="disclaimer-text">
-            By accessing and using the tool, you acknowledge and agree that:<br>
-            The results reflected by this tool are supported by a model that provides surgical practice reported data comparing range of vision and patient satisfaction data. Alcon makes no guarantees and results are as reported by the surgical practice. Model inputs consist of a number of patient specific variables in relation to questionnaire responses over time. Individual results may vary depending on a variety of patient attributes. It is always the practice's responsibility to determine medical necessity to use any of the products.<br>
-            No personal health information, including patient names, dates or other information that directly or indirectly identifies any patient, should be entered into the tool or otherwise provided or made available to Alcon.<br>
-            The practice is solely responsible for obtaining and maintaining any necessary patient consents or permissions to the extent required by applicable law.<br>
-            The results of the questionnaires, including the responses provided by the patient, are communicated exclusively to the surgical practice. Under no circumstances may these results be shared among different surgeries or with third party.<br>
-            © 2025 Alcon Inc. 10/25 IMG-CPO-2500047
+          <p class="disclaimer-text" v-html="$t(`By accessing and using the tool, you acknowledge and agree that:<br>The results reflected by this tool are supported by a model that provides surgical practice reported data comparing range of vision and patient satisfaction data. Alcon makes no guarantees and results are as reported by the surgical practice. Model inputs consist of a number of patient specific variables in relation to questionnaire responses over time. Individual results may vary depending on a variety of patient attributes. It is always the practice's responsibility to determine medical necessity to use any of the products.<br>No personal health information, including patient names, dates or other information that directly or indirectly identifies any patient, should be entered into the tool or otherwise provided or made available to Alcon.<br>The practice is solely responsible for obtaining and maintaining any necessary patient consents or permissions to the extent required by applicable law.<br>The results of the questionnaires, including the responses provided by the patient, are communicated exclusively to the surgical practice. Under no circumstances may these results be shared among different surgeries or with third party.<br>© 2025 Alcon Inc. 10/25 IMG-CPO-2500047`)">
           </p>
         </div>
       </div>
@@ -48,7 +42,7 @@
       <!-- ============================================ -->
       <div v-else-if="currentView === 'product' && currentPairConfig" class="product-view">
         <!-- Header with Selected Pair Name -->
-        <h1 style="margin-top: -25px" class="product-view-title" v-html="currentPairConfig.displayName"></h1>
+        <h1 style="margin-top: -25px" class="product-view-title" v-html="$t(currentPairConfig.displayName)"></h1>
 
         <!-- Blue Card with Two Products -->
         <div class="product-card-container">
@@ -57,22 +51,21 @@
             <div class="product-section-large">
               <h2
                 class="product-title-large"
-                v-html="currentPairConfig.product1.name + '<br>' + currentPairConfig.product1.toricName"
+                v-html="$t(currentPairConfig.product1.name) + '<br>' + $t(currentPairConfig.product1.toricName)"
               ></h2>
               <div class="count-subtitle-wrapper">
                 <div class="product-count-large">
                   {{ formatCount(counts[currentPairConfig.product1.countKey]) }}
                 </div>
-                <p class="product-subtitle-large">
-                  questionnaires<br>completed
+                <p class="product-subtitle-large" v-html="$t('questionnaires<br>completed')">
                 </p>
               </div>
               <button
                 class="btn-start-new"
                 @click="startQuestionnaireFromPair(currentPairConfig.product1)"
               >
-                <strong>Start new</strong><br>
-                <span>{{ currentPairConfig.product1.questionnaireLabel }}</span>
+                <strong>{{ $t('Start new') }}</strong><br>
+                <span>{{ $t(currentPairConfig.product1.questionnaireLabel) }}</span>
               </button>
             </div>
 
@@ -80,28 +73,27 @@
             <div class="product-section-large">
               <h2
                 class="product-title-large"
-                v-html="currentPairConfig.product2.name + '<br>' + currentPairConfig.product2.toricName"
+                v-html="$t(currentPairConfig.product2.name) + '<br>' + $t(currentPairConfig.product2.toricName)"
               ></h2>
               <div class="count-subtitle-wrapper">
                 <div class="product-count-large">
                   {{ formatCount(counts[currentPairConfig.product2.countKey]) }}
                 </div>
-                <p class="product-subtitle-large">
-                  questionnaires<br>completed
+                <p class="product-subtitle-large" v-html="$t('questionnaires<br>completed')">
                 </p>
               </div>
               <button
                 class="btn-start-new"
                 @click="startQuestionnaireFromPair(currentPairConfig.product2)"
               >
-                <strong>Start new</strong><br>
-                <span>{{ currentPairConfig.product2.questionnaireLabel }}</span>
+                <strong>{{ $t('Start new') }}</strong><br>
+                <span>{{ $t(currentPairConfig.product2.questionnaireLabel) }}</span>
               </button>
             </div>
 
             <!-- Results Button -->
             <button class="btn-results-large" @click="showResultsFromPair">
-              Results
+              {{ $t('Results') }}
             </button>
           </div>
         </div>
@@ -109,12 +101,11 @@
         <!-- Footer: Home Button and Disclaimer -->
         <div class="product-view-footer">
           <button class="btn-home" @click="goToSelectionView">
-            Home
+            {{ $t('Home') }}
           </button>
 
           <div class="disclaimer-product">
-            <p class="disclaimer-text-small">
-              *Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices.<br> Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.
+            <p class="disclaimer-text-small" v-html="$t(`*Trademarks are the property of their respective owners. Alcon medical device(s) comply with the current legislation for the medical devices.<br> Please refer to relevant product's instructions for use for complete list of indications, contraindications and warnings.`)">
             </p>
           </div>
         </div>
@@ -248,9 +239,9 @@ export default {
     // Get dropdown options as array
     dropdownOptions() {
       return [
-        { value: 'vivity-puresee', label: 'Vivity<sup>®</sup> and PureSee<sup>*</sup>' },
-        { value: 'panoptix-odyssey', label: 'PanOptix<sup>®</sup> and Odyssey<sup>*</sup>' },
-        { value: 'panoptix-galaxy', label: 'PanOptix<sup>®</sup> and Galaxy<sup>*</sup>' }
+        { value: 'vivity-puresee', label: this.$t('Vivity<sup>®</sup> and PureSee<sup>*</sup>') },
+        { value: 'panoptix-odyssey', label: this.$t('PanOptix<sup>®</sup> and Odyssey<sup>*</sup>') },
+        { value: 'panoptix-galaxy', label: this.$t('PanOptix<sup>®</sup> and Galaxy<sup>*</sup>') }
       ];
     }
   },
