@@ -10,8 +10,8 @@
         <div class="selection-content">
           <h1 class="main-title" v-html="$t('Patient Outcomes PCIOLs').replace(' ', '<br>')"></h1>
           <div class="contact-info">
+            <p class="contact-name">{{ salesforceStore.salesforceAccountName }}</p>
             <p class="contact-name">{{ salesforceStore.salesforceContactName }}</p>
-<!--            <p class="contact-name">#{{ salesforceStore.salesforceContactName }}</p>-->
           </div>
 
           <CustomDropdown
