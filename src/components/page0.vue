@@ -466,8 +466,8 @@ export default {
 
   .disclaimer-text {
     font-family: 'Open Sans', sans-serif;
-    font-size: 9px;
-    line-height: 1.4;
+    font-size: 11px;
+    line-height: 1.2em;
     color: #333;
     margin: 0;
   }
@@ -588,7 +588,7 @@ export default {
   .btn-results-large {
     grid-column: 1 / -1;
     width: 100%;
-    background: #ffac1c;
+    background: #00AEEF;
     border: none;
     border-radius: 11px;
     padding: 25px;

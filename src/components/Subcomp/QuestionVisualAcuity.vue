@@ -124,7 +124,7 @@ export default {
   // 2 rows of 2 when there are 4 measurements
   &.four-items {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 80px 40px;
     justify-items: center;
     padding: 100px 100px 100px;

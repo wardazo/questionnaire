@@ -176,19 +176,19 @@ export const RESULTS_TAB_SECTIONS = {
 export const CHART_COLORS = {
   // RADIO_OPTIONS (Never/Occasionally/Often/Always)
   never: '#02AF4B',          // Green
-  occasionally: '#DEC9A5',   // Beige
+  occasionally: '#00AEEF',   // Beige
   often: '#F0C846',          // Orange
   always: '#D62E22',         // Red
 
   // BOTHERSOME_OPTIONS
   not_at_all: '#02AF4B',     // Green (best)
-  a_little: '#DEC9A5',       // Beige
+  a_little: '#00AEEF',       // Beige
   moderately: '#F0C846',     // Orange
   significantly: '#D62E22',  // Red (worst)
 
   // CLARITY_OPTIONS
   very_clear: '#02AF4B',     // Green (best)
-  somewhat_clear: '#DEC9A5', // Beige
+  somewhat_clear: '#00AEEF', // Beige
   slightly_blurry: '#F0C846',// Orange
   very_blurry: '#D62E22',    // Blue (worst)
 
