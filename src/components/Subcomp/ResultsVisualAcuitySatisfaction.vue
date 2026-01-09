@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .results-combined-section {
-  padding: 0 0 24px;
+  padding: 0 0 0px;
 }
 
 .section-title {
@@ -88,7 +88,8 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   grid-template-rows: auto auto;
-  gap: 40px;
+  column-gap: 20px;
+  row-gap: 40px;
   background: #F2F2F2;
   padding: 30px;
   border-radius: 13px;

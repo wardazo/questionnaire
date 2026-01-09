@@ -53,6 +53,19 @@
       </template>
     </Modal>
 
+    <!-- No Contact ID Modal -->
+    <Modal v-if="showNoContactModal" class="no-contact-modal-delayed">
+      <template v-slot:body>
+        <div class="no-contact-modal-content">
+          <h2 class="no-contact-modal-title">{{ $t('No Contact') }}</h2>
+          <p class="no-contact-modal-message">{{ $t('You must start a call to use this application') }}</p>
+          <div class="no-contact-modal-buttons">
+            <button class="btn-ok" @click="closeApplication">{{ $t('OK') }}</button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
   </div>
 </template>
 
@@ -93,6 +106,7 @@ export default {
     return {
       isInitializing: true,
       showCloseModal: false,
+      showNoContactModal: false,
     };
   },
   methods: {
@@ -111,6 +125,15 @@ export default {
     //console.log('App.vue: Initializing Salesforce store...');
     await this.salesforceStore.initializeStore();
     //console.log('App.vue: Salesforce store initialized. Contact ID:', this.salesforceStore.salesforceContactId);
+
+    // Check if contact ID is missing (only in Titanium app)
+    if (this.isTitaniumApp) {
+      const contactId = this.salesforceStore.salesforceContactId;
+      if (contactId === 'BROWSER_TEST_CONTACT_ID' || contactId === 'no contact id') {
+        this.showNoContactModal = true;
+      }
+    }
+
     this.isInitializing = false;
   },
 
@@ -246,6 +269,76 @@ input[type="number"] {
   background: #002570;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 53, 149, 0.3);
+}
+
+.no-contact-modal-content {
+  background: white;
+  border-radius: 13px;
+  padding: 40px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.no-contact-modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.no-contact-modal-message {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin: 0 0 30px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.no-contact-modal-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.no-contact-modal-buttons button {
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.btn-ok {
+  background: #003595;
+  color: white;
+  min-width: 120px;
+}
+
+.btn-ok:hover {
+  background: #002570;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 53, 149, 0.3);
+}
+
+.no-contact-modal-delayed {
+  animation: delayedAppear 0.5s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes delayedAppear {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 </style>

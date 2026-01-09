@@ -219,7 +219,7 @@ export default {
 
 <style lang="scss" scoped>
 .results-pie-section {
-  padding: 0 0 24px;
+  padding: 0;
 }
 
 .question-row {
@@ -249,7 +249,7 @@ export default {
   grid-template-columns: 1fr 1px 1fr 200px;
   gap: 40px;
   background: #E8E8E8;
-  padding: 30px;
+  padding: 15px;
   border-radius: 8px;
   align-items: center;
 }
@@ -257,7 +257,7 @@ export default {
 .pie-chart-wrapper {
   .chart-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 0px;
 
     .patient-count {
       font-size: 20px;
@@ -279,7 +279,7 @@ export default {
   }
 
   .chart-canvas-wrapper {
-    max-width: 150px;
+    max-width: 136px;
     margin: 0 auto;
   }
 }

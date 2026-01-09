@@ -214,7 +214,7 @@ export default {
 .task-group {
   background: #F2F2F2;
   border-radius: 13px;
-  padding: 18px 5px 18px 15px;
+  padding: 10px 5px 10px 15px;
   margin-bottom: 14px;
 
 

@@ -196,7 +196,7 @@ export default {
 
 <style lang="scss" scoped>
 .results-chart-section {
-  padding: 0 0 24px;
+  padding: 0;
 }
 
 .section-header {
@@ -222,7 +222,7 @@ export default {
   grid-template-columns: 1fr 1px 1fr;
   gap: 40px;
   background: #F2F2F2;
-  padding: 36px 30px;
+  padding: 15px 30px;
   border-radius: 13px;
 }
 
@@ -251,7 +251,7 @@ export default {
   }
 
   .chart-canvas-wrapper {
-    height: 400px;
+    height: 300px;
   }
 }
 
